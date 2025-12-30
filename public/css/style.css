@@ -1,0 +1,357 @@
+body {
+  background-color: #F4F6FE;
+}
+
+/* styleタグ または app.css に記述 */
+.background-img {
+  background-image: url(../img/background-img.png);
+  height: 100vh;
+}
+
+.hero-section {
+  background-color: #f0f4f8;
+}
+
+.hero-img-agree {
+  position: relative;
+}
+
+.agree-link {
+  position: absolute;
+  bottom: 0;
+  margin: 0px 15px 40px 15px;
+}
+
+
+
+.auth-form {
+  background-color: white;
+  border-radius: 10px;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15));
+  border-radius: 15px;
+}
+
+.auth-form-heading {
+  font-size: 40px;
+}
+
+.auth-header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #100658;
+}
+
+.header-img {
+  width: 100px;
+  height: auto;
+}
+
+.login-btn,
+.register-link {
+  background-color: #100658;
+  border-radius: 15px;
+}
+
+.hokkai-board-login-input,
+.hokkai-board-register-input,
+.hokkai-board-forgot-input {
+  border-radius: 15px;
+}
+
+.login-forgot-password {
+  font-size: 14px;
+}
+
+.login-label {
+  color: white;
+}
+
+.login-link,
+.register-link {
+  text-decoration: none;
+}
+
+.login-link-text {
+  border: 1px solid black;
+  width: 250px;
+  border-radius: 15px;
+}
+
+.add-university-request,
+.index-added-university {
+  margin: 0px;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.auth-form-error {
+  color: red;
+  font-size: 13px;
+}
+
+.auth-verify-text {
+  font-size: 20px;
+}
+
+.auth-verify-img {
+  width: 150px;
+  height: auto;
+}
+
+.header-img-container {
+  position: relative;
+}
+
+.header-text-overlay {
+  position: absolute;
+  bottom: 1%;
+  left: 3%;
+
+}
+
+.header-text-link {
+  text-decoration: none;
+}
+
+.header-text {
+  position: relative;
+  color: #100658;
+  -webkit-text-stroke: #f0f4f8 4px;
+  font-size: 25px;
+}
+
+.header-text::before {
+  content: attr(data-text);
+  position: absolute;
+  color: #100658;
+  -webkit-text-stroke: #100658 1px;
+}
+
+.offcanvas-img {
+  height: auto;
+  width: 180px;
+}
+
+.board-index-offcanvas {
+  background-color: #2C3E50;
+  font-family: "MS PGothic", "ＭＳ Ｐゴシック", sans-serif !important;
+}
+
+.offcanvas-header .btn-close {
+  filter: brightness(0) invert(1) !important;
+  opacity: 1;
+}
+
+.board-index-offcanvas-link {
+  position: absolute;
+  bottom: 4%;
+  right: 2%;
+}
+
+.board-index-offcanvas-a {
+  color: white;
+  text-decoration: none;
+}
+
+.board-index-offcanvas-span {
+  font-size: 17px;
+}
+
+.accordion-header {
+  background-color: #2C3E50;
+  color: white;
+
+}
+
+.accordion-item,
+.accordion-button,
+.accordion-header,
+.accordion-body {
+  border: none !important;
+  background-color: #2C3E50 !important;
+  color: white;
+}
+
+.accordion-button {
+  background-color: #2C3E50;
+  color: white;
+  padding: 0px 0px 0px 1px;
+  text-align: left;
+}
+
+.accordion-button::after {
+  filter: brightness(0) invert(1)
+}
+
+
+
+.accordion-button:not(.collapsed) {
+  background-color: #2C3E50;
+  color: white;
+}
+
+.accordion-body {
+  background-color: #2C3E50;
+}
+
+.accordion-button {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.board-index-accordion-a {
+  color: #dadada;
+}
+
+.search-section {
+  background-color: #2C3E50;
+}
+
+.header-search-input {
+  width: 85%;
+}
+
+.header-search-icon {
+  height: 20px;
+}
+
+.board-index {
+  background-color: #bce2e8;
+}
+
+.board-index-icon-link {
+  text-decoration: none;
+  color: black;
+  display: block;
+}
+
+.board-index-icon {
+  padding: 0px 3px 1px 3px
+    /* col同士の余白を作成 */
+}
+
+.board-index-icon>a {
+  display: block;
+  background: linear-gradient(180deg, #cae8f8 0%, #fdf8e2 100%);
+  border-radius: 12px;
+  /* 角丸 */
+  padding: 15px 5px;
+  /* ボタン内の余白 */
+  text-decoration: none;
+  /* リンクの下線を消す */
+  color: #333;
+  /* 文字色 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  /* ふんわりした影 */
+  transition: transform 0.2s, box-shadow 0.2s;
+  /* ホバー時の動き */
+}
+
+.board-index-icon-img {
+  height: 30px;
+  width: 30px;
+  display: block;
+  margin: 0 auto;
+}
+
+.create-thread {
+  position: fixed;
+  right: 22%;
+  bottom: 10%;
+  z-index: 1050;
+}
+
+.create-thread-btn {
+  background-color: transparent;
+  border: none;
+}
+
+.create-img {
+  width: 60px;
+  height: 60px;
+  background-color: white;
+  border-radius: 50%;
+}
+
+.thread-link {
+  text-decoration: none;
+  color: black;
+}
+
+.thread-card {
+  background: linear-gradient(180deg, #fffff7 0%, #fff6e0 100%);
+  /* 薄い緑〜白のグラデーション */
+  /* ※青っぽくしたいなら #dbeafe、黄色なら #fef9c3 などに変えてみてください */
+  background-color: #f8f9fa;
+  /* グラデーション効かない時用 */
+  border-radius: 20px;
+  /* 角を丸くする */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  /* ふんわりした影 */
+  padding: 20px;
+  /* 内側の余白 */
+  margin-bottom: 20px;
+  /* カード同士の隙間 */
+  transition: transform 0.2s;
+  /* ホバー時の動き用 */
+  border: none;
+  /* 枠線を消す */
+}
+
+/* マウスを乗せた時にちょっと浮く演出 */
+.thread-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.like-btn:active {
+  transform: scale(1.2);
+  /* 押した瞬間にちょっと大きくする */
+  transition: 0.1s;
+}
+
+.like-icon {
+  transition: all 0.2s;
+  /* 色の切り替わりをふわっとさせる */
+  cursor: pointer;
+}
+
+.comment-img {
+  height: 16px;
+  width: 16px;
+}
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 992px) {
+  .header-img {
+    width: 70px;
+    height: auto;
+  }
+
+  .offcanvas-img {
+    width: 140px;
+    height: auto;
+  }
+
+  .create-thread {
+    position: fixed;
+    right: 1%;
+    bottom: 10%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+  .create-thread {
+    position: fixed;
+    right: 22%;
+    bottom: 10%;
+  }
+}
