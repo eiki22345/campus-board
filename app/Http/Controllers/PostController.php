@@ -29,7 +29,7 @@ class PostController extends Controller
         $board = $thread->board;
 
         if ($board->university_id !== null && $board->university_id !== $user->university_id) {
-            abort(403, '他大学の掲示板に書き込めません。');
+            abort(403, '他大学の掲示板に書き込むことはできません。');
         }
 
         DB::transaction(function () use ($request, $validated, $thread, $user, $parent_post) {
