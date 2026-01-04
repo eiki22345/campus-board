@@ -20,13 +20,14 @@ class PostController extends Controller
 
         $parent_post = $post;
 
-        if ($parent_post->thread_id !== $thread->id) {
-            abort(400, '不正な返信先です。');
-        }
-
         $user = Auth::user();
 
         $board = $thread->board;
+
+        if ($parent_post != null && $parent_post->thread_id !== $thread->id) {
+            abort(400, '不正な返信先です。');
+        }
+
 
         if ($board->university_id !== null && $board->university_id !== $user->university_id) {
             abort(403, '他大学の掲示板に書き込むことはできません。');
@@ -38,13 +39,17 @@ class PostController extends Controller
             $next_post_number = ($max_post_number ?? 0) + 1;
 
 
-            $post = new Post();
-            $post->thread_id = $thread->id;
-            $post->user_id = $user->id;
-            $post->post_number = $next_post_number;
-            $post->content = $validated['content'];
-            $post->ip_address = $request->ip();
-            $post->save();
+            $new_post = new Post();
+            $new_post->thread_id = $thread->id;
+            $new_post->user_id = $user->id;
+            $new_post->post_number = $next_post_number;
+            $new_post->content = $validated['content'];
+            $new_post->ip_address = $request->ip();
+            $new_post->save();
+
+            if ($parent_post) {
+                $new_post->parents()->attach($parent_post->id);
+            }
         });
 
 
