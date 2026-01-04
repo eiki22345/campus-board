@@ -35,4 +35,24 @@ class Post extends Model
     {
         return $this->hasMany(PostLike::class);
     }
+
+    public function replies()
+    {
+        return $this->belongsToMany(
+            Post::class,
+            'post_mentions',
+            'parent_post_id',
+            'post_id'
+        )->withTimestamps();
+    }
+
+    public function parents()
+    {
+        return $this->belongsToMany(
+            Post::class,
+            'post_mentions',
+            'post_id',
+            'parent_post_id'
+        )->withTimestamps();
+    }
 }

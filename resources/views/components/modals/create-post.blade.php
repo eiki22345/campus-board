@@ -8,14 +8,13 @@
         <h1 class="modal-title fs-5" id="staticBackdropLabel">コメントを投稿する</h1>
         <button type="button" class="btn-close ms-0" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action='{{ route('posts.store', $thread ) }}' method="POST">
+      <form action='{{ route('posts.store', $thread) }}' method="POST">
         @csrf
 
         <div class="modal-body">
           <div class="form-group mt-1">
             <label for="content" class="col-form-label fw-bold ps-2">本文（必須）</label>
             <textarea class="form-control @error('content') is-invalid  @enderror hokkai-board-login-input pb-5" name="content" required autocomplete="content" placeholder="例：◯◯の講義とか楽でおすすめです!">{{ old('content') }}</textarea>
-
             @error('content')
             <div class="invalid-feedback ps-2">
               {{ $message }}
