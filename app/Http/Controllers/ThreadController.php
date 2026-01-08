@@ -69,9 +69,9 @@ class ThreadController extends Controller
 
         $common_boards = Board::whereNull('university_id')->get();
 
-        $posts = $thread->posts()->with('user:id,nickname')->latest()->paginate(20);
+        $posts = $thread->posts()->with('user:id,nickname')->oldest()->paginate(20);
 
-        return view('threads.show', compact('user_university', 'university_boards', 'common_boards', 'board', 'thread'));
+        return view('threads.show', compact('user_university', 'university_boards', 'common_boards', 'board', 'thread', 'posts'));
     }
 
     // メソッドを追加

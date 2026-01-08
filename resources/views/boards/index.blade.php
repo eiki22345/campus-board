@@ -8,9 +8,9 @@
     <x-headers.header-search />
 </header>
 <main>
-    <div class="col-md-7 mt-2 mx-auto">
+    <div class="col-md-8 mx-auto">
         <div class="background-img img-fluid">
-            <div class="row g-0">
+            <div class="row g-0 pt-3">
                 <div class="col-4 board-index-icon">
                     <a href="#" class="board-index-icon-link">
                         <img src="{{ asset('img/fire.png') }}" class="board-index-icon-img">

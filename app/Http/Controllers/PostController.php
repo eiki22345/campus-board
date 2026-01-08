@@ -60,4 +60,22 @@ class PostController extends Controller
 
         return redirect()->route('threads.show', [$board->id, $thread->id])->with('message', 'メッセージを作成しました。');
     }
+
+    public function toggleLike(Post $post)
+    {
+        $user = Auth::user();
+
+        // 自分の大学の板かなどのチェックが必要ならここに追加
+        // if ($post->thread->board->university_id !== ... ) abort(403);
+
+        // ★魔法のメソッド toggle
+        // 既にいいねしてれば「解除」、してなければ「登録」を自動判別
+        $post->likes()->toggle($user->id);
+
+        return response()->json([
+            'status' => 'success',
+            'liked'  => $post->isLikedBy($user), // 最新の状態 (true/false)
+            'count'  => $post->likes()->count(), // 最新の件数
+        ]);
+    }
 }
