@@ -33,4 +33,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
   Route::controller(PostController::class)->group(function () {
     Route::post('/threads/{thread}/posts', 'store')->name('posts.store');
   });
+
+  Route::post('/posts/{post}/like', [PostController::class, 'toggleLike'])
+    ->name('posts.like');
 });

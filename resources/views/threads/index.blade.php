@@ -9,8 +9,8 @@
 </header>
 <main>
 
-  <div class="col-md-7 mx-auto col-background-color">
-    <div class="mt-1 mb-3">
+  <div class="col-md-8 mx-auto col-background-color">
+    <div class="mb-3 ms-1">
       <a href="{{ route('dashboard') }}">
         TOP
       </a>
@@ -18,7 +18,7 @@
     </div>
     @foreach ($threads as $thread)
 
-    <div class="mx-auto w-90 thread-card">
+    <div class="mx-auto thread-card">
       <a href="{{ route('threads.show',[$board->id, $thread->id]) }}" class="thread-link">
         <div class="d-flex justify-content-between">
           <div>

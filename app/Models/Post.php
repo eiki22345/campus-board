@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use illuminate\Database\Eloquent\Relations\BelongsTo;
 use illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Post extends Model
 {
@@ -31,11 +32,6 @@ class Post extends Model
         return $this->belongsTo(Thread::class);
     }
 
-    public function likes(): HasMany
-    {
-        return $this->hasMany(PostLike::class);
-    }
-
     public function replies()
     {
         return $this->belongsToMany(
@@ -54,5 +50,20 @@ class Post extends Model
             'post_id',
             'parent_post_id'
         )->withTimestamps();
+    }
+
+    public function likes(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'post_likes')
+            ->withTimestamps();
+    }
+
+    // 自分がいいねしているか判定するメソッド（Viewで使います）
+    public function isLikedBy($user)
+    {
+        if (!$user) return false;
+
+        // ログインユーザーのIDが、この投稿の「いいねした人リスト」に含まれているか
+        return $this->likes()->where('user_id', $user->id)->exists();
     }
 }

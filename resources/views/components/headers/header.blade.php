@@ -5,7 +5,7 @@
  ])
 
 
- <div class="col-md-7 header-img-container mx-auto">
+ <div class="col-md-8 header-img-container mx-auto">
    <img src="{{ asset('img/header.png') }}" class="w-100">
    <div class="header-text-overlay">
      <a href="{{ route('dashboard') }}" class="header-text-link">
