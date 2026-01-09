@@ -30,7 +30,7 @@
 
     @foreach ($posts as $post)
 
-    <div class="mx-auto post-card">
+    <div class="mx-auto post-card" x-data="{ replyOpen: false }">
       <div class="d-flex justify-content-between">
         <div>
           No.{{ $post->post_number}}
@@ -44,7 +44,13 @@
       <div class="fw-bold pt-1">
         <p>{{ $post->content }}</p>
       </div>
-      <div class="d-flex justify-content-end">
+      <div class="d-flex justify-content-between">
+        <div class="d-flex align-items-center ms-2 mb-1">
+          <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#replyModal-{{ $post->id }}">
+            返信
+          </button>
+          <x-modals.create-mentions :thread="$thread" :post="$post" />
+        </div>
         <div class="d-flex align-items-center me-3">
           {{-- ボタン --}}
           {{-- class="post-like-btn" をJSで探します --}}
@@ -67,14 +73,44 @@
           <span class="ms-2 post-like-count">
             {{ $post->likes()->count() }}
           </span>
+
+          <button type="button"
+            class="btn p-0 border-0 d-flex align-items-center ms-2"
+            @click="replyOpen = !replyOpen"> <img src="{{ asset('img/comment.png') }}" class="comment-img">
+
+            <div class="ms-2"> {{ $post->replies_count }} 件の返信を表示</div>
+
+            {{-- オプション：開閉がわかる矢印アイコン（あれば） --}}
+            <i class="fa-solid fa-chevron-down ms-1 text-secondary small"
+              :style="replyOpen ? 'transform: rotate(180deg)' : ''"
+              style="transition: 0.3s;"></i>
+          </button>
         </div>
 
-        <div class="d-flex align-items-center ms-2">
-          <img src="{{ asset('img/comment.png') }}" class="comment-img">
-          <div class="ms-2"> {{ $thread->posts_count }} </div>
+      </div>
+      <div x-show="replyOpen" x-transition class="mt-3 ps-3 border-start" style="display: none; border-color: #ddd;">
+
+        @if($post->replies->isNotEmpty())
+        @foreach ($post->replies as $reply)
+        <div class="bg-light p-2 mb-2 rounded">
+          <div class="d-flex justify-content-between small text-muted">
+            <span>{{ $reply->user->nickname }}</span>
+            <span>{{ $reply->created_at }}</span>
+          </div>
+          <div class="mt-1">
+            {!! nl2br(e($reply->content)) !!}
+          </div>
         </div>
+        @endforeach
+        @else
+        <div class="text-muted small p-2">返信はまだありません</div>
+        @endif
+
+        {{-- ここに「この投稿に返信するボタン」を置くのも一般的です --}}
+
       </div>
     </div>
+
     @endforeach
 
 

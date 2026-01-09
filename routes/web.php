@@ -5,6 +5,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -32,8 +33,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
   Route::controller(PostController::class)->group(function () {
     Route::post('/threads/{thread}/posts', 'store')->name('posts.store');
+    Route::post('/posts/{post}/like', 'toggleLike')->name('posts.like');
+    Route::post('/threads/{thread}/posts/{post}', 'store')->name('posts.mention');
   });
 
-  Route::post('/posts/{post}/like', [PostController::class, 'toggleLike'])
-    ->name('posts.like');
+  Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->name('logout');
 });

@@ -23,9 +23,15 @@
 
            <button type="button" class="btn-close mt-3" data-bs-dismiss="offcanvas" aria-label="Close"></button>
          </div>
-         <a href="#" class="board-index-offcanvas-a">
+         <a href="#"
+           class="board-index-offcanvas-a"
+           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
            <div>ログアウト</div>
          </a>
+
+         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+           @csrf
+         </form>
          <a href="#" class="board-index-offcanvas-a">
            <div>ユーザー設定</div>
          </a>

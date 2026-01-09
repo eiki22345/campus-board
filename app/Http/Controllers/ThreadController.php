@@ -69,7 +69,7 @@ class ThreadController extends Controller
 
         $common_boards = Board::whereNull('university_id')->get();
 
-        $posts = $thread->posts()->with('user:id,nickname')->oldest()->paginate(20);
+        $posts = $thread->posts()->doesntHave('parents')->with('user:id,nickname', 'replies.user', 'likes')->withCount(['likes', 'replies'])->orderby('post_number', 'asc')->paginate(20);
 
         return view('threads.show', compact('user_university', 'university_boards', 'common_boards', 'board', 'thread', 'posts'));
     }
