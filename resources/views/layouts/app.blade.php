@@ -9,6 +9,7 @@
      <title>@yield('title')</title>
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
      <script src="https://kit.fontawesome.com/a251afe25c.js" crossorigin="anonymous"></script>
+     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
      <meta name="csrf-token" content="{{ csrf_token() }}">
 
      <link href="{{ asset('css/style.css')}}" rel="stylesheet">
