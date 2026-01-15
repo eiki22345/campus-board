@@ -1,7 +1,6 @@
 /* styleタグ または app.css に記述 */
-.background-img {
-  background-image: url(../img/background-img.png);
-  height: 100vh;
+.board-thread-bg {
+  background-color: #F9F9F9;
 }
 
 .hero-section {
@@ -323,10 +322,10 @@
   background-color: #ffffff;
   border: 6px solid #a8d3e6;
   border-radius: 12px;
-  padding: 5px;
+  padding: 8px;
   margin-bottom: 15px;
   width: 98%;
-
+  line-height: 1.6;
 
   /* 影を濃く、はっきりさせる */
   box-shadow:
@@ -334,6 +333,20 @@
     /* 白い枠線（そのまま） */
     0 6px 15px rgba(0, 0, 0, 0.3);
   /* ★ここを変更：濃い影を追加 */
+}
+
+/* メタデータ情報（投稿者、No.、日時）をグレーアウト */
+.post-card>div:first-child {
+  color: #666666;
+  font-size: 14px;
+}
+
+/* 投稿内容のテキストを読みやすく */
+.post-card p {
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 12px;
+  color: #222222;
 }
 
 .mx-auto {

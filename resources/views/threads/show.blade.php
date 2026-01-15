@@ -41,11 +41,11 @@
         </div>
       </div>
 
-      <div class="fw-bold pt-1">
+      <div class="pt-1">
         <p>{{ $post->content }}</p>
       </div>
       <div class="d-flex justify-content-between">
-        <div class="d-flex align-items-center ms-2 mb-1">
+        <div class="d-flex align-items-center mb-1">
           <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#replyModal-{{ $post->id }}">
             返信
           </button>
