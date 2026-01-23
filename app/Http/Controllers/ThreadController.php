@@ -13,8 +13,9 @@ class ThreadController extends Controller
 {
     use AuthorizesRequests;
 
-    public function index(Board $board)
+    public function index(Board $board, Request $request)
     {
+        $this->authorize('view', $board);
 
         $user = auth()->user();
 
@@ -24,11 +25,26 @@ class ThreadController extends Controller
 
         $common_boards = Board::whereNull('university_id')->get();
 
-        $this->authorize('view', $board);
+        $keyword = $request->input('keyword');
 
-        $threads = $board->threads()->with(['user:id,nickname'])->withCount('posts')->latest()->paginate(20);
+        $query = $board->threads()->with(['user:id,nickname'])->withCount('posts');
 
-        return view('threads.index', compact('user_university', 'university_boards', 'common_boards', 'board', 'threads', 'board',));
+        if (!empty($keyword)) {
+
+            $keywords = preg_split('/[\s]/', mb_convert_kana($keyword, 's'), -1, PREG_SPLIT_NO_EMPTY);
+
+            $query->where(function ($q) use ($keywords) {
+                foreach ($keywords as $word) {
+                    $q->where(function ($subQ) use ($word) {
+                        $subQ->where('title', 'LIKE', "%{$word}%")->orWhere('content', 'LIKE', "%{$word}%");
+                    });
+                }
+            });
+        }
+
+        $threads = $query->latest()->paginate(20)->appends(['keyword' => $keyword]);
+
+        return view('threads.index', compact('user_university', 'university_boards', 'common_boards', 'board', 'threads', 'keyword'));
     }
 
     public function store(Request $request, Board $board)
@@ -58,7 +74,7 @@ class ThreadController extends Controller
         return redirect()->route('threads.show', [$board->id, $thread->id])->with('message', 'スレッドを作成しました。');
     }
 
-    public function show(Board $board, Thread $thread)
+    public function show(Board $board, Thread $thread, Request $request)
     {
 
         $user = auth()->user();
@@ -69,9 +85,28 @@ class ThreadController extends Controller
 
         $common_boards = Board::whereNull('university_id')->get();
 
-        $posts = $thread->posts()->doesntHave('parents')->with('user:id,nickname', 'replies.user', 'likes')->withCount(['likes', 'replies'])->orderby('post_number', 'asc')->paginate(20);
+        $query = $thread->posts()
+            ->doesntHave('parents')
+            ->with('user:id,nickname', 'replies.user', 'likes')
+            ->withCount(['likes', 'replies']);
 
-        return view('threads.show', compact('user_university', 'university_boards', 'common_boards', 'board', 'thread', 'posts'));
+        $keyword = $request->input('keyword');
+
+        if (!empty($keyword)) {
+            $keywords = preg_split('/[\s]+/', mb_convert_kana($keyword, 's'), -1, PREG_SPLIT_NO_EMPTY);
+
+            $query->where(function ($q) use ($keywords) {
+                foreach ($keywords as $word) {
+                    $q->where('content', 'LIKE', "%{$word}%");
+                }
+            });
+        }
+
+        $posts = $query->orderBy('post_number', 'asc')
+            ->paginate(20)
+            ->appends(['keyword' => $keyword]);
+
+        return view('threads.show', compact('user_university', 'university_boards', 'common_boards', 'board', 'thread', 'posts', 'keyword'));
     }
 
     // メソッドを追加

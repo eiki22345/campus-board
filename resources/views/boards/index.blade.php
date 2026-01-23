@@ -5,7 +5,8 @@
 <header>
     <x-headers.header :user_university='$user_university' :university_boards='$university_boards' :common_boards='$common_boards' />
 
-    <x-headers.header-search />
+    <x-headers.header-search :action="route('dashboard')" placeholder="🔍️気になる話題を検索しよう！" :keyword='$keyword' />
+
 </header>
 <main>
     <div class="col-md-8 mx-auto">
@@ -50,6 +51,27 @@
                     </a>
                 </div>
             </div>
+
+            @if($threads->isEmpty())
+            <div class="text-center py-10 shadow-sm">
+                @if(!empty($keyword))
+                <div class="mb-4">
+                    <i class="fas fa-search text-4xl text-gray-300 mb-3"></i>
+                    <p class="text-lg text-gray-600 font-bold">「{{ $keyword }}」は見つかりませんでした</p>
+                </div>
+                <p class="text-gray-500 text-sm mb-4">
+                    キーワードを変えて検索するか、<br>
+                    カテゴリから探してみてください。
+                </p>
+                <a href="{{ route('dashboard') }}" class="inline-block px-6 py-2 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition">
+                    トップページに戻る
+                </a>
+                @else
+                <p class="text-gray-500">現在、表示できるスレッドがありません。</p>
+                @endif
+            </div>
+            @endif
+
             <div class="mt-3">
                 @foreach ($threads as $thread)
 

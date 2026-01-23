@@ -5,17 +5,34 @@
 <header>
   <x-headers.header :user_university='$user_university' :university_boards='$university_boards' :common_boards='$common_boards' />
 
-  <x-headers.header-search />
+  <x-headers.header-search :action="route('threads.index', $board->id)" placeholder="🔍️トピック内で話題を検索！" :keyword='$keyword' />
 </header>
 <main>
 
-  <div class="col-md-8 mx-auto col-background-color">
+  <div class=" col-md-8 mx-auto col-background-color">
     <div class="mb-3 ms-1">
       <a href="{{ route('dashboard') }}">
         TOP
       </a>
       >{{ $board->name }}
     </div>
+
+    @if($threads->isEmpty())
+    <div class="text-center py-5">
+      @if(!empty($keyword))
+      <p class="text-gray-500 mb-2">キーワード「{{ $keyword }}」に一致するスレッドは見つかりませんでした。</p>
+      <div class="space-y-2">
+        <a href="{{ route('threads.index', $board) }}" class="text-blue-500 hover:underline block">
+          全てのスレッドを表示する
+        </a>
+      </div>
+      @else
+      <p class="text-gray-500 mb-4">この掲示板にはまだスレッドがありません。</p>
+      <p class="text-gray-400">最初の話題を作ってみましょう！</p>
+      @endif
+    </div>
+    @endif
+
     @foreach ($threads as $thread)
 
     <div class="mx-auto thread-card">

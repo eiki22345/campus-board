@@ -10,8 +10,10 @@ use Illuminate\View\View;
 
 class BoardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $keyword = $request->input('keyword');
+
         $user = auth()->user();
 
         $user_university = $user->university;
@@ -20,12 +22,31 @@ class BoardController extends Controller
 
         $common_boards = Board::whereNull('university_id')->get();
 
-        $threads = Thread::with('board')->whereHas('board', function ($query) use ($user) {
+        $query = Thread::with('board')->whereHas('board', function ($query) use ($user) {
             $query->where(function ($q) use ($user) {
-                $q->where('university_id', $user->university_id)->OrwhereNull('university_id');
+                $q->where('university_id', $user->university_id)
+                    ->orWhereNull('university_id');
             });
-        })->withCount('posts')->orderBy('created_at', 'desc')->paginate(10);
+        });
 
-        return View('boards.index', compact('user_university', 'university_boards', 'common_boards', 'threads'));
+        if (!empty($keyword)) {
+            $keywords = preg_split('/[\s]+/', mb_convert_kana($keyword, 's'), -1, PREG_SPLIT_NO_EMPTY);
+
+            $query->where(function ($q) use ($keywords) {
+                foreach ($keywords as $word) {
+                    $q->where(function ($subQ) use ($word) {
+                        $subQ->where('title', 'LIKE', "%{$word}%")
+                            ->orWhere('content', 'LIKE', "%{$word}%");
+                    });
+                }
+            });
+        }
+
+        $threads = $query->withCount('posts')
+            ->orderBy('created_at', 'desc')
+            ->paginate(20)
+            ->appends(['keyword' => $keyword]);
+
+        return View('boards.index', compact('user_university', 'university_boards', 'common_boards', 'threads', 'keyword'));
     }
 }
