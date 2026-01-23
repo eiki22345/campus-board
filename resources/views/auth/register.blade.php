@@ -40,7 +40,7 @@
 
             <div class="form-group">
               <label for="email" class="col-form-label ps-2 pb-0">大学のメールアドレス</label>
-              <input id="email" type="text" class="form-control @error('email') is-invalid  @enderror hokkai-board-register-input py-2 mt-2" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="北海道の大学メールアドレス限定">
+              <input id="email" type="text" class="form-control @error('email') is-invalid  @enderror hokkai-board-register-input py-2 mt-2" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="対応大学のメールアドレス限定">
 
               @error('email')
               <div class="invalid-feedback ps-2">

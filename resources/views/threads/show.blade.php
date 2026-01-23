@@ -18,7 +18,7 @@
         <a href="{{ route('threads.index', $board->id ) }}">
           {{ $board->name }}
         </a>
-        >チャット
+        >コメント
       </div>
       <div>
         <h3>{{ $thread->title }}</h3>
@@ -30,9 +30,9 @@
     @if($posts->isEmpty())
     <div class="text-center py-5 text-gray-500">
       @if(!empty($keyword))
-      <p>キーワード「{{ $keyword }}」を含むレスは見つかりませんでした。</p>
+      <p>キーワード「{{ $keyword }}」を含むコメントは見つかりませんでした。</p>
       <a href="{{ route('threads.show', [$board->id, $thread->id]) }}" class="text-blue-500 hover:underline">
-        全てのレスを表示する
+        全てのコメントを表示する
       </a>
       @else
       <p>まだ投稿がありません。一番乗りでコメントしましょう！</p>

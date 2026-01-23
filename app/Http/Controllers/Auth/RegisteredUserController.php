@@ -43,9 +43,9 @@ class RegisteredUserController extends Controller
         $parts = explode('.', $university_domain);
         $alternative = [];
 
-        while (count($alternative) >= 2) {
-            $alternative[] = implode('.', $alternative);
-            array_shift($alternative);
+        while (count($parts) >= 2) {
+            $alternative[] = implode('.', $parts);
+            array_shift($parts);
         }
 
         $university = University::whereIn('email_domain', $alternative)->first();
@@ -62,10 +62,15 @@ class RegisteredUserController extends Controller
             'role' => 0,
         ]);
 
-        event(new Registered($user));
-
         Auth::login($user);
 
-        return redirect('/verify-email');
+        try {
+            event(new Registered($user));
+        } catch (\Exception $e) {
+            return redirect(route('verification.notice', absolute: false))
+                ->with('status', 'network-error');
+        }
+
+        return redirect(route('verification.notice', absolute: false));
     }
 }

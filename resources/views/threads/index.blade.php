@@ -27,7 +27,7 @@
         </a>
       </div>
       @else
-      <p class="text-gray-500 mb-4">この掲示板にはまだスレッドがありません。</p>
+      <p class="text-gray-500 mb-4">この掲示板にはまだトピックがありません。</p>
       <p class="text-gray-400">最初の話題を作ってみましょう！</p>
       @endif
     </div>
