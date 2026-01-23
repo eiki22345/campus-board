@@ -5,11 +5,10 @@
 <header>
   <x-headers.header :user_university='$user_university' :university_boards='$university_boards' :common_boards='$common_boards' />
 
-  <x-headers.header-search />
+  <x-headers.header-search :action="route('threads.show', [$board->id,$thread->id])" placeholder="🔍️トピック内で話題を検索！" />
 </header>
 <main>
-
-  <div class="col-md-8 mx-auto post-background-color pb-3">
+  <div class=" col-md-8 mx-auto post-background-color pb-3">
     <div class="post-top ms-1">
       <div class="mb-3">
         <a href="{{ route('dashboard') }}">
@@ -27,6 +26,19 @@
         <hr>
       </div>
     </div>
+
+    @if($posts->isEmpty())
+    <div class="text-center py-5 text-gray-500">
+      @if(!empty($keyword))
+      <p>キーワード「{{ $keyword }}」を含むレスは見つかりませんでした。</p>
+      <a href="{{ route('threads.show', [$board->id, $thread->id]) }}" class="text-blue-500 hover:underline">
+        全てのレスを表示する
+      </a>
+      @else
+      <p>まだ投稿がありません。一番乗りでコメントしましょう！</p>
+      @endif
+    </div>
+    @endif
 
     @foreach ($posts as $post)
 
@@ -82,8 +94,8 @@
 
             {{-- オプション：開閉がわかる矢印アイコン（あれば） --}}
             <i class="fa-solid fa-chevron-down ms-1 text-secondary small"
-              :style="replyOpen ? 'transform: rotate(180deg)' : ''"
-              style="transition: 0.3s;"></i>
+              :style="replyOpen ? ' transform: rotate(180deg)' : ''"
+              style=" transition: 0.3s;"></i>
           </button>
         </div>
 
