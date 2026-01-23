@@ -67,7 +67,7 @@
                     トップページに戻る
                 </a>
                 @else
-                <p class="text-gray-500">現在、表示できるスレッドがありません。</p>
+                <p class="text-gray-500">現在、表示できるトピックがありません。<br>トピックを作成してください。</p>
                 @endif
             </div>
             @endif
