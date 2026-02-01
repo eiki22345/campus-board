@@ -35,6 +35,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/threads/{thread}/posts', 'store')->name('posts.store');
     Route::post('/posts/{post}/like', 'toggleLike')->name('posts.like');
     Route::post('/threads/{thread}/posts/{post}', 'store')->name('posts.mention');
+    Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
   });
 
   Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
