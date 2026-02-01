@@ -100,6 +100,13 @@
               :style="replyOpen ? ' transform: rotate(180deg)' : ''"
               style=" transition: 0.3s;"></i>
           </button>
+
+          @if (Auth::id() === $post->user_id)
+          <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#delete-post-modal-{{ $post->id }}">
+            <img src="{{ asset('img/delete.png') }}" class="delete-img">
+          </button>
+          <x-modals.delete-modal name="投稿" action="route('posts.destroy', $post)" :post='$post' />
+          @endif
         </div>
 
       </div>

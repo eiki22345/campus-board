@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Board;
 use App\Models\Thread;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -123,6 +124,17 @@ class ThreadController extends Controller
             ->appends(['keyword' => $keyword, 'sort' => $sort]);
 
         return view('threads.show', compact('user_university', 'university_boards', 'common_boards', 'board', 'thread', 'posts', 'keyword', 'sort'));
+    }
+
+    public function destroy(Post $post)
+    {
+        if ($post->user_id !== Auth::id()) {
+            abort(403, 'この投稿を削除する権限がありません。');
+        }
+
+        $post->delete();
+
+        return back()->with('message', '投稿を削除しました。');
     }
 
     // メソッドを追加
