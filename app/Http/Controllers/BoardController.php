@@ -12,6 +12,7 @@ class BoardController extends Controller
 {
     public function index(Request $request)
     {
+        $sort = $request->input('sort', 'new');
         $keyword = $request->input('keyword');
 
         $user = auth()->user();
@@ -22,7 +23,7 @@ class BoardController extends Controller
 
         $common_boards = Board::whereNull('university_id')->get();
 
-        $query = Thread::with('board')->whereHas('board', function ($query) use ($user) {
+        $query = Thread::with(['board', 'user:id,nickname'])->withCount(['posts', 'likes'])->whereHas('board', function ($query) use ($user) {
             $query->where(function ($q) use ($user) {
                 $q->where('university_id', $user->university_id)
                     ->orWhereNull('university_id');
@@ -42,11 +43,16 @@ class BoardController extends Controller
             });
         }
 
-        $threads = $query->withCount('posts')
-            ->orderBy('created_at', 'desc')
-            ->paginate(20)
-            ->appends(['keyword' => $keyword]);
+        if ($sort === 'popular') {
+            $query->orderBy('likes_count', 'desc')
+                ->orderBy('created_at', 'desc');
+        } else {
+            $query->latest();
+        }
 
-        return View('boards.index', compact('user_university', 'university_boards', 'common_boards', 'threads', 'keyword'));
+        $threads = $query->paginate(20)
+            ->appends(['keyword' => $keyword, 'sort' => $sort]);
+
+        return View('boards.index', compact('user_university', 'university_boards', 'common_boards', 'threads', 'keyword', 'sort'));
     }
 }

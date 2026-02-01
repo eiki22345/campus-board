@@ -9,7 +9,10 @@
 </header>
 <main>
   <div class=" col-md-8 mx-auto post-background-color pb-3">
-    <div class="post-top ms-1">
+
+    <x-link-button.support-link-button :sort='$sort' />
+
+    <div class="post-top ms-2 mt-3">
       <div class="mb-3">
         <a href="{{ route('dashboard') }}">
           TOP
