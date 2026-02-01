@@ -15,6 +15,9 @@ class ThreadController extends Controller
 
     public function index(Board $board, Request $request)
     {
+        $sort = $request->input('sort', 'new');
+        $keyword = $request->input('keyword');
+
         $this->authorize('view', $board);
 
         $user = auth()->user();
@@ -25,9 +28,7 @@ class ThreadController extends Controller
 
         $common_boards = Board::whereNull('university_id')->get();
 
-        $keyword = $request->input('keyword');
-
-        $query = $board->threads()->with(['user:id,nickname'])->withCount('posts');
+        $query = $board->threads()->with(['user:id,nickname'])->withCount(['posts', 'likes']);
 
         if (!empty($keyword)) {
 
@@ -42,9 +43,16 @@ class ThreadController extends Controller
             });
         }
 
-        $threads = $query->latest()->paginate(20)->appends(['keyword' => $keyword]);
+        if ($sort === 'popular') {
+            $query->orderBy('likes_count', 'desc')
+                ->orderBy('created_at', 'desc');
+        } else {
+            $query->latest();
+        }
 
-        return view('threads.index', compact('user_university', 'university_boards', 'common_boards', 'board', 'threads', 'keyword'));
+        $threads = $query->paginate(20)->appends(['keyword' => $keyword, 'sort' => $sort]);
+
+        return view('threads.index', compact('user_university', 'university_boards', 'common_boards', 'board', 'threads', 'keyword', 'sort'));
     }
 
     public function store(Request $request, Board $board)
@@ -76,6 +84,8 @@ class ThreadController extends Controller
 
     public function show(Board $board, Thread $thread, Request $request)
     {
+        $sort = $request->input('sort', 'new');
+        $keyword = $request->input('keyword');
 
         $user = auth()->user();
 
@@ -102,11 +112,17 @@ class ThreadController extends Controller
             });
         }
 
-        $posts = $query->orderBy('post_number', 'asc')
-            ->paginate(20)
-            ->appends(['keyword' => $keyword]);
+        if ($sort === 'popular') {
+            $query->orderBy('likes_count', 'desc')
+                ->orderBy('post_number', 'asc');
+        } else {
+            $query->orderBy('post_number', 'asc');
+        }
 
-        return view('threads.show', compact('user_university', 'university_boards', 'common_boards', 'board', 'thread', 'posts', 'keyword'));
+        $posts = $query->paginate(20)
+            ->appends(['keyword' => $keyword, 'sort' => $sort]);
+
+        return view('threads.show', compact('user_university', 'university_boards', 'common_boards', 'board', 'thread', 'posts', 'keyword', 'sort'));
     }
 
     // メソッドを追加

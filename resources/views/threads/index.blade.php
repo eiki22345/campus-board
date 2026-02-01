@@ -10,7 +10,10 @@
 <main>
 
   <div class=" col-md-8 mx-auto col-background-color">
-    <div class="mb-3 ms-1">
+
+    <x-link-button.support-link-button :sort='$sort' />
+
+    <div class="mb-2 ms-4 mt-2">
       <a href="{{ route('dashboard') }}">
         TOP
       </a>
