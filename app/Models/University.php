@@ -24,14 +24,49 @@ class University extends Model
 
     public static function default_board_contents()
     {
-
         return [
-            ['suffix' => '/講義・履修', 'category' => '大学'],
-            ['suffix' => '/サークル・イベント', 'category' => '大学'],
-            ['suffix' => '/学内雑談', 'category' => '大学'],
-            ['suffix' => '/落とし物・困りごと', 'category' => '大学'],
-            ['suffix' => '/就活', 'category' => '大学'],
-            ['suffix' => '/恋愛・相談', 'category' => '大学'],
+            // --- 1. 授業・履修  ---
+            ['category' => '授業・履修', 'suffix' => '/楽単・鬼単情報'],
+            ['category' => '授業・履修', 'suffix' => '/テスト・試験対策'],
+            ['category' => '授業・履修', 'suffix' => '/ゼミ・研究室選び'],
+            ['category' => '授業・履修', 'suffix' => '/文系学部'],
+            ['category' => '授業・履修', 'suffix' => '/理系学部'],
+            ['category' => '授業・履修', 'suffix' => '/医療系学部'],
+            ['category' => '授業・履修', 'suffix' => '/資格・留学'],
+            ['category' => '授業・履修', 'suffix' => '/教授・教員の話'],
+
+            // --- 2. 暮らし・バイト (生活系) ---
+            ['category' => '暮らし・生活', 'suffix' => '/新入生・質問'],
+            ['category' => '暮らし・生活', 'suffix' => '/学食・周辺グルメ'],
+            ['category' => '暮らし・生活', 'suffix' => '/一人暮らし・住まい'],
+            ['category' => '暮らし・生活', 'suffix' => '/自炊・料理・レシピ'],
+            ['category' => '暮らし・生活', 'suffix' => '/ファッション'],
+            ['category' => '暮らし・生活', 'suffix' => '/雪・天気・交通'],
+            ['category' => '暮らし・生活', 'suffix' => '/古本・教科書譲渡'],
+            ['category' => '暮らし・生活', 'suffix' => '/落とし物・困りごと'],
+
+            // --- 3. サークル・遊び (交流系) ---
+            ['category' => 'サークル・交流', 'suffix' => '/サークル・部活(体)'],
+            ['category' => 'サークル・交流', 'suffix' => '/サークル・部活(文)'],
+            ['category' => 'サークル・交流', 'suffix' => '/イベント・学祭'],
+            ['category' => 'サークル・交流', 'suffix' => '/PC・スマホ・ガジェット'],
+            ['category' => 'サークル・交流', 'suffix' => '/ゲーム・趣味'],
+            ['category' => 'サークル・交流', 'suffix' => '/オタ活'],
+            ['category' => 'サークル・交流', 'suffix' => '/恋愛相談'],
+
+            // --- 4. 就活・将来 (キャリア系) ---
+            ['category' => '就活・将来', 'suffix' => '/進路・キャリア相談'],
+            ['category' => '就活・将来', 'suffix' => '/就活・インターン'],
+            ['category' => '就活・将来', 'suffix' => '/就活・選考・ES'],
+            ['category' => '就活・将来', 'suffix' => '/院試・進学'],
+            ['category' => '就活・将来', 'suffix' => '/公務員・教員採用'],
+
+            // --- 5. 雑談・その他 (ガス抜き系) ---
+            ['category' => '雑談・その他', 'suffix' => '/大学雑談・ニュース'],
+            ['category' => '雑談・その他', 'suffix' => '/なんでも雑談'],
+            ['category' => '雑談・その他', 'suffix' => '/なんでも実況'],
+            ['category' => '雑談・その他', 'suffix' => '/仮面浪人・編入・留年'],
+            ['category' => '雑談・その他', 'suffix' => '/愚痴・吐き出し'],
         ];
     }
 

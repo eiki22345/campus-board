@@ -40,27 +40,25 @@
 
        </div>
        <div class="row mt-2">
-         <div class="col-6">
-           <div class="accordion" id="accordionPanelsStayOpenExample">
-             <div class="accordion-item">
-               <div class="accordion-header">
-                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                   <div>
-                     <span class="board-index-offcanvas-span fw-bold">(your campus)</span>
-                     <div class="fw-bold">{{ $user_university->name }}専用</div>
-                   </div>
-                 </button>
-               </div>
-               <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse">
-                 <div class="accordion-body ps-0">
-                   @foreach ($university_boards as $university_board)
-                   <div class="col-12 mb-2">
-                     <a href="{{route('threads.index', $university_board->id )}}" class="board-index-offcanvas-a board-index-accordion-a fw-bold">
-                       <span class="fw-bold">{{ Str::after($university_board->name , '/') }}</span>
-                     </a>
-                   </div>
-                   @endforeach
+         <div class="accordion" id="accordionPanelsStayOpenExample">
+           <div class="accordion-item">
+             <div class="col-6 accordion-header">
+               <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                 <div>
+                   <span class="board-index-offcanvas-span fw-bold">(your campus)</span>
+                   <div class="fw-bold">{{ $user_university->name }}専用</div>
                  </div>
+               </button>
+             </div>
+             <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse">
+               <div class="row accordion-body ps-0">
+                 @foreach ($university_boards as $university_board)
+                 <div class="col-6 mb-2">
+                   <a href="{{route('threads.index', $university_board->id )}}" class="board-index-offcanvas-a board-index-accordion-a fw-bold">
+                     <span class="fw-bold">{{ Str::after($university_board->name , '/') }}</span>
+                   </a>
+                 </div>
+                 @endforeach
                </div>
              </div>
            </div>
