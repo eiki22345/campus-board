@@ -8,7 +8,7 @@
   <x-headers.header-search :action="route('threads.show', [$board->id,$thread->id])" placeholder="🔍️トピック内で話題を検索！" />
 </header>
 <main>
-  <div class=" col-md-8 mx-auto post-background-color pb-3">
+  <div class=" col-md-8 mx-auto post-background-color">
 
     <x-link-button.support-link-button :sort='$sort' />
 

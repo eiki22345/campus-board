@@ -250,8 +250,8 @@
 
 .create-thread {
   position: fixed;
-  right: 16%;
-  bottom: 10px;
+  right: 15%;
+  bottom: 1px;
   z-index: 1050;
 }
 
@@ -370,7 +370,7 @@ body {
 
 
 
-@media (max-width: 992px) {
+@media (max-width: 768px) {
   .header-img {
     width: 70px;
     height: auto;
@@ -383,7 +383,7 @@ body {
 
   .create-thread {
     position: fixed;
-    right: 1%;
+    right: 1px;
     bottom: 1px;
   }
 }
@@ -391,7 +391,7 @@ body {
 @media (min-width: 768px) and (max-width: 992px) {
   .create-thread {
     position: fixed;
-    right: 16%;
-    bottom: 10px;
+    right: 15%;
+    bottom: 1px;
   }
 }
