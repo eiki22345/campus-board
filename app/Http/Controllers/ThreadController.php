@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Board;
+use App\Models\MajorCategory;
 use App\Models\Thread;
 use App\Models\Post;
 use App\Models\User;
@@ -18,6 +19,7 @@ class ThreadController extends Controller
     {
         $sort = $request->input('sort', 'new');
         $keyword = $request->input('keyword');
+        $major_categories = MajorCategory::all();
 
         $this->authorize('view', $board);
 
@@ -53,7 +55,7 @@ class ThreadController extends Controller
 
         $threads = $query->paginate(20)->appends(['keyword' => $keyword, 'sort' => $sort]);
 
-        return view('threads.index', compact('user_university', 'university_boards', 'common_boards', 'board', 'threads', 'keyword', 'sort'));
+        return view('threads.index', compact('major_categories', 'user_university', 'university_boards', 'common_boards', 'board', 'threads', 'keyword', 'sort'));
     }
 
     public function store(Request $request, Board $board)
@@ -87,6 +89,7 @@ class ThreadController extends Controller
     {
         $sort = $request->input('sort', 'new');
         $keyword = $request->input('keyword');
+        $major_categories = MajorCategory::all();
 
         $user = auth()->user();
 
@@ -123,7 +126,7 @@ class ThreadController extends Controller
         $posts = $query->paginate(20)
             ->appends(['keyword' => $keyword, 'sort' => $sort]);
 
-        return view('threads.show', compact('user_university', 'university_boards', 'common_boards', 'board', 'thread', 'posts', 'keyword', 'sort'));
+        return view('threads.show', compact('major_categories', 'user_university', 'university_boards', 'common_boards', 'board', 'thread', 'posts', 'keyword', 'sort'));
     }
 
     public function destroy(Post $post)

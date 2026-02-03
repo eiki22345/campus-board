@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Board;
+use App\Models\MajorCategory;
 use App\Models\Thread;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -19,7 +20,9 @@ class BoardController extends Controller
 
         $user_university = $user->university;
 
-        $university_boards = Board::where('university_id', $user->university_id)->get();
+        $major_categories = MajorCategory::all();
+
+        $university_boards = Board::where('university_id', $user->university_id)->with('majorCategory')->get();
 
         $common_boards = Board::whereNull('university_id')->get();
 
@@ -53,6 +56,6 @@ class BoardController extends Controller
         $threads = $query->paginate(20)
             ->appends(['keyword' => $keyword, 'sort' => $sort]);
 
-        return View('boards.index', compact('user_university', 'university_boards', 'common_boards', 'threads', 'keyword', 'sort'));
+        return View('boards.index', compact('major_categories', 'user_university', 'university_boards', 'common_boards', 'threads', 'keyword', 'sort'));
     }
 }

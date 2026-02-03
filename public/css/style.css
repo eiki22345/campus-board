@@ -41,6 +41,15 @@
   height: auto;
 }
 
+.no-accordion-arrow::after {
+  display: none !important;
+  background-image: none !important;
+}
+
+.no-accordion-arrow:focus {
+  box-shadow: none !important;
+}
+
 .login-btn,
 .register-link {
   background-color: #100658;

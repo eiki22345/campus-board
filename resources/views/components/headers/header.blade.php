@@ -1,7 +1,8 @@
  @props([
  'user_university',
  'university_boards',
- 'common_boards'
+ 'common_boards',
+ 'major_categories',
  ])
 
 
@@ -42,7 +43,7 @@
        <div class="row mt-2">
          <div class="accordion" id="accordionPanelsStayOpenExample">
            <div class="accordion-item">
-             <div class="col-6 accordion-header">
+             <div class="accordion-header">
                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
                  <div>
                    <span class="board-index-offcanvas-span fw-bold">(your campus)</span>
@@ -51,14 +52,58 @@
                </button>
              </div>
              <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse">
-               <div class="row accordion-body ps-0">
-                 @foreach ($university_boards as $university_board)
-                 <div class="col-6 mb-2">
-                   <a href="{{route('threads.index', $university_board->id )}}" class="board-index-offcanvas-a board-index-accordion-a fw-bold">
-                     <span class="fw-bold">{{ Str::after($university_board->name , '/') }}</span>
-                   </a>
+               <div class="row accordion-body p-0 mt-2">
+                 @php
+                 // 1. 板があるカテゴリだけ抽出
+                 $active_cats = $major_categories->filter(function ($cat) use ($university_boards) {
+                 return $university_boards->contains('major_category_id', $cat->id);
+                 })->values();
+
+                 // 2. 左右の列にデータを振り分け
+                 $columns = [
+                 $active_cats->filter(fn($c, $k) => $k % 2 === 0), // 左列
+                 $active_cats->filter(fn($c, $k) => $k % 2 !== 0) // 右列
+                 ];
+                 @endphp
+
+                 {{-- ▼ row で左右の枠を作る --}}
+                 <div class="row align-items-start">
+
+                   @foreach ($columns as $cats)
+                   {{-- ▼ col-6 の中にアコーディオンを縦積みする (flex-column) --}}
+                   <div class="col-6 d-flex flex-column">
+
+                     @foreach ($cats as $major_category)
+                     @php
+                     // このカテゴリに属する板を取得
+                     $my_boards = $university_boards->where('major_category_id', $major_category->id);
+                     @endphp
+
+                     <div class="accordion-item border">
+                       <h2 class="accordion-header" id="heading-cat-{{ $major_category->id }}">
+                         <button class="accordion-button no-accordion-arrow collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-cat-{{ $major_category->id }}" aria-expanded="false" aria-controls="collapse-cat-{{ $major_category->id }}">
+                           <span class="fw-bold">{{ $major_category->name }}</span>
+                         </button>
+                       </h2>
+
+                       <div id="collapse-cat-{{ $major_category->id }}" class="accordion-collapse collapse" aria-labelledby="heading-cat-{{ $major_category->id }}">
+                         <div class="accordion-body p-0">
+                           <div class="d-flex flex-column">
+                             @foreach ($my_boards as $board)
+                             <a href="{{ route('threads.index', $board->id) }}" class="board-index-offcanvas-a board-index-accordion-a mb-2 fw-bold">
+                               {{ Str::after($board->name, '/') }}
+                             </a>
+                             @endforeach
+                           </div>
+                         </div>
+                       </div>
+                     </div>
+                     @endforeach
+
+                   </div>
+                   @endforeach
+
                  </div>
-                 @endforeach
                </div>
              </div>
            </div>
