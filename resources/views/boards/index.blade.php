@@ -3,7 +3,7 @@
 @section('content')
 
 <header>
-    <x-headers.header :user_university='$user_university' :university_boards='$university_boards' :common_boards='$common_boards' />
+    <x-headers.header :major_categories='$major_categories' :user_university=' $user_university' :university_boards='$university_boards' :common_boards='$common_boards' />
 
     <x-headers.header-search :action="route('dashboard')" placeholder="🔍️気になる話題を検索しよう！" :keyword='$keyword' />
 
