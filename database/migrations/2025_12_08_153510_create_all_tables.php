@@ -11,10 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // ★ 0. 地域マスタ (universitiesより先に必要！)
+        Schema::create('regions', function (Blueprint $table) {
+            $table->id();
+            $table->string('name'); // 北海道、東北、関東...
+            $table->integer('sort_order')->default(0); // 表示順序用（任意）
+            $table->timestamps();
+        });
+
         // 1. 大学マスタ (usersより先に必要)
         Schema::create('universities', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // 北海道大学
+            $table->string('name');
+            $table->foreignId('region_id')->constrained('regions');
             $table->string('email_domain')->unique(); // @hokudai.ac.jp
             $table->timestamps();
         });
@@ -174,5 +183,6 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('major_categories');
         Schema::dropIfExists('universities');
+        Schema::dropIfExists('regions');
     }
 };
