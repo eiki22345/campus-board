@@ -10,7 +10,7 @@ use App\Models\Board;
 class University extends Model
 {
 
-    protected $fillable = ['name', 'email_domain'];
+    protected $fillable = ['name', 'email_domain', 'region_id'];
 
     public function users(): HasMany
     {
@@ -20,6 +20,11 @@ class University extends Model
     public function boards(): HasMany
     {
         return $this->hasMany(Board::class);
+    }
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
     }
 
     public static function default_board_contents()
@@ -55,11 +60,11 @@ class University extends Model
             ['category' => 'サークル・交流', 'suffix' => '/恋愛相談'],
 
             // --- 4. 就活・将来 (キャリア系) ---
-            ['category' => '就活・将来', 'suffix' => '/進路・キャリア相談'],
-            ['category' => '就活・将来', 'suffix' => '/就活・インターン'],
-            ['category' => '就活・将来', 'suffix' => '/就活・選考・ES'],
-            ['category' => '就活・将来', 'suffix' => '/院試・進学'],
-            ['category' => '就活・将来', 'suffix' => '/公務員・教員採用'],
+            ['category' => '就活・進路', 'suffix' => '/進路・キャリア相談'],
+            ['category' => '就活・進路', 'suffix' => '/就活・インターン'],
+            ['category' => '就活・進路', 'suffix' => '/就活・選考・ES'],
+            ['category' => '就活・進路', 'suffix' => '/院試・進学'],
+            ['category' => '就活・進路', 'suffix' => '/公務員・教員採用'],
 
             // --- 5. 雑談・その他 (ガス抜き系) ---
             ['category' => '雑談・その他', 'suffix' => '/大学雑談・ニュース'],
