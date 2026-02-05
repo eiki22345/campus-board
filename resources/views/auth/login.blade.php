@@ -6,7 +6,7 @@
         <div class="auth-header">
             <div class="ms-3 mt-3 text-white">
                 <h1>STUDENT BBS</h1>
-                <h1>HOKKAI BOARD</h1>
+                <h1>CAMPUS BOARD</h1>
             </div>
             <div>
                 <img src="{{ asset('img/mascot.png') }}" class="header-img mt-4 me-3 mb-2">

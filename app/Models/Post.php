@@ -66,4 +66,9 @@ class Post extends Model
         // ログインユーザーのIDが、この投稿の「いいねした人リスト」に含まれているか
         return $this->likes()->where('user_id', $user->id)->exists();
     }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
 }
