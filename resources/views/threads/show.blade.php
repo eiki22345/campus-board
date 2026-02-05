@@ -46,13 +46,19 @@
     @foreach ($posts as $post)
 
     <div class="mx-auto post-card" x-data="{ replyOpen: false }">
-      <div class="d-flex justify-content-between">
-        <div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="post-information text-break">
           No.{{ $post->post_number}}
           投稿者:{{ $post->user->nickname }}
         </div>
-        <div>
+        <div class="post-information">
           {{ $post->created_at}}
+
+          <button type="button" class="btn btn-sm btn-link text-danger text-decoration-none post-information" data-bs-toggle="modal" data-bs-target="#reportModal-post-{{ $post->id }}">
+            通報
+          </button>
+
+          @push('modals')<x-modals.report-modal :target_id="$post->id" type="post" />@endpush
         </div>
       </div>
 
@@ -100,6 +106,8 @@
               :style="replyOpen ? ' transform: rotate(180deg)' : ''"
               style=" transition: 0.3s;"></i>
           </button>
+
+
 
           @if (Auth::id() === $post->user_id)
           <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#delete-post-modal-{{ $post->id }}">

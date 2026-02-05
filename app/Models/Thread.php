@@ -49,4 +49,9 @@ class Thread extends Model
         }
         return $this->likes()->where('user_id', Auth::id())->exists();
     }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
 }

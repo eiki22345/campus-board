@@ -207,6 +207,19 @@
   color: #dadada;
 }
 
+
+.list-group-item {
+  display: block;
+  background-color: transparent;
+  text-decoration: none;
+  transition: all 0.1s ease-in-out;
+}
+
+
+.list-group-item:hover {
+  background-color: #b6bcc3;
+}
+
 .search-section {
   background-color: #2C3E50;
 }
@@ -355,6 +368,10 @@
   line-height: 1.7;
   margin-bottom: 12px;
   color: #222222;
+}
+
+.post-information {
+  font-size: 12px;
 }
 
 .delete-img {

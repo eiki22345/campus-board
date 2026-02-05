@@ -3,7 +3,7 @@
 @section('content')
 
 <header>
-    <x-headers.header :major_categories='$major_categories' :user_university=' $user_university' :university_boards='$university_boards' :common_boards='$common_boards' />
+    <x-headers.header :major_categories='$major_categories' :user_university=' $user_university' :university_boards='$university_boards' :common_boards='$common_boards' :common_boards='$common_boards' />
 
     <x-headers.header-search :action="route('dashboard')" placeholder="🔍️気になる話題を検索しよう！" :keyword='$keyword' />
 
@@ -44,21 +44,25 @@
                 <div class="mx-auto thread-card">
                     <a href="{{ route('threads.show',[$thread->board->id, $thread->id]) }}" class="thread-link">
                         <div class="d-flex justify-content-between">
-                            <div>
+                            <div class="post-information">
                                 投稿者:{{ $thread->user->nickname }}
-                                @if ($thread->board->university_id == $thread->user->university_id)
-                                ({{ $user_university->name }}専用)
-                                @endif
                             </div>
-                            <div>
+                            <div class="post-information">
                                 {{ $thread->created_at}}
                             </div>
                         </div>
+                        <div>
+                            @if ( $thread->board->university_id === $user_university->id )
+                            <div class="d-flex justify-content-end post-information">
+                                {{ $user_university->name }}専用
+                            </div>
+                            @endif
 
-                        <div class="py-2">
-                            <h5 class="fw-bold">{{ $thread->title }}</h5>
-                        </div>
+                            <div class="py-2">
+                                <h5 class="fw-bold">{{ $thread->title }}</h5>
+                            </div>
                     </a>
+
                     <div class="d-flex justify-content-end">
                         {{-- head内にFontAwesomeがある前提 --}}
 
@@ -82,12 +86,23 @@
                         <div class="d-flex align-items-center ms-2">
                             <img src="{{ asset('img/comment.png') }}" class="comment-img">
                             <div class="ms-2"> {{ $thread->posts_count }} </div>
+
+                            <button type="button" class="btn btn-sm btn-link text-danger text-decoration-none"
+                                data-bs-toggle="modal"
+                                data-bs-target="#reportModal-thread-{{ $thread->id }}">
+                                ⚠️ 通報
+                            </button>
+
+
+                            @push('modals') <x-modals.report-modal :target_id="$thread->id" type="thread" /> @endpush
+
                         </div>
                     </div>
                 </div>
-                @endforeach
             </div>
+            @endforeach
         </div>
+    </div>
     </div>
 
 

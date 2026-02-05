@@ -77,6 +77,16 @@
           <img src="{{ asset('img/comment.png') }}" class="comment-img">
           <div class="ms-2"> {{ $thread->posts_count }} </div>
         </div>
+
+        <button type="button" class="btn btn-sm btn-link text-danger text-decoration-none"
+          data-bs-toggle="modal"
+          data-bs-target="#reportModal-thread-{{ $thread->id }}">
+          ⚠️ 通報
+        </button>
+
+        @push('modals')
+        <x-modals.report-modal :target_id="$thread->id" type="thread" />
+        @endpush
       </div>
     </div>
     @endforeach

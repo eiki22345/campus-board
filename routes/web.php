@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -36,6 +37,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/posts/{post}/like', 'toggleLike')->name('posts.like');
     Route::post('/threads/{thread}/posts/{post}', 'store')->name('posts.mention');
     Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+  });
+
+  Route::controller(ReportController::class)->group(function () {
+    Route::post('/report', 'store')->name('reports.store');
   });
 
   Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
