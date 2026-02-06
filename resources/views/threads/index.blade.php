@@ -41,16 +41,16 @@
     <div class="mx-auto thread-card">
       <a href="{{ route('threads.show',[$board->id, $thread->id]) }}" class="thread-link">
         <div class="d-flex justify-content-between">
-          <div>
+          <div class="post-information">
             投稿者:{{ $thread->user->nickname }}
           </div>
-          <div>
+          <div class="post-information">
             {{ $thread->created_at}}
           </div>
         </div>
 
         <div class="py-2">
-          <h5 class="fw-bold">{{ $thread->title }}</h5>
+          <span class="fw-bold fs-6">{{ $thread->title }}</span>
         </div>
       </a>
       <div class="d-flex justify-content-end">
