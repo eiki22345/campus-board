@@ -11,6 +11,9 @@
      <script src="https://kit.fontawesome.com/a251afe25c.js" crossorigin="anonymous"></script>
      <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
      <meta name="csrf-token" content="{{ csrf_token() }}">
+     <link rel="manifest" href="{{ asset('manifest.json') }}">
+     <link rel="manifest" href="manifest.json">
+
 
      <link href="{{ asset('css/style.css')}}" rel="stylesheet">
  </head>

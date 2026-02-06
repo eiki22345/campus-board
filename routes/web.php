@@ -7,7 +7,9 @@ use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -45,4 +47,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
   Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
+
+  Route::controller(UserController::class, 'mypage')->group(function () {
+    Route::get('users/mypage', 'mypage')->name('mypage');
+    Route::get('users/mypage/edit', 'edit')->name('mypage.edit');
+    Route::put('users/mypage/edit', 'update')->name('mypage.update');
+    Route::get('users/mypage/pasword/edit', 'edit_password')->name('mypage.edit_password');
+    Route::put('users/mypage/password', 'update_password')->name('mypage.update_password');
+  });
 });

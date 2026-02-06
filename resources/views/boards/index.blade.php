@@ -59,7 +59,7 @@
                             @endif
 
                             <div class="py-2">
-                                <h5 class="fw-bold">{{ $thread->title }}</h5>
+                                <h5 class="title fs-6">{{ $thread->title }}</h5>
                             </div>
                     </a>
 
