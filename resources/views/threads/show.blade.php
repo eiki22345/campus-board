@@ -24,8 +24,9 @@
         >コメント
       </div>
       <div>
-        <h3>{{ $thread->title }}</h3>
-        <span>>>{{ $thread->content }}</span>
+        <p class="post-information mb-0">作成者:{{ $thread->user->nickname }}・{{ $thread->created_at->diffForHumans() }}</p>
+        <span class="fs-6 fw-bold">{{ $thread->title }}</span>
+        <p class="text-content mt-2">>>{{ $thread->content }}</p>
         <hr>
       </div>
     </div>
@@ -52,7 +53,7 @@
           投稿者:{{ $post->user->nickname }}
         </div>
         <div class="post-information">
-          {{ $post->created_at}}
+          {{ $post->created_at->diffForHumans() }}
 
           <button type="button" class="btn btn-sm btn-link text-danger text-decoration-none post-information" data-bs-toggle="modal" data-bs-target="#reportModal-post-{{ $post->id }}">
             通報
@@ -63,12 +64,12 @@
       </div>
 
       <div class="pt-1">
-        <p>{{ $post->content }}</p>
+        <span class="text-content">{{ $post->content }}</span>
       </div>
       <div class="d-flex justify-content-between">
         <div class="d-flex align-items-center mb-1">
           <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#replyModal-{{ $post->id }}">
-            返信
+            <span class="action-button">返信</span>
           </button>
           <x-modals.create-mentions :thread="$thread" :post="$post" />
         </div>
@@ -76,36 +77,34 @@
           {{-- ボタン --}}
           {{-- class="post-like-btn" をJSで探します --}}
           {{-- data-url に通信先のURLを埋め込みます --}}
-          <button type="button"
-            class="btn p-0 border-0 post-like-btn"
-            data-url="{{ route('posts.like', $post) }}">
+          <div class="action-button">
+            <button type="button"
+              class="btn p-0 border-0 post-like-btn"
+              data-url="{{ route('posts.like', $post) }}">
 
-            {{-- アイコン：PHPで初期状態を判定 --}}
-            @if($post->isLikedBy(Auth::user()))
-            {{-- いいね済み：赤色の塗りつぶし --}}
-            <i class="fa-solid fa-heart fa-lg text-danger post-like-icon"></i>
-            @else
-            {{-- 未いいね：灰色の枠線 --}}
-            <i class="fa-regular fa-heart fa-lg text-secondary post-like-icon"></i>
-            @endif
-          </button>
-
-          {{-- いいね数 --}}
-          <span class="ms-2 post-like-count">
-            {{ $post->likes()->count() }}
-          </span>
-
-          <button type="button"
-            class="btn p-0 border-0 d-flex align-items-center ms-2"
-            @click="replyOpen = !replyOpen"> <img src="{{ asset('img/comment.png') }}" class="comment-img">
-
-            <div class="ms-2"> {{ $post->replies_count }} 件の返信を表示</div>
-
-            {{-- オプション：開閉がわかる矢印アイコン（あれば） --}}
-            <i class="fa-solid fa-chevron-down ms-1 text-secondary small"
-              :style="replyOpen ? ' transform: rotate(180deg)' : ''"
-              style=" transition: 0.3s;"></i>
-          </button>
+              {{-- アイコン：PHPで初期状態を判定 --}}
+              @if($post->isLikedBy(Auth::user()))
+              {{-- いいね済み：赤色の塗りつぶし --}}
+              <i class="fa-solid fa-heart fa-lg text-danger post-like-icon"></i>
+              @else
+              {{-- 未いいね：灰色の枠線 --}}
+              <i class="fa-regular fa-heart fa-lg text-secondary post-like-icon"></i>
+              @endif
+            </button>
+            {{-- いいね数 --}}
+            <span class="ms-2 post-like-count">
+              {{ $post->likes()->count() }}
+            </span>
+          </div>
+          <div>
+            <button type="button" class="btn p-0 border-0 d-flex align-items-center ms-2" @click="replyOpen = !replyOpen">
+              <div class="ms-2 action-button">{{ $post->replies_count }} 件の返信を表示</div>
+              {{-- オプション：開閉がわかる矢印アイコン（あれば） --}}
+              <i class="fa-solid fa-chevron-down ms-1 text-secondary small"
+                :style="replyOpen ? ' transform: rotate(180deg)' : ''"
+                style=" transition: 0.3s;"></i>
+            </button>
+          </div>
 
 
 
@@ -124,11 +123,11 @@
         @foreach ($post->replies as $reply)
         <div class="bg-light p-2 mb-2 rounded">
           <div class="d-flex justify-content-between small text-muted">
-            <span>{{ $reply->user->nickname }}</span>
-            <span>{{ $reply->created_at }}</span>
+            <span class="post-information">{{ $reply->user->nickname }}</span>
+            <span class="post-information">{{ $reply->created_at->diffForHumans() }}</span>
           </div>
           <div class="mt-1">
-            {!! nl2br(e($reply->content)) !!}
+            <span class="text-content">{!! nl2br(e($reply->content)) !!}</span>
           </div>
         </div>
         @endforeach

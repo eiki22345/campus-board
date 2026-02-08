@@ -295,25 +295,141 @@
 }
 
 .thread-card {
-
-  background: linear-gradient(180deg, #fffff7 0%, #fff6e0 100%);
-  /* 薄い緑〜白のグラデーション */
-  /* ※青っぽくしたいなら #dbeafe、黄色なら #fef9c3 などに変えてみてください */
-  background-color: #f8f9fa;
-  /* グラデーション効かない時用 */
-  border-radius: 20px;
-  /* 角を丸くする */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  /* ふんわりした影 */
+  background-color: #ffffff;
   padding: 15px;
   /* 内側の余白 */
-  margin-bottom: 20px;
-  /* カード同士の隙間 */
   transition: transform 0.2s;
   /* ホバー時の動き用 */
-  border: none;
-  /* 枠線を消す */
-  width: 98%;
+  border-top: 2px solid #eff3f4;
+  /* X（旧Twitter）風の非常に薄い線 */
+}
+
+.content-preview {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  /* ★表示したい行数を指定（例：2行） */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: rgb(59, 58, 58);
+  /* 少し薄い色にするとモダン */
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* 共通設定（既存のコードを活かしています） */
+[class^="genre-"] {
+  font-size: 10px;
+  color: white;
+  padding: 0px 6px 0px 6px;
+  font-weight: bold;
+  border-radius: 50px;
+  border: 1px solid transparent;
+}
+
+/* 個別カラー設定：モダンで少し彩度を抑えた配色 */
+.genre-1 {
+  background-color: #ff4500;
+}
+
+/* 運営・お知らせ（警告・重要） */
+.genre-2 {
+  background-color: #0079d3;
+}
+
+/* 授業・履修（知的・信頼） */
+.genre-3 {
+  background-color: #46d160;
+}
+
+/* 就活・進路（成長・ポジティブ） */
+.genre-4 {
+  background-color: #ff66ac;
+}
+
+/* 悩み・相談（優しさ・寄り添い） */
+.genre-5 {
+  background-color: #ff8b60;
+}
+
+/* サークル・交流（活発・フレンドリー） */
+.genre-6 {
+  background-color: #00a6a5;
+}
+
+/* 地域・地元（安心・公共） */
+.genre-7 {
+  background-color: #a48419;
+}
+
+/* 文系学問（歴史・伝統） */
+.genre-8 {
+  background-color: #6a5acd;
+}
+
+/* 理系学問（論理・宇宙） */
+.genre-9 {
+  background-color: #ed9121;
+}
+
+/* 暮らし・生活（日常・暖かさ） */
+.genre-10 {
+  background-color: #ff5722;
+}
+
+/* グルメ・料理（食欲・情熱） */
+.genre-11 {
+  background-color: #e91e63;
+}
+
+/* ファッション・美容（華やか） */
+.genre-12 {
+  background-color: #7b1fa2;
+}
+
+/* エンタメ・ゲーム（遊び心） */
+.genre-13 {
+  background-color: #00bfff;
+}
+
+/* 趣味・スポーツ（爽快感） */
+.genre-14 {
+  background-color: #607d8b;
+}
+
+/* 乗り物・交通（スマート・機能的） */
+.genre-15 {
+  background-color: #33a8ff;
+}
+
+/* PC・デジタル（先進的） */
+.genre-16 {
+  background-color: #455a64;
+}
+
+/* ニュース・情勢（冷静・客観的） */
+.genre-17 {
+  background-color: #808080;
+}
+
+/* 雑談・その他（中立的） */
+
+/* オプション：マウスを乗せた時に少し明るくする（モダンな演出） */
+[class^="genre-"]:hover {
+  filter: brightness(1.1);
+  cursor: default;
+}
+
+.action-button {
+  background-color: #f6f7f8;
+  /* Redditっぽい薄いグレーの背景 */
+  border-radius: 999px;
+  /* 完全に丸い角（カプセル型）にする */
+  padding: 4px 6px;
+  /* ボタンの内側の余白（上下 左右） */
+
+  /* テキストとアイコンのスタイル */
+  font-size: 13px;
 }
 
 /* マウスを乗せた時にちょっと浮く演出 */
@@ -334,26 +450,19 @@
   cursor: pointer;
 }
 
+.fa-heart {
+  font-size: 16px;
+}
+
 .comment-img {
-  height: 16px;
-  width: 16px;
+  height: 14px;
+  width: 14px;
 }
 
 .post-card {
   background-color: #ffffff;
-  border: 6px solid #a8d3e6;
-  border-radius: 12px;
+  border: 1px solid #a8d3e6;
   padding: 8px;
-  margin-bottom: 15px;
-  width: 98%;
-  line-height: 1.6;
-
-  /* 影を濃く、はっきりさせる */
-  box-shadow:
-    0 0 0 2px #ffffff,
-    /* 白い枠線（そのまま） */
-    0 6px 15px rgba(0, 0, 0, 0.3);
-  /* ★ここを変更：濃い影を追加 */
 }
 
 /* メタデータ情報（投稿者、No.、日時）をグレーアウト */
@@ -372,23 +481,27 @@
 
 .post-information {
   font-size: 12px;
+  color: #5c6c74;
 }
 
 .delete-img {
-  height: 19px;
-  width: 19px;
+  height: 16px;
+  width: 16px;
 }
 
-.mx-auto {
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.1),
-    0 4px 8px rgba(0, 0, 0, 0.1),
-    0 8px 16px rgba(0, 0, 0, 0.15),
-    0 16px 32px rgba(0, 0, 0, 0.15);
+.text-content {
+  font-size: 14px;
 }
 
 body {
-  background-color: #BCE2E8;
+  background-color: #ffffff;
+}
+
+.col-md-8 {
+  border-left: 3px solid #eff3f4;
+  /* X（旧Twitter）風の非常に薄い線 */
+  border-right: 3px solid #eff3f4;
+  /* X（旧Twitter）風の非常に薄い線 */
 }
 
 

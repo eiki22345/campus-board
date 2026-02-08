@@ -9,11 +9,11 @@
 </header>
 <main>
 
-  <div class=" col-md-8 mx-auto col-background-color">
+  <div class=" col-md-8 mx-auto">
 
     <x-link-button.support-link-button :sort='$sort' />
 
-    <div class="mb-2 ms-4 mt-2">
+    <div class="mb-2 ms-2 mt-2">
       <a href="{{ route('dashboard') }}">
         TOP
       </a>
@@ -43,20 +43,34 @@
         <div class="d-flex justify-content-between">
           <div class="post-information">
             投稿者:{{ $thread->user->nickname }}
+
+            ・{{ $thread->created_at->diffForHumans() }}
           </div>
-          <div class="post-information">
-            {{ $thread->created_at}}
+          @if ( $thread->board->university_id === $user_university->id )
+          <div class="d-flex justify-content-end post-information">
+            {{ $user_university->name }}専用
           </div>
+          @endif
         </div>
 
-        <div class="py-2">
+
+
+        <div>
           <span class="fw-bold fs-6">{{ $thread->title }}</span>
         </div>
+
+        <div class="content-preview">
+          {{ $thread->posts->first()->content ?? '' }}
+        </div>
       </a>
+
+      <div>
+        <span class="genre-{{ $board->majorcategory->id }}"> {{ Str::after($board->name, '/') }}</span>
+      </div>
       <div class="d-flex justify-content-end">
         {{-- head内にFontAwesomeがある前提 --}}
 
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center action-button">
           {{-- いいねボタン --}}
           {{-- data-thread-id: どのスレッドか --}}
           {{-- data-liked: 今自分がいいねしてるか (true/false) --}}
@@ -69,19 +83,19 @@
           </button>
 
           {{-- いいね数 --}}
-          <span class="ms-2 like-count">
+          <span class="ms-1 like-count">
             {{ $thread->likes()->count() }}
           </span>
         </div>
-        <div class="d-flex align-items-center ms-2">
+        <div class="d-flex align-items-center action-button ms-2">
           <img src="{{ asset('img/comment.png') }}" class="comment-img">
-          <div class="ms-2"> {{ $thread->posts_count }} </div>
+          <div class="ms-1"> {{ $thread->posts_count }} </div>
         </div>
 
         <button type="button" class="btn btn-sm btn-link text-danger text-decoration-none"
           data-bs-toggle="modal"
           data-bs-target="#reportModal-thread-{{ $thread->id }}">
-          ⚠️ 通報
+          <span class="action-button">⚠️通報</span>
         </button>
 
         @push('modals')
