@@ -24,7 +24,7 @@
                         @csrf
 
                         <div class="form-group mt-4">
-                            <input id="email" type="email" class="form-control @error('email') is-invalid  @enderror hokkai-board-login-input py-2" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="メールアドレスを入力">
+                            <input id="email" type="email" class="form-control @error('email') is-invalid  @enderror hokkai-board-login-input py-2" name="email" value="{{ old('email') }}" required autocomplete="username" placeholder="メールアドレスを入力">
 
                             @error('email')
                             <div class="invalid-feedback ps-2">
@@ -34,7 +34,7 @@
                         </div>
 
                         <div class="form-group mt-4">
-                            <input id="password" type="password" class="form-control @error('password') is-invalid  @enderror hokkai-board-login-input py-2" name="password" value="{{ old('email') }}" required autocomplete="current-password" placeholder="パスワードを入力">
+                            <input id="password" type="password" class="form-control @error('password') is-invalid  @enderror hokkai-board-login-input py-2" name="password" required autocomplete="current-password" placeholder="パスワードを入力">
                             @error('password')
                             <div class="invalid-feedback ps-2">
                                 {{ $message }}
@@ -44,7 +44,7 @@
 
                         <div class="form-group mt-2 ms-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : ''}}>
+                                <input class="form-check-input" type="checkbox" name="remember" id="remember_me" {{ old('remember') ? 'checked' : ''}}>
                                 <label class="form-check-label" for="remember">
                                     次回から自動ログインする
                                 </label>
