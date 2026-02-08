@@ -51,13 +51,6 @@ class PostController extends Controller
                 $new_post->parents()->attach($parent_post->id);
             }
         });
-
-
-
-
-
-
-
         return redirect()->route('threads.show', [$board->id, $thread->id])->with('message', 'メッセージを作成しました。');
     }
 
@@ -77,5 +70,43 @@ class PostController extends Controller
             'liked'  => $post->isLikedBy($user), // 最新の状態 (true/false)
             'count'  => $post->likes()->count(), // 最新の件数
         ]);
+    }
+
+    public function destroy(Post $post)
+    {
+        $user = Auth::user();
+        $thread = $post->thread;
+        $board = $thread->board;
+
+        // 自分の投稿かチェック
+        if ($post->user_id !== $user->id) {
+            abort(403, '他人の投稿は削除できません。');
+        }
+
+        DB::transaction(function () use ($post) {
+            $this->deleteWithReplies($post);
+        });
+
+        return redirect()->route('threads.show', [$board->id, $thread->id])->with('message', '投稿を削除しました。');
+    }
+
+    // 再帰的に子投稿も削除
+    private function deleteWithReplies(Post $post)
+    {
+        // この投稿へのリプライを取得
+        $replyIds = DB::table('post_mentions')
+            ->where('parent_post_id', $post->id)
+            ->pluck('post_id');
+
+        // 子投稿を再帰的に削除
+        foreach ($replyIds as $replyId) {
+            $reply = Post::find($replyId);
+            if ($reply) {
+                $this->deleteWithReplies($reply);
+            }
+        }
+
+        // 自分を削除
+        $post->delete();
     }
 }

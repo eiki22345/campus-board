@@ -81,7 +81,7 @@
 
                      <div class="accordion-item border">
                        <h2 class="accordion-header" id="heading-cat-{{ $major_category->id }}">
-                         <button class="accordion-button no-accordion-arrow collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-cat-{{ $major_category->id }}" aria-expanded="false" aria-controls="collapse-cat-{{ $major_category->id }}">
+                         <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-cat-{{ $major_category->id }}" aria-expanded="false" aria-controls="collapse-cat-{{ $major_category->id }}">
                            <span class="fw-bold list-group-item">{{ $major_category->name }}</span>
                          </button>
                        </h2>
@@ -145,7 +145,7 @@
                      <div class="accordion-item border">
                        <h2 class="accordion-header" id="heading-common-cat-{{ $major_category->id }}">
                          {{-- ★修正: no-accordion-arrow を削除したので矢印が出るはずです --}}
-                         <button class="accordion-button no-accordion-arrow collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-common-cat-{{ $major_category->id }}">
+                         <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-common-cat-{{ $major_category->id }}">
                            <span class="fw-bold list-group-item">{{ $major_category->name }}</span>
                          </button>
                        </h2>

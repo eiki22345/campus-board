@@ -50,7 +50,7 @@
       <div class="d-flex justify-content-between align-items-center">
         <div class="post-information text-break">
           No.{{ $post->post_number}}
-          投稿者:{{ $post->user->nickname }}
+          {{ $post->user->nickname }}
         </div>
         <div class="post-information">
           {{ $post->created_at->diffForHumans() }}
@@ -112,7 +112,7 @@
           <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#delete-post-modal-{{ $post->id }}">
             <img src="{{ asset('img/delete.png') }}" class="delete-img">
           </button>
-          <x-modals.delete-modal name="投稿" action="route('posts.destroy', $post)" :post='$post' />
+          <x-modals.delete-modal name="投稿" :action="route('posts.destroy',$post->id)" :post="$post" type="post" />
           @endif
         </div>
 
@@ -124,32 +124,72 @@
         <div class="bg-light p-2 mb-2 rounded">
           <div class="d-flex justify-content-between small text-muted">
             <span class="post-information">{{ $reply->user->nickname }}</span>
-            <span class="post-information">{{ $reply->created_at->diffForHumans() }}</span>
+            <div>
+              <span class="post-information">{{ $reply->created_at->diffForHumans() }}</span>
+              <button type="button" class="btn btn-sm btn-link text-danger text-decoration-none post-information" data-bs-toggle="modal" data-bs-target="#reportModal-post-{{ $reply->id }}">
+                通報
+              </button>
+
+              @push('modals')<x-modals.report-modal :target_id="$reply->id" type="post" />@endpush
+            </div>
           </div>
           <div class="mt-1">
             <span class="text-content">{!! nl2br(e($reply->content)) !!}</span>
           </div>
+          <div class="d-flex justify-content-end">
+            <div class="d-flex align-items-center me-3">
+              {{-- ボタン --}}
+              {{-- class="post-like-btn" をJSで探します --}}
+              {{-- data-url に通信先のURLを埋め込みます --}}
+              <div class="action-button">
+                <button type="button"
+                  class="btn p-0 border-0 post-like-btn"
+                  data-url="{{ route('posts.like', $reply) }}">
+
+                  {{-- アイコン：PHPで初期状態を判定 --}}
+                  @if($reply->isLikedBy(Auth::user()))
+                  {{-- いいね済み：赤色の塗りつぶし --}}
+                  <i class="fa-solid fa-heart fa-lg text-danger post-like-icon"></i>
+                  @else
+                  {{-- 未いいね：灰色の枠線 --}}
+                  <i class="fa-regular fa-heart fa-lg text-secondary post-like-icon"></i>
+                  @endif
+                </button>
+                {{-- いいね数 --}}
+                <span class="ms-2 post-like-count">
+                  {{ $reply->likes()->count() }}
+                </span>
+              </div>
+              @if (Auth::id() === $post->user_id)
+              <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#delete-reply-modal-{{ $reply->id }}">
+                <img src="{{ asset('img/delete.png') }}" class="delete-img me-3">
+              </button>
+              <x-modals.delete-modal name="投稿" :action="route('posts.destroy',$reply->id)" :post="$reply" type="reply" />
+              @endif
+            </div>
+          </div>
         </div>
         @endforeach
         @else
-        <div class="text-muted small p-2">返信はまだありません</div>
-        @endif
+          <div class="text-muted small p-2">返信はまだありません</div>
+          @endif
 
-        {{-- ここに「この投稿に返信するボタン」を置くのも一般的です --}}
+          {{-- ここに「この投稿に返信するボタン」を置くのも一般的です --}}
 
+        </div>
       </div>
-    </div>
 
-    @endforeach
+      @endforeach
 
 
-    <div class="thread-col">
-      <div class="create-thread">
-        <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-          <img src="{{ asset('img/create.png') }}" class="create-img">
-        </button>
+      <div class="thread-col">
+        <div class="create-thread">
+          <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            <img src="{{ asset('img/create.png') }}" class="create-img">
+          </button>
+        </div>
+        <x-modals.create-post :thread='$thread' />
       </div>
-      <x-modals.create-post :thread='$thread' />
     </div>
   </div>
 
