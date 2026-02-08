@@ -43,9 +43,7 @@
       @endif
     </div>
     @endif
-
     @foreach ($posts as $post)
-
     <div class="mx-auto post-card" x-data="{ replyOpen: false }">
       <div class="d-flex justify-content-between align-items-center">
         <div class="post-information text-break">
@@ -54,11 +52,9 @@
         </div>
         <div class="post-information">
           {{ $post->created_at->diffForHumans() }}
-
           <button type="button" class="btn btn-sm btn-link text-danger text-decoration-none post-information" data-bs-toggle="modal" data-bs-target="#reportModal-post-{{ $post->id }}">
             通報
           </button>
-
           @push('modals')<x-modals.report-modal :target_id="$post->id" type="post" />@endpush
         </div>
       </div>
@@ -74,27 +70,8 @@
           <x-modals.create-mentions :thread="$thread" :post="$post" />
         </div>
         <div class="d-flex align-items-center me-3">
-          {{-- ボタン --}}
-          {{-- class="post-like-btn" をJSで探します --}}
-          {{-- data-url に通信先のURLを埋め込みます --}}
           <div class="action-button">
-            <button type="button"
-              class="btn p-0 border-0 post-like-btn"
-              data-url="{{ route('posts.like', $post) }}">
-
-              {{-- アイコン：PHPで初期状態を判定 --}}
-              @if($post->isLikedBy(Auth::user()))
-              {{-- いいね済み：赤色の塗りつぶし --}}
-              <i class="fa-solid fa-heart fa-lg text-danger post-like-icon"></i>
-              @else
-              {{-- 未いいね：灰色の枠線 --}}
-              <i class="fa-regular fa-heart fa-lg text-secondary post-like-icon"></i>
-              @endif
-            </button>
-            {{-- いいね数 --}}
-            <span class="ms-2 post-like-count">
-              {{ $post->likes()->count() }}
-            </span>
+            <x-buttons.like-button :type="$post" />
           </div>
           <div>
             <button type="button" class="btn p-0 border-0 d-flex align-items-center ms-2" @click="replyOpen = !replyOpen">
@@ -142,23 +119,7 @@
               {{-- class="post-like-btn" をJSで探します --}}
               {{-- data-url に通信先のURLを埋め込みます --}}
               <div class="action-button">
-                <button type="button"
-                  class="btn p-0 border-0 post-like-btn"
-                  data-url="{{ route('posts.like', $reply) }}">
-
-                  {{-- アイコン：PHPで初期状態を判定 --}}
-                  @if($reply->isLikedBy(Auth::user()))
-                  {{-- いいね済み：赤色の塗りつぶし --}}
-                  <i class="fa-solid fa-heart fa-lg text-danger post-like-icon"></i>
-                  @else
-                  {{-- 未いいね：灰色の枠線 --}}
-                  <i class="fa-regular fa-heart fa-lg text-secondary post-like-icon"></i>
-                  @endif
-                </button>
-                {{-- いいね数 --}}
-                <span class="ms-2 post-like-count">
-                  {{ $reply->likes()->count() }}
-                </span>
+                <x-buttons.like-button :type="$reply" />
               </div>
               @if (Auth::id() === $post->user_id)
               <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#delete-reply-modal-{{ $reply->id }}">
@@ -171,32 +132,29 @@
         </div>
         @endforeach
         @else
-          <div class="text-muted small p-2">返信はまだありません</div>
-          @endif
+        <div class="text-muted small p-2">返信はまだありません</div>
+        @endif
 
-          {{-- ここに「この投稿に返信するボタン」を置くのも一般的です --}}
+        {{-- ここに「この投稿に返信するボタン」を置くのも一般的です --}}
 
-        </div>
-      </div>
-
-      @endforeach
-
-
-      <div class="thread-col">
-        <div class="create-thread">
-          <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            <img src="{{ asset('img/create.png') }}" class="create-img">
-          </button>
-        </div>
-        <x-modals.create-post :thread='$thread' />
       </div>
     </div>
+
+    @endforeach
+
+
+    <div class="thread-col">
+      <div class="create-thread">
+        <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+          <img src="{{ asset('img/create.png') }}" class="create-img">
+        </button>
+      </div>
+      <x-modals.create-post :thread='$thread' />
+    </div>
+  </div>
   </div>
 
   <script>
-    // ... 既存のスレッド用コードがあるはず ...
-
-    // ★ここから追記：レス（Post）用のいいね処理
     document.querySelectorAll('.post-like-btn').forEach(button => {
       button.addEventListener('click', async function() {
         // 連打防止
