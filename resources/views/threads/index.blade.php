@@ -42,7 +42,7 @@
       <a href="{{ route('threads.show',[$board->id, $thread->id]) }}" class="thread-link">
         <div class="d-flex justify-content-between">
           <div class="post-information">
-            投稿者:{{ $thread->user->nickname }}
+            {{ $thread->user->nickname }}
 
             ・{{ $thread->created_at->diffForHumans() }}
           </div>
