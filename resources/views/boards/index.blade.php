@@ -41,32 +41,40 @@
 
             <div class="mt-3">
                 @foreach ($threads as $thread)
+
                 <div class="mx-auto thread-card">
                     <a href="{{ route('threads.show',[$thread->board->id, $thread->id]) }}" class="thread-link">
                         <div class="d-flex justify-content-between">
                             <div class="post-information">
                                 投稿者:{{ $thread->user->nickname }}
+
+                                ・{{ $thread->created_at->diffForHumans() }}
                             </div>
-                            <div class="post-information">
-                                {{ $thread->created_at}}
-                            </div>
-                        </div>
-                        <div>
                             @if ( $thread->board->university_id === $user_university->id )
                             <div class="d-flex justify-content-end post-information">
                                 {{ $user_university->name }}専用
                             </div>
                             @endif
+                        </div>
 
-                            <div class="py-2">
-                                <h5 class="title fs-6">{{ $thread->title }}</h5>
-                            </div>
+
+
+                        <div>
+                            <span class="fw-bold fs-6">{{ $thread->title }}</span>
+                        </div>
+
+                        <div class="content-preview">
+                            {{ $thread->posts->first()->content ?? '' }}
+                        </div>
                     </a>
 
+                    <div>
+                        <span class="genre-{{ $thread->board->majorcategory->id }}"> {{ Str::after($thread->board->name, '/') }}</span>
+                    </div>
                     <div class="d-flex justify-content-end">
                         {{-- head内にFontAwesomeがある前提 --}}
 
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center action-button">
                             {{-- いいねボタン --}}
                             {{-- data-thread-id: どのスレッドか --}}
                             {{-- data-liked: 今自分がいいねしてるか (true/false) --}}
@@ -79,30 +87,30 @@
                             </button>
 
                             {{-- いいね数 --}}
-                            <span class="ms-2 like-count">
+                            <span class="ms-1 like-count">
                                 {{ $thread->likes()->count() }}
                             </span>
                         </div>
-                        <div class="d-flex align-items-center ms-2">
+                        <div class="d-flex align-items-center action-button ms-2">
                             <img src="{{ asset('img/comment.png') }}" class="comment-img">
-                            <div class="ms-2"> {{ $thread->posts_count }} </div>
-
-                            <button type="button" class="btn btn-sm btn-link text-danger text-decoration-none"
-                                data-bs-toggle="modal"
-                                data-bs-target="#reportModal-thread-{{ $thread->id }}">
-                                ⚠️ 通報
-                            </button>
-
-
-                            @push('modals') <x-modals.report-modal :target_id="$thread->id" type="thread" /> @endpush
-
+                            <div class="ms-1"> {{ $thread->posts_count }} </div>
                         </div>
+
+                        <button type="button" class="btn btn-sm btn-link text-danger text-decoration-none"
+                            data-bs-toggle="modal"
+                            data-bs-target="#reportModal-thread-{{ $thread->id }}">
+                            <span class="action-button">⚠️通報</span>
+                        </button>
+
+                        @push('modals')
+                        <x-modals.report-modal :target_id="$thread->id" type="thread" />
+                        @endpush
                     </div>
                 </div>
+                @endforeach
+
             </div>
-            @endforeach
         </div>
-    </div>
     </div>
 
 
