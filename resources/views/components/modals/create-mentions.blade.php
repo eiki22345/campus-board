@@ -7,7 +7,7 @@
         <h1 class="modal-title fs-5" id="staticBackdropLabel">No.{{ $post->post_number }}への返信を作成</h1>
         <button type="button" class="btn-close ms-0" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action='{{ route('posts.mention', [$thread , $post]) }}' method="POST">
+      <form action='{{ route('posts.mention', [$thread , $post]) }}' method="POST" x-data="{ submitting: false }" @submit="submitting = true">
         @csrf
 
         <div class="modal-body">
@@ -23,7 +23,10 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
-          <button type="submit" class="btn btn-primary">作成する</button>
+          <button type="submit" class="btn btn-primary" :disabled="submitting">
+            <span x-show="!submitting">作成する</span>
+            <span x-show="submitting">作成中...</span>
+          </button>
         </div>
       </form>
     </div>

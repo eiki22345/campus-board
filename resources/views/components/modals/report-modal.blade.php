@@ -13,7 +13,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
-      <form action="{{ route('reports.store') }}" method="POST">
+      <form action="{{ route('reports.store') }}" method="POST" x-data="{ submitting: false }" @submit="submitting = true">
         @csrf
         <input type="hidden" name="{{ $type }}_id" value="{{ $target_id }}">
 
@@ -51,7 +51,10 @@
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="submit" class="btn btn-danger">通報する</button>
+          <button type="submit" class="btn btn-danger" :disabled="submitting">
+            <span x-show="!submitting">通報する</span>
+            <span x-show="submitting">送信中...</span>
+          </button>
         </div>
       </form>
     </div>
