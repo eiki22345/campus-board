@@ -152,10 +152,11 @@ class ThreadController extends Controller
 
         try {
             DB::transaction(function () use ($thread) {
+                $thread->posts()->delete();
                 $thread->delete();
             });
 
-            return redirect()->route('boards.show', $board->id)
+            return redirect()->route('threads.index', $board->id)
                 ->with('message', 'スレッドを削除しました。');
         } catch (\Exception $e) {
             Log::error($e);

@@ -60,7 +60,7 @@
         </div>
 
         <div class="content-preview">
-          {{ $thread->posts->first()->content ?? '' }}
+          {{ $thread->content ?? '' }}
         </div>
       </a>
 
@@ -101,6 +101,15 @@
         @push('modals')
         <x-modals.report-modal :target_id="$thread->id" type="thread" />
         @endpush
+
+        @if (Auth::id() === $thread->user_id)
+        <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#delete-thread-modal-{{ $thread->id }}">
+          <img src="{{ asset('img/delete.png') }}" class="delete-img me-3">
+        </button>
+        @push('modals')
+        <x-modals.delete-modal name="トピック" :action="route('threads.destroy',[$board->id,$thread->id,])" :post="$thread" type="thread" />
+        @endpush
+        @endif
       </div>
     </div>
     @endforeach
