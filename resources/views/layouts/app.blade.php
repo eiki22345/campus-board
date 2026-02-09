@@ -81,6 +81,25 @@
              }
          });
      </script>
+
+     @if ($errors->has('title') || $errors->has('content'))
+     <script>
+         document.addEventListener('DOMContentLoaded', function() {
+             var myModal = new bootstrap.Modal(document.getElementById('createThreadModal'));
+             myModal.show();
+         });
+     </script>
+     @endif
+
+     @if ($errors->has('content'))
+     <script>
+         document.addEventListener('DOMContentLoaded', function() {
+             var myModal = new bootstrap.Modal(document.getElementById('createPostModal'));
+             myModal.show();
+         });
+     </script>
+     @endif
+
  </body>
 
  </html>

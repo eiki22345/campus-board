@@ -1,11 +1,11 @@
 @props(['board'])
 
 
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="createThreadModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createThreadModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">トピックを作成する</h1>
+        <h1 class="modal-title fs-5" id="createThreadModalLabel">トピックを作成する</h1>
         <button type="button" class="btn-close ms-0" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form action='{{ route('threads.store', $board ) }}' method="POST" x-data="{ submitting: false }" @submit="submitting = true">
