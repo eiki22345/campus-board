@@ -24,7 +24,7 @@
           <h1 class="text-center auth-form-heading mt-5">
             アカウントを作成
           </h1>
-          <form action="{{ route('register') }}" method="POST">
+          <form action="{{ route('register') }}" method="POST" x-data="{ submitting: false }" @submit="submitting = true">
             @csrf
 
             <div class="form-group mt-4">
@@ -88,8 +88,18 @@
               <label for="agree" class="col-form-label"><span>利用規約</span>に同意する</label>
             </div>
             <div class="d-flex justify-content-center">
-              <button type="submit" class="register-link d-flex justify-content-center mb-5 px-5 w-100">
-                <h3 class="py-2 text-center register-link-text text-white">新規登録</h3>
+              <button type="submit" class="register-link d-flex justify-content-center mb-5 px-5 w-100" :disabled="submitting">
+                <span x-show="!submitting">
+                  <h3 class="py-2 text-center register-link-text text-white">新規登録</h3>
+                </span>
+
+                {{-- 送信中の表示（Bootstrapのスピナーを使用） --}}
+                <span x-show="submitting">
+                  <div class="d-flex align-items-center justify-content-center py-2">
+                    <span class="spinner-border spinner-border-sm me-2 text-white" role="status" aria-hidden="true"></span>
+                    <h3 class="register-link-text text-white mb-0">登録中...</h3>
+                  </div>
+                </span>
               </button>
             </div>
           </form>
