@@ -1,10 +1,10 @@
 @props(['name','action','post', 'type'])
 
-<div class="modal fade" id="delete-{{ $type }}-modal-{{ $post->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="delete-{{ $type }}-modal-{{ $post->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delete-{{$type }}-{{ $post->id }}Label" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5 ms-1" id="staticBackdropLabel">{{ $name }}を削除する</h1>
+        <h1 class="modal-title fs-5 ms-1" id="delete-{{$type }}-{{ $post->id }}Label">{{ $name }}を削除する</h1>
         <button type="button" class="btn-close ms-0" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form action="{{ $action }}" method="POST" x-data="{ submitting: false }" @submit="submitting = true">

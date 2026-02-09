@@ -32,6 +32,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/boards/{board}/threads/{thread}', 'show')->name('threads.show');
     Route::post('/boards/threads/{board}', 'store')->name('threads.store');
     Route::post('/threads/{thread}/like', 'toggleLike')->name('threads.like');
+    Route::delete('/boards/{board}/threads/{thread}', 'destroy')->name('threads.destroy');
   });
 
   Route::controller(PostController::class)->group(function () {
