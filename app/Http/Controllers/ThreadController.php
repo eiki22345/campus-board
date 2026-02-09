@@ -10,6 +10,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class ThreadController extends Controller
 {
@@ -63,7 +65,7 @@ class ThreadController extends Controller
 
         $validated = $request->validate([
             'title' => 'required|max:50',
-            'content' => 'required|max:500',
+            'content' => 'required|max:150',
         ]);
 
         $user = Auth::user();
@@ -72,17 +74,26 @@ class ThreadController extends Controller
             abort(403, '他大学の掲示板に書き込めません。');
         }
 
-        $thread = new Thread();
-        $thread->title = $validated['title'];
-        $thread->content = $validated['content'];
-        $thread->board_id = $board->id;
-        $thread->user_id = Auth::id();
-        $thread->ip_address = $request->ip();
+        try {
 
+            $new_thread = DB::transaction(function () use ($request, $validated, $board, $user) {
+                $thread = new Thread();
+                $thread->title = $validated['title'];
+                $thread->content = $validated['content'];
+                $thread->board_id = $board->id;
+                $thread->user_id = $user->id;
+                $thread->ip_address = $request->ip();
+                $thread->save();
 
-        $thread->save();
+                return $thread;
+            });
 
-        return redirect()->route('threads.show', [$board->id, $thread->id])->with('message', 'スレッドを作成しました。');
+            return redirect()->route('threads.show', [$board->id, $new_thread->id])
+                ->with('message', 'スレッドを作成しました。');
+        } catch (\Exception $e) {
+            Log::error($e);
+            return back()->withInput()->with('error', 'スレッドの作成に失敗しました。');
+        }
     }
 
     public function show(Board $board, Thread $thread, Request $request)
@@ -129,15 +140,27 @@ class ThreadController extends Controller
         return view('threads.show', compact('major_categories', 'user_university', 'university_boards', 'common_boards', 'board', 'thread', 'posts', 'keyword', 'sort'));
     }
 
-    public function destroy(Post $post)
+    public function destroy(Board $board, Thread $thread)
     {
-        if ($post->user_id !== Auth::id()) {
-            abort(403, 'この投稿を削除する権限がありません。');
+        if ($board->id !== $thread->board_id) {
+            abort(404);
         }
 
-        $post->delete();
+        if ($thread->user_id !== Auth::id()) {
+            abort(403, '削除権限がありません。');
+        }
 
-        return back()->with('message', '投稿を削除しました。');
+        try {
+            DB::transaction(function () use ($thread) {
+                $thread->delete();
+            });
+
+            return redirect()->route('boards.show', $board->id)
+                ->with('message', 'スレッドを削除しました。');
+        } catch (\Exception $e) {
+            Log::error($e);
+            return back()->with('error', 'スレッドの削除に失敗しました。時間をおいて再度お試しください。');
+        }
     }
 
     // メソッドを追加

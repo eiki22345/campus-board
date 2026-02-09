@@ -7,6 +7,7 @@ use App\Models\Thread;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
@@ -15,7 +16,7 @@ class PostController extends Controller
 
 
         $validated = $request->validate([
-            'content' => 'required|max:500',
+            'content' => 'required|max:300',
         ]);
 
         $parent_post = $post;
@@ -33,25 +34,30 @@ class PostController extends Controller
             abort(403, '他大学の掲示板に書き込むことはできません。');
         }
 
-        DB::transaction(function () use ($request, $validated, $thread, $user, $parent_post) {
-            $max_post_number = Post::where('thread_id', $thread->id)->lockForUpdate()->max('post_number');
+        try {
+            DB::transaction(function () use ($request, $validated, $thread, $user, $parent_post) {
+                $max_post_number = Post::where('thread_id', $thread->id)->lockForUpdate()->max('post_number');
 
-            $next_post_number = ($max_post_number ?? 0) + 1;
+                $next_post_number = ($max_post_number ?? 0) + 1;
 
 
-            $new_post = new Post();
-            $new_post->thread_id = $thread->id;
-            $new_post->user_id = $user->id;
-            $new_post->post_number = $next_post_number;
-            $new_post->content = $validated['content'];
-            $new_post->ip_address = $request->ip();
-            $new_post->save();
+                $new_post = new Post();
+                $new_post->thread_id = $thread->id;
+                $new_post->user_id = $user->id;
+                $new_post->post_number = $next_post_number;
+                $new_post->content = $validated['content'];
+                $new_post->ip_address = $request->ip();
+                $new_post->save();
 
-            if ($parent_post) {
-                $new_post->parents()->attach($parent_post->id);
-            }
-        });
-        return redirect()->route('threads.show', [$board->id, $thread->id])->with('message', 'メッセージを作成しました。');
+                if ($parent_post) {
+                    $new_post->parents()->attach($parent_post->id);
+                }
+            });
+            return redirect()->route('threads.show', [$board->id, $thread->id])->with('message', '投稿を作成しました。');
+        } catch (\Exception $e) {
+            Log::error($e); // ログに記録
+            return back()->withInput()->with('error', '投稿に失敗しました。時間をおいて再度お試しください。');
+        }
     }
 
     public function toggleLike(Post $post)
@@ -83,24 +89,30 @@ class PostController extends Controller
             abort(403, '他人の投稿は削除できません。');
         }
 
-        DB::transaction(function () use ($post) {
-            $this->deleteWithReplies($post);
-        });
+        try {
 
-        return redirect()->route('threads.show', [$board->id, $thread->id])->with('message', '投稿を削除しました。');
+            DB::transaction(function () use ($post) {
+                $this->deleteWithReplies($post);
+            });
+
+            return redirect()->route('threads.show', [$board->id, $thread->id])->with('message', '投稿を削除しました。');
+        } catch (\Exception $e) {
+            Log::error($e);
+
+            return back()->with('error', '削除に失敗しました。時間をおいて再度お試しください。');
+        }
     }
 
-    // 再帰的に子投稿も削除
     private function deleteWithReplies(Post $post)
     {
-        // この投稿へのリプライを取得
-        $replyIds = DB::table('post_mentions')
+
+        $reply_ids = DB::table('post_mentions')
             ->where('parent_post_id', $post->id)
             ->pluck('post_id');
 
         // 子投稿を再帰的に削除
-        foreach ($replyIds as $replyId) {
-            $reply = Post::find($replyId);
+        foreach ($reply_ids as $reply_id) {
+            $reply = Post::find($reply_id);
             if ($reply) {
                 $this->deleteWithReplies($reply);
             }
