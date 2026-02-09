@@ -36,14 +36,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/boards/{board}/threads', 'index')->middleware('throttle:30,1')->name('threads.index');
     Route::get('/boards/{board}/threads/{thread}', 'show')->middleware('throttle:30,1')->name('threads.show');
     Route::post('/boards/threads/{board}', 'store')->middleware('throttle:5,1')->name('threads.store');
-    Route::post('/threads/{thread}/like', 'toggleLike')->middleware('throttle:10,1')->name('threads.like');
+    Route::post('/threads/{thread}/like', 'toggleLike')->middleware('throttle:15,1')->name('threads.like');
     Route::delete('/boards/{board}/threads/{thread}', 'destroy')->middleware('throttle:3,1')->name('threads.destroy');
   });
 
   Route::controller(PostController::class)->group(function () {
-    Route::post('/threads/{thread}/posts', 'store')->middleware('throttle:10,1')->name('posts.store');
-    Route::post('/posts/{post}/like', 'toggleLike')->middleware('throttle:10,1')->name('posts.like');
-    Route::post('/threads/{thread}/posts/{post}', 'store')->middleware('throttle:10,1')->name('posts.mention');
+    Route::post('/threads/{thread}/posts', 'store')->middleware('throttle:15,1')->name('posts.store');
+    Route::post('/posts/{post}/like', 'toggleLike')->middleware('throttle:15,1')->name('posts.like');
+    Route::post('/threads/{thread}/posts/{post}', 'store')->middleware('throttle:15,1')->name('posts.mention');
     Route::delete('/posts/{post}', 'destroy')->middleware('throttle:3,1')->name('posts.destroy');
   });
 
