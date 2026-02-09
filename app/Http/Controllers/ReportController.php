@@ -8,11 +8,7 @@ use App\Models\Thread;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
-
-
-
-
+use Illuminate\Support\Facades\Log;
 
 class ReportController extends Controller
 {
@@ -55,27 +51,32 @@ class ReportController extends Controller
             $finalReason = 'その他: ' . $request->reason_detail;
         }
 
-        DB::transaction(function () use ($request, $finalReason, $target_type, $target_id,) {
-            Report::create([
-                'user_id' => Auth::id(),
-                'post_id' => $request->post_id,
-                'thread_id' => $request->thread_id,
-                'reason' => $finalReason,
-            ]);
+        try {
+            DB::transaction(function () use ($request, $finalReason, $target_type, $target_id,) {
+                Report::create([
+                    'user_id' => Auth::id(),
+                    'post_id' => $request->post_id,
+                    'thread_id' => $request->thread_id,
+                    'reason' => $finalReason,
+                ]);
 
-            // 5件で削除のロジック
-            $thres_hold = 5;
-            if ($target_type === 'post') {
-                if (Report::where('post_id', $target_id)->count() >= $thres_hold) {
-                    Post::find($target_id)->delete();
+                // 5件で削除のロジック
+                $thres_hold = 5;
+                if ($target_type === 'post') {
+                    if (Report::where('post_id', $target_id)->count() >= $thres_hold) {
+                        Post::find($target_id)->delete();
+                    }
+                } else {
+                    if (Report::where('thread_id', $target_id)->count() >= $thres_hold) {
+                        Thread::find($target_id)->delete();
+                    }
                 }
-            } else {
-                if (Report::where('thread_id', $target_id)->count() >= $thres_hold) {
-                    Thread::find($target_id)->delete();
-                }
-            }
-        });
+            });
 
-        return back()->with('success', '報告を受け付けました。');
+            return back()->with('success', '報告を受け付けました。');
+        } catch (\Exception $e) {
+            Log::error($e);
+            return back()->with('error', '処理に失敗しました。既に削除されているか、システムエラーの可能性があります。');
+        }
     }
 }
