@@ -24,7 +24,7 @@
                     キーワードを変えて検索するか、<br>
                     カテゴリから探してみてください。
                 </p>
-                <a href="{{ route('dashboard') }}" class="inline-block px-6 py-2 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition">
+                <a href="{{ route('dashboard') }}" class="inline-block px-6 py-2 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition prevent-double-click">
                     トップページに戻る
                 </a>
                 @else
@@ -43,7 +43,7 @@
                 @foreach ($threads as $thread)
 
                 <div class="mx-auto thread-card">
-                    <a href="{{ route('threads.show',[$thread->board->id, $thread->id]) }}" class="thread-link">
+                    <a href="{{ route('threads.show',[$thread->board->id, $thread->id]) }}" class="thread-link prevent-double-click">
                         <div class="d-flex justify-content-between">
                             <div class="post-information">
                                 {{ $thread->user->nickname }}

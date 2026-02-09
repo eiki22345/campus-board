@@ -41,7 +41,7 @@
                     <form action="{{ route('verification.send') }}" method="POST">
                         @csrf
                         <div class="d-flex justify-content-center">
-                            <button class="register-link d-flex justify-content-center mb-5 px-5">
+                            <button type="submit" class="register-link d-flex justify-content-center mb-5 px-5">
                                 <h3 class="py-2 text-center login-link-text text-white">メールを再送信</h3>
                             </button>
                         </div>

@@ -9,12 +9,12 @@
  <div class="col-md-8 header-img-container mx-auto">
    <img src="{{ asset('img/header.png') }}" class="w-100">
    <div class="header-text-overlay">
-     <a href="{{ route('dashboard') }}" class="header-text-link">
+     <a href="{{ route('dashboard') }}" class="header-text-link prevent-double-click">
        <h1 class="header-text" data-text="STUDENT BBS">STUDENT BBS</h1>
        <h1 class="header-text" data-text="CAMPUS BOARD">CAMPUS BOARD</h1>
      </a>
    </div>
-   <a class="board-index-offcanvas-link" data-bs-toggle="offcanvas" href="#offcanvasTop" role="button" aria-controls="offcanvasTop">
+   <a class="board-index-offcanvas-link prevent-double-click" data-bs-toggle="offcanvas" href="#offcanvasTop" role="button" aria-controls="offcanvasTop">
      <img class="offcanvas-img" src="{{ asset('img/offcanvas.png') }}">
    </a>
    <div class="offcanvas offcanvas-top board-index-offcanvas col-md-7 text-white fw-bold mx-auto" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
@@ -24,16 +24,14 @@
 
            <button type="button" class="btn-close mt-3" data-bs-dismiss="offcanvas" aria-label="Close"></button>
          </div>
-         <a href="#"
-           class="board-index-offcanvas-a"
-           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+         <a href="#" class="board-index-offcanvas-a prevent-double-click" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
            <div>ログアウト</div>
          </a>
 
          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
            @csrf
          </form>
-         <a href="#" class="board-index-offcanvas-a">
+         <a href="#" class="board-index-offcanvas-a prevent-double-click">
            <div>ユーザー設定</div>
          </a>
 
@@ -90,7 +88,7 @@
                          <div class="accordion-body p-0">
                            <div class="d-flex flex-column">
                              @foreach ($my_boards as $board)
-                             <a href="{{ route('threads.index', $board->id) }}" class="board-index-offcanvas-a board-index-accordion-a list-group-item mb-2 fw-bold">
+                             <a href="{{ route('threads.index', $board->id) }}" class="board-index-offcanvas-a board-index-accordion-a list-group-item mb-2 fw-bold prevent-double-click">
                                {{ Str::after($board->name, '/') }}
                              </a>
                              @endforeach
@@ -153,7 +151,7 @@
                          <div class="accordion-body p-0 mt-3">
                            <div class="d-flex flex-column">
                              @foreach ($my_common_boards as $board)
-                             <a href="{{ route('threads.index', $board->id) }}" class="board-index-offcanvas-a board-index-accordion-a list-group-item mb-2 fw-bold">
+                             <a href="{{ route('threads.index', $board->id) }}" class="board-index-offcanvas-a board-index-accordion-a list-group-item mb-2 fw-bold prevent-double-click">
                                {{ $board->name }}
                              </a>
                              @endforeach

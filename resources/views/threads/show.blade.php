@@ -14,11 +14,11 @@
 
     <div class="post-top ms-2 mt-3">
       <div class="mb-3">
-        <a href="{{ route('dashboard') }}">
+        <a href="{{ route('dashboard') }}" class="prevent-double-click">
           TOP
         </a>
         >
-        <a href="{{ route('threads.index', $board->id ) }}">
+        <a href="{{ route('threads.index', $board->id ) }}" class="prevent-double-click">
           {{ $board->name }}
         </a>
         >コメント
@@ -35,7 +35,7 @@
     <div class="text-center py-5 text-gray-500">
       @if(!empty($keyword))
       <p>キーワード「{{ $keyword }}」を含むコメントは見つかりませんでした。</p>
-      <a href="{{ route('threads.show', [$board->id, $thread->id]) }}" class="text-blue-500 hover:underline">
+      <a href="{{ route('threads.show', [$board->id, $thread->id]) }}" class="text-blue-500 hover:underline prevent-double-click">
         全てのコメントを表示する
       </a>
       @else
