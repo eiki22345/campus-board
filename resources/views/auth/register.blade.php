@@ -55,19 +55,20 @@
             </div>
 
             <div class="form-group ps-2 ">
-              <a href="#" class=" index-added-university">
+              <a href="#" class="index-added-university prevent-double-click">
                 <p class="mb-0 mt-1">対応大学一覧はこちら</p>
               </a>
             </div>
 
             <div class="form-group ps-2">
-              <a href="#" class="add-university-request ">
+              <a href="#" class="add-university-request prevent-double-click">
                 <p class="mb-0">リストにない大学の追加リクエストはこちら</p>
               </a>
             </div>
 
             <div class="form-group">
-              <label for="password" class="col-form-label ps-2">パスワード</label>
+              <label for="password" class="col-form-label ps-2 mt-1">パスワード<small class="text-muted ps-2">※8文字以上、英字と数字を含めてください</small></label>
+
               <input id="password" type="password" class="form-control @error('password') is-invalid  @enderror hokkai-board-register-input py-2" name="password" required autocomplete="new-password" autofocus placeholder="パスワード">
 
               @error('password')
@@ -83,11 +84,11 @@
             </div>
 
             <div class="form-group mt-1 ps-2">
-              <input type="checkbox" name="agree" class="ms-2">
+              <input type="checkbox" name="agree" class="ms-2" {{ old('agree') ? 'checked' : '' }}>
               <label for="agree" class="col-form-label"><span>利用規約</span>に同意する</label>
             </div>
             <div class="d-flex justify-content-center">
-              <button class="register-link d-flex justify-content-center mb-5 px-5 w-100">
+              <button type="submit" class="register-link d-flex justify-content-center mb-5 px-5 w-100">
                 <h3 class="py-2 text-center register-link-text text-white">新規登録</h3>
               </button>
             </div>

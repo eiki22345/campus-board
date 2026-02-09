@@ -14,7 +14,7 @@
     <x-link-button.support-link-button :sort='$sort' />
 
     <div class="mb-2 ms-2 mt-2">
-      <a href="{{ route('dashboard') }}">
+      <a href="{{ route('dashboard') }}" class="prevent-double-click">
         TOP
       </a>
       >{{ $board->name }}
@@ -25,7 +25,7 @@
       @if(!empty($keyword))
       <p class="text-gray-500 mb-2">キーワード「{{ $keyword }}」に一致するスレッドは見つかりませんでした。</p>
       <div class="space-y-2">
-        <a href="{{ route('threads.index', $board) }}" class="text-blue-500 hover:underline block">
+        <a href="{{ route('threads.index', $board) }}" class="text-blue-500 hover:underline block prevent-double-click">
           全てのスレッドを表示する
         </a>
       </div>
@@ -39,7 +39,7 @@
     @foreach ($threads as $thread)
 
     <div class="mx-auto thread-card">
-      <a href="{{ route('threads.show',[$board->id, $thread->id]) }}" class="thread-link">
+      <a href="{{ route('threads.show',[$board->id, $thread->id]) }}" class="thread-link prevent-double-click">
         <div class="d-flex justify-content-between">
           <div class="post-information">
             {{ $thread->user->nickname }}
