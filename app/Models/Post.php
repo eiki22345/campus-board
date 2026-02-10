@@ -71,4 +71,17 @@ class Post extends Model
     {
         return $this->hasMany(Report::class);
     }
+
+    public function getHashIdAttribute()
+    {
+        if (!$this->user_id) {
+            return 'Guest';
+        }
+
+        $salt = config('app.key');
+
+        $seed = $this->thread_id . $this->user_id . $salt;
+
+        return substr(strtoupper(md5($seed)), 0, 8);
+    }
 }
