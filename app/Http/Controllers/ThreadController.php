@@ -12,6 +12,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use App\Rules\NoInappropriateWords;
 
 class ThreadController extends Controller
 {
@@ -64,8 +65,8 @@ class ThreadController extends Controller
     {
 
         $validated = $request->validate([
-            'title' => 'required|max:50',
-            'content' => 'required|max:150',
+            'title' => ['required', 'string', 'max:50', new NoInappropriateWords],
+            'content' =>  ['required', 'string', 'max:1000', new NoInappropriateWords],
         ]);
 
         $user = Auth::user();

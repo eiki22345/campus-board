@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Rules\NoInappropriateWords;
 
 class PostController extends Controller
 {
@@ -16,7 +17,7 @@ class PostController extends Controller
 
 
         $validated = $request->validate([
-            'content' => 'required|max:300',
+            'content' => ['required', 'string', 'max:1000', new NoInappropriateWords],
         ]);
 
         $parent_post = $post;
