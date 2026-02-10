@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'yahoo' => [
+        'client_id' => env('YAHOO_CLIENT_ID'),
+    ],
+
 ];
