@@ -24,7 +24,7 @@
         >コメント
       </div>
       <div>
-        <p class="post-information mb-0">作成者:{{ $thread->user->nickname }}・{{ $thread->created_at->diffForHumans() }}</p>
+        <p class="post-information mb-0">作成者:{{ $post->user->nickname ?? '退会済みユーザー' }}・{{ $thread->created_at->diffForHumans() }}</p>
         <span class="fs-6 fw-bold">{{ $thread->title }}</span>
         <p class="text-content mt-2">>>{{ $thread->content }}</p>
         <hr>
@@ -47,10 +47,11 @@
     <div class="mx-auto post-card" x-data="{ replyOpen: false }">
       <div class="d-flex justify-content-between align-items-center">
         <div class="post-information text-break">
-          No.{{ $post->post_number}}
-          {{ $post->user->nickname }}
+          {{ $post->post_number}}
+          {{ $post->user->nickname ?? '退会済みユーザー' }}
+          ID:{{ $post->hash_id }}
         </div>
-        <div class="post-information">
+        <div class="post-information d-flex align-items-center">
           {{ $post->created_at->diffForHumans() }}
           <button type="button" class="btn btn-sm btn-link text-danger text-decoration-none post-information" data-bs-toggle="modal" data-bs-target="#reportModal-post-{{ $post->id }}">
             通報
@@ -62,7 +63,7 @@
       <div class="pt-1">
         <span class="text-content">{{ $post->content }}</span>
       </div>
-      <div class="d-flex justify-content-between">
+      <div class="d-flex justify-content-between mt-2">
         <div class="d-flex align-items-center mb-1">
           <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#replyModal-{{ $post->id }}">
             <span class="action-button">返信</span>
@@ -100,7 +101,11 @@
         @foreach ($post->replies as $reply)
         <div class="bg-light p-2 mb-2 rounded">
           <div class="d-flex justify-content-between small text-muted">
-            <span class="post-information">{{ $reply->user->nickname }}</span>
+            <div>
+              {{ $reply->post_number}}
+              <span class="post-information">{{ $reply->user->nickname }}</span>
+              ID:{{ $reply->hash_id}}
+            </div>
             <div>
               <span class="post-information">{{ $reply->created_at->diffForHumans() }}</span>
               <button type="button" class="btn btn-sm btn-link text-danger text-decoration-none post-information" data-bs-toggle="modal" data-bs-target="#reportModal-post-{{ $reply->id }}">
