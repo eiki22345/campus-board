@@ -12,6 +12,7 @@
      <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
      <link rel="manifest" href="{{ asset('manifest.json') }}">
      <link href="{{ asset('css/style.css')}}" rel="stylesheet">
+     @vite(['resources/js/app.js'])
  </head>
 
  <body>
