@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Rules\NoInappropriateWords;
+use App\Events\PostCreated;
 
 class PostController extends Controller
 {
@@ -53,8 +54,10 @@ class PostController extends Controller
                 if ($parent_post) {
                     $new_post->parents()->attach($parent_post->id);
                 }
+                \App\Events\PostCreated::dispatch($new_post);
             });
-            return redirect()->route('threads.show', [$board->id, $thread->id])->with('message', '投稿を作成しました。');
+
+            return back()->with('message', '投稿を作成しました。');
         } catch (\Exception $e) {
             Log::error($e); // ログに記録
             return back()->withInput()->with('error', '投稿に失敗しました。時間をおいて再度お試しください。');

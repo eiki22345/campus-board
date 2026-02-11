@@ -12,11 +12,14 @@ use Illuminate\Database\Eloquent\SoftDeletes; // ★論理削除用
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Sanctum\HasApiTokens; // APIを使う場合に備えて残しておく
+use Filament\Models\Contracts\HasName;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, HasName, FilamentUser
 {
-    use  HasFactory, Notifiable, SoftDeletes; // ★SoftDeletesを追加
+    use  HasFactory, Notifiable, SoftDeletes;
 
     protected $fillable = [
         'nickname',
@@ -61,5 +64,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function subscriptions(): HasMany
     {
         return $this->hasMany(Subscription::class);
+    }
+
+    public function getFilamentName(): string
+    {
+        return (string) $this->nickname;
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->role === 1;
     }
 }
