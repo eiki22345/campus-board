@@ -105,6 +105,18 @@ class ThreadController extends Controller
 
         $user = auth()->user();
 
+        if ($user) {
+            \App\Models\BrowsingHistory::updateOrCreate(
+                [
+                    'user_id' => $user->id,
+                    'thread_id' => $thread->id,
+                ],
+                [
+                    'accessed_at' => now(),
+                ]
+            );
+        }
+
         $user_university = $user->university;
 
         $university_boards = Board::where('university_id', $user->university_id)->get();

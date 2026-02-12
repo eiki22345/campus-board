@@ -79,6 +79,30 @@
             @endif
           </div>
         </div>
+
+        <div class="card mt-4">
+          <div class="card-header bg-white">
+            🕒 最近見たスレッド
+          </div>
+          <div class="list-group list-group-flush">
+            @if(Auth::user()->viewedThreads->isEmpty())
+            <div class="list-group-item text-center text-muted py-4">
+              閲覧履歴はありません
+            </div>
+            @else
+            @foreach(Auth::user()->viewedThreads->take(5) as $thread)
+            <a href="{{ route('threads.show', [$thread->board_id, $thread->id]) }}" class="list-group-item list-group-item-action">
+              <div class="d-flex w-100 justify-content-between">
+                <h6 class="mb-1 text-dark">{{ $thread->title }}</h6>
+                <small class="text-muted">
+                  {{ \Carbon\Carbon::parse($thread->pivot->accessed_at)->diffForHumans() }}
+                </small>
+              </div>
+            </a>
+            @endforeach
+            @endif
+          </div>
+        </div>
       </div>
     </div>
   </div>

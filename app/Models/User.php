@@ -82,4 +82,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasName, Filament
             ->withTimestamps()
             ->orderByPivot('created_at', 'desc');
     }
+
+    public function viewedThreads()
+    {
+        return $this->belongsToMany(Thread::class, 'browsing_histories', 'user_id', 'thread_id')
+            ->withPivot('accessed_at')
+            ->orderByPivot('accessed_at', 'desc');
+    }
 }
