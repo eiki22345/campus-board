@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\View;
+use App\Http\View\Composers\HeaderComposer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,9 +24,11 @@ class AppServiceProvider extends ServiceProvider
     {
         Password::defaults(function () {
             return Password::min(8)
-                ->letters()       // 英字必須
-                ->numbers()       // 数字必須
-                ->uncompromised(); // 漏洩パスワード禁止
+                ->letters()
+                ->numbers()
+                ->uncompromised();
         });
+
+        View::composer('*', HeaderComposer::class);
     }
 }

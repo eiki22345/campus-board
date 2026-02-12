@@ -75,4 +75,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasName, Filament
     {
         return $this->role === 1;
     }
+
+    public function subscribedThreads()
+    {
+        return $this->belongsToMany(Thread::class, 'thread_subscriptions', 'user_id', 'thread_id')
+            ->withTimestamps()
+            ->orderByPivot('created_at', 'desc');
+    }
 }

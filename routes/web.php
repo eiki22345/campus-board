@@ -9,6 +9,8 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ThreadSubscriptionController;
 
 
 Route::controller(WelcomeController::class)->group(function () {
@@ -58,4 +60,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('users/mypage/password/edit', 'edit_password')->middleware('throttle:30,1')->name('mypage.edit_password');
     Route::put('users/mypage/password', 'update_password')->middleware('throttle:3,1')->name('mypage.update_password');
   });
+
+  Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])
+    ->name('notifications.read');
+
+  Route::post('/threads/{thread}/subscribe', [ThreadSubscriptionController::class, 'toggle'])
+    ->name('threads.subscribe');
 });

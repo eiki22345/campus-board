@@ -7,7 +7,7 @@
       </a>
     </div>
     <div class="col-4 board-index-icon">
-      <a class="board-index-icon-link prevent-double-click" data-bs-toggle="offcanvas" href="#offcanvasTop" role="button" aria-controls="offcanvasTop">
+      <a class="board-index-icon-link" data-bs-toggle="offcanvas" href="#offcanvasTop" role="button" aria-controls="offcanvasTop">
         <img src="{{ asset('img/university.png') }}" class="board-index-icon-img">
         <p class="text-center fw-bold mb-0">ジャンル一覧</p>
       </a>
