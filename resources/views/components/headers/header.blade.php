@@ -14,7 +14,7 @@
        <h1 class="header-text" data-text="CAMPUS BOARD">CAMPUS BOARD</h1>
      </a>
    </div>
-   <a class="board-index-offcanvas-link prevent-double-click" data-bs-toggle="offcanvas" href="#offcanvasTop" role="button" aria-controls="offcanvasTop">
+   <a class="board-index-offcanvas-link" data-bs-toggle="offcanvas" href="#offcanvasTop" role="button" aria-controls="offcanvasTop">
      <img class="offcanvas-img" src="{{ asset('img/offcanvas.png') }}">
    </a>
    <div class="offcanvas offcanvas-top board-index-offcanvas col-md-7 text-white fw-bold mx-auto" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
@@ -24,6 +24,24 @@
 
            <button type="button" class="btn-close mt-3" data-bs-dismiss="offcanvas" aria-label="Close"></button>
          </div>
+
+         <a href="{{ route('mypage') }}" class="d-flex align-items-center board-index-offcanvas-a prevent-double-click">
+
+           {{-- 文字を基準にバッジを配置するためのラッパー --}}
+           <div class="position-relative">
+             <span>お知らせ</span>
+
+             {{-- 未読がある場合のみバッジを表示 --}}
+             @if(isset($unread_count) && $unread_count > 0)
+             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+               {{-- 99件以上は '99+' と表示 --}}
+               {{ $unread_count > 99 ? '99+' : $unread_count }}
+               <span class="visually-hidden">未読のお知らせ</span>
+             </span>
+             @endif
+           </div>
+         </a>
+
          <a href="#" class="board-index-offcanvas-a prevent-double-click" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
            <div>ログアウト</div>
          </a>
@@ -31,9 +49,13 @@
          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
            @csrf
          </form>
+
+
          <a href="#" class="board-index-offcanvas-a prevent-double-click">
            <div>ユーザー設定</div>
          </a>
+
+
 
          <hr>
 
