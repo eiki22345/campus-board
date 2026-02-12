@@ -13,7 +13,7 @@ class BrowsingHistory extends Model
         'accessed_at' => 'datetime',
     ];
 
-    public $timestanps = false;
+    public $timestamps = false;
 
     public function user(): BelongsTo
     {
