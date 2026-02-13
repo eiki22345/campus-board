@@ -27,13 +27,13 @@
       </a>
     </div>
     <div class="col-4 board-index-icon py-1">
-      <a href="#" class="board-index-icon-link prevent-double-click">
+      <a href="{{ route('mypage') }}" class="board-index-icon-link prevent-double-click">
         <img src="{{ asset('img/history.png') }}" class="board-index-icon-img">
         <p class="text-center fw-bold mb-0">履歴</p>
       </a>
     </div>
     <div class="col-4 board-index-icon py-1">
-      <a href="{{ route('mypage') }}" class="board-index-icon-link prevent-double-click">
+      <a href="{{ route('users.edit') }}" class="board-index-icon-link prevent-double-click">
         <img src="{{ asset('img/system.png') }}" class="board-index-icon-img">
         <p class="text-center fw-bold mb-0">設定</p>
       </a>

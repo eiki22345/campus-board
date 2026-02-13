@@ -53,13 +53,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/report', 'store')->middleware('throttle:5,1')->name('reports.store');
   });
 
-  Route::controller(UserController::class, 'mypage')->group(function () {
-    Route::get('users/mypage', 'mypage')->middleware('throttle:30,1')->name('mypage');
-    Route::get('users/mypage/edit', 'edit')->middleware('throttle:30,1')->name('mypage.edit');
-    Route::put('users/mypage/edit', 'update')->middleware('throttle:5,1')->name('mypage.update');
-    Route::get('users/mypage/password/edit', 'edit_password')->middleware('throttle:30,1')->name('mypage.edit_password');
-    Route::put('users/mypage/password', 'update_password')->middleware('throttle:3,1')->name('mypage.update_password');
+  Route::controller(UserController::class)->group(function () {
+    Route::get('/users/mypage', 'mypage')->middleware('throttle:30,1')->name('mypage');
+    Route::get('/users/edit', 'edit')->middleware('throttle:30,1')->name('users.edit');
+    Route::patch('/users/edit', 'update')->middleware('throttle:5,1')->name('users.update');
+    Route::delete('/users/edit', 'destroy')->middleware('throttle:3,1')->name('users.destroy');
   });
+
 
   Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])
     ->name('notifications.read');
