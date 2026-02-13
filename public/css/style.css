@@ -503,6 +503,78 @@ body {
   /* X（旧Twitter）風の非常に薄い線 */
 }
 
+/* ページ全体の設定 */
+.legal-page-body {
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+/* サイドバーのデザイン */
+.legal-sidebar {
+  position: sticky;
+  top: 2rem;
+}
+
+.legal-sidebar-title {
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  padding-left: 0.5rem;
+  color: #495057;
+}
+
+.legal-menu-list {
+  border-radius: 10px;
+  overflow: hidden;
+  border: none;
+}
+
+.legal-menu-item {
+  border: none;
+  padding: 1rem 1.25rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.legal-menu-item.active {
+  background-color: #0d6efd !important;
+  border-color: #0d6efd !important;
+  color: #fff !important;
+}
+
+.legal-back-link {
+  color: #6c757d;
+  text-decoration: none;
+}
+
+.legal-back-link:hover {
+  color: #343a40;
+  text-decoration: underline;
+}
+
+/* コンテンツエリアのデザイン */
+.legal-content-card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 2.5rem;
+  min-height: 600px;
+}
+
+.legal-content-title {
+  font-weight: 700;
+  font-size: 1.75rem;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+.legal-content-placeholder {
+  color: #6c757d;
+  line-height: 1.8;
+}
+
+[x-cloak] {
+  display: none !important;
+}
 
 
 

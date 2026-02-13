@@ -66,4 +66,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
   Route::post('/threads/{thread}/subscribe', [ThreadSubscriptionController::class, 'toggle'])
     ->name('threads.subscribe');
+
+  Route::get('/legal', function () {
+    return view('legal.index');
+  })->name('legal.index');
 });

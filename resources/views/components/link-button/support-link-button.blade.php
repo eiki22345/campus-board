@@ -21,9 +21,9 @@
   </div>
   <div class="row g-0">
     <div class="col-4 board-index-icon py-1">
-      <a href="#" class="board-index-icon-link prevent-double-click">
+      <a href="{{ route('legal.index') }}" class="board-index-icon-link prevent-double-click">
         <img src="{{ asset('img/usage.png') }}" class="board-index-icon-img">
-        <p class="text-center fw-bold mb-0">使い方</p>
+        <p class="text-center fw-bold mb-0">使い方・規約</p>
       </a>
     </div>
     <div class="col-4 board-index-icon py-1">
