@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             CommonBoardSeeder::class,
             RegionSeeder::class,
             UniversitySeeder::class,
+            NgWordSeeder::class,
 
         ]);
 
