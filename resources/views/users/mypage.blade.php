@@ -1,10 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
-<header>
-  <x-headers.header :major_categories='$major_categories' :user_university=' $user_university' :university_boards='$university_boards' :common_boards='$common_boards' />
-</header>
 <main>
   <div class="container py-4">
     <div class="row">
@@ -16,9 +12,14 @@
             <a href="{{ route('users.edit') }}" class="btn btn-outline-secondary btn-sm">プロフィール編集</a>
           </div>
         </div>
+        <div>
+          <a href="{{ route('dashboard') }}" class="prevent-double-click">
+            <small class="py-2">← トップページへ戻る</small>
+          </a>
+        </div>
 
         <div class="list-group">
-          <a href="#notice" class="list-group-item list-group-item-action active">🔔 お知らせ</a>
+          <a href="#notice" class="list-group-item list-group-item-action">🔔 お知らせ</a>
           <a href="#bookmark" class="list-group-item list-group-item-action">📌 購読中のスレッド</a>
           <a href="#history" class="list-group-item list-group-item-action">🕒 閲覧履歴</a>
           <a href="#self-post" class="list-group-item list-group-item-action">📝 自分の投稿</a>
