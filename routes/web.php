@@ -20,16 +20,6 @@ Route::controller(WelcomeController::class)->group(function () {
 require __DIR__ . '/auth.php';
 
 Route::middleware(['auth', 'verified'])->group(function () {
-
-
-  Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->middleware('throttle:30,1')->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->middleware('throttle:5,1')->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->middleware('throttle:3,1')->name('profile.destroy');
-  });
-
-
-
   Route::controller(BoardController::class)->group(function () {
     Route::get('/board/index', 'index')->middleware('throttle:30,1')->name('dashboard');
   });
@@ -61,13 +51,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
   });
 
 
+
   Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])
+    ->middleware('throttle:30,1')
     ->name('notifications.read');
 
+
   Route::post('/threads/{thread}/subscribe', [ThreadSubscriptionController::class, 'toggle'])
+    ->middleware('throttle:30,1')
     ->name('threads.subscribe');
+
 
   Route::get('/legal', function () {
     return view('legal.index');
-  })->name('legal.index');
+  })->middleware('throttle:10,1')->name('legal.index');
 });

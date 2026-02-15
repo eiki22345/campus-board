@@ -300,6 +300,7 @@
   transition: transform 0.2s;
   /* ホバー時の動き用 */
   border-top: 2px solid #eff3f4;
+  border-bottom: 2px solid #eff3f4;
   /* X（旧Twitter）風の非常に薄い線 */
 }
 
@@ -575,6 +576,8 @@ body {
 [x-cloak] {
   display: none !important;
 }
+
+
 
 
 
