@@ -89,16 +89,12 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-        // Policyで権限チェック
         $this->authorize('delete', $post);
 
-        // リダイレクト先のために親スレッド情報を取得
         $thread = $post->thread;
         $board = $thread->board;
 
         try {
-            // カスケード設定をしているので、単にdeleteするだけで
-            // 関連するリプライ(post_mentions)もDB側で自動的に削除されます。
             $post->delete();
 
             return redirect()->route('threads.show', [$board->id, $thread->id])
