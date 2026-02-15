@@ -22,6 +22,13 @@ class Thread extends Model
         'ip_address'
     ];
 
+    protected static function booted()
+    {
+        static::deleting(function ($thread) {
+            $thread->posts()->get()->each->delete();
+        });
+    }
+
     public function board(): BelongsTo
     {
         return $this->belongsTo(Board::class);
