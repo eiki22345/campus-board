@@ -14,12 +14,9 @@ class Post extends Model
 
     protected $fillable = [
         'thread_id',
-        'user_id',
         'post_number',
         'content',
         'image_path',
-        'likes_count',
-        'ip_address'
     ];
 
     protected static function booted()

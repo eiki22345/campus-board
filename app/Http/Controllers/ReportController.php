@@ -53,14 +53,13 @@ class ReportController extends Controller
 
         try {
             DB::transaction(function () use ($request, $finalReason, $target_type, $target_id,) {
-                Report::create([
-                    'user_id' => Auth::id(),
-                    'post_id' => $request->post_id,
-                    'thread_id' => $request->thread_id,
-                    'reason' => $finalReason,
-                ]);
+                $report = new Report();
+                $report->user_id = Auth::id();
+                $report->post_id = $request->post_id;
+                $report->thread_id = $request->thread_id;
+                $report->reason = $finalReason;
+                $report->save();
 
-                // 5件で削除のロジック
                 $thres_hold = 5;
                 if ($target_type === 'post') {
                     if (Report::where('post_id', $target_id)->count() >= $thres_hold) {

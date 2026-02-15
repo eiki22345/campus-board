@@ -38,9 +38,10 @@ class BoardController extends Controller
 
             $query->where(function ($q) use ($keywords) {
                 foreach ($keywords as $word) {
-                    $q->where(function ($subQ) use ($word) {
-                        $subQ->where('title', 'LIKE', "%{$word}%")
-                            ->orWhere('content', 'LIKE', "%{$word}%");
+                    $escaped = str_replace(['%', '_'], ['\%', '\_'], $word);
+                    $q->where(function ($subQ) use ($escaped) {
+                        $subQ->where('title', 'LIKE', "%{$escaped}%")
+                            ->orWhere('content', 'LIKE', "%{$escaped}%");
                     });
                 }
             });
