@@ -59,8 +59,10 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'university_id' => $university->id,
-            'role' => 0,
         ]);
+
+        $user->role = 0;
+        $user->save();
 
         Auth::login($user);
 
