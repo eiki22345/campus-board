@@ -11,6 +11,8 @@ class ThreadSubscriptionController extends Controller
 
     public function toggle(Thread $thread)
     {
+        $this->authorize('view', $thread->board);
+
         $user = Auth::user();
         if ($user->subscribedThreads()->where('thread_id', $thread->id)->exists()) {
             $user->subscribedThreads()->detach($thread->id);

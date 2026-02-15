@@ -34,7 +34,7 @@ class PostCreated implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('thread.' . $this->threadId),
+            new PrivateChannel('thread.' . $this->threadId),
         ];
     }
 
