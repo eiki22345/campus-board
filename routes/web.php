@@ -60,7 +60,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/users/mypage', 'mypage')->middleware('throttle:30,1')->name('mypage');
     Route::get('/users/edit', 'edit')->middleware('throttle:30,1')->name('users.edit');
     Route::patch('/users/edit', 'update')->middleware('throttle:5,1')->name('users.update');
-    Route::delete('/users/edit', 'destroy')->middleware('throttle:3,1')->name('users.destroy');
+    Route::delete('/users/edit', 'destroy')->middleware('throttle:5,1')->name('users.destroy');
   });
 
 

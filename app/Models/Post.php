@@ -22,6 +22,14 @@ class Post extends Model
         'ip_address'
     ];
 
+    protected static function booted()
+    {
+
+        static::deleting(function ($post) {
+            $post->replies()->get()->each->delete();
+        });
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

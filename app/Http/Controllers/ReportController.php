@@ -19,7 +19,7 @@ class ReportController extends Controller
             'reason' => 'required|string',
             'reason_detail' => 'required_if:reason,other|nullable|string|max:255',
             'post_id' => 'nullable|exists:posts,id',
-            'thread_id' => 'nullable|exists,threads,id',
+            'thread_id' => 'nullable|exists:threads,id',
         ], [
             'reason_detail.required_if' => 'その他の場合は、詳細な理由を入力してください。'
         ]);
