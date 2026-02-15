@@ -59,7 +59,7 @@
       <div class="d-flex justify-content-between small text-muted">
         <div>
           {{ $reply->post_number}}
-          <span class="post-information">{{ $reply->user->nickname }}</span>
+          <span class="post-information">{{ $reply->user->nickname ?? '退会済みユーザー' }}</span>
           ID:{{ $reply->hash_id}}
         </div>
         <div>
