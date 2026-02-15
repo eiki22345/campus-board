@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ThreadSubscriptionController;
 use App\Http\Controllers\UniversityController;
+use App\Http\Controllers\UniversityRequestController;
 
 
 Route::controller(WelcomeController::class)->group(function () {
@@ -19,6 +20,15 @@ Route::controller(WelcomeController::class)->group(function () {
 });
 
 Route::get('/universities', [UniversityController::class, 'index'])->middleware('throttle:15,1')->name('universities.index');
+
+Route::get('university-request', [UniversityRequestController::class, 'create'])
+  ->name('university-request.create');
+Route::post('university-request', [UniversityRequestController::class, 'store'])
+  ->name('university-request.store');
+
+Route::get('/legal', function () {
+  return view('legal.index');
+})->middleware('throttle:10,1')->name('legal.index');
 
 require __DIR__ . '/auth.php';
 
@@ -63,9 +73,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
   Route::post('/threads/{thread}/subscribe', [ThreadSubscriptionController::class, 'toggle'])
     ->middleware('throttle:30,1')
     ->name('threads.subscribe');
-
-
-  Route::get('/legal', function () {
-    return view('legal.index');
-  })->middleware('throttle:10,1')->name('legal.index');
 });
