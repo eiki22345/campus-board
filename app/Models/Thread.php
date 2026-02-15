@@ -15,11 +15,9 @@ class Thread extends Model
 
     protected $fillable = [
         'board_id',
-        'user_id',
         'title',
         'content',
         'image_path',
-        'ip_address'
     ];
 
     protected static function booted()
