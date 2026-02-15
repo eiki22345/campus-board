@@ -50,7 +50,7 @@ class UserController extends Controller
     public function update(ProfileUpdateRequest $request)
     {
 
-        $request->user()->fill($request->validated());
+        $request->user()->fill($request->only(['nickname']));
         $request->user()->save();
 
 
