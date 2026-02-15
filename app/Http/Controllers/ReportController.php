@@ -60,7 +60,7 @@ class ReportController extends Controller
                 $report->reason = $finalReason;
                 $report->save();
 
-                $thres_hold = 5;
+                $thres_hold = 10;
                 if ($target_type === 'post') {
                     if (Report::where('post_id', $target_id)->count() >= $thres_hold) {
                         Post::find($target_id)->delete();

@@ -24,7 +24,7 @@ class NoInappropriateWords implements ValidationRule
         if (!empty($tokens)) {
             foreach ($tokens as $token) {
                 if (in_array($token, $ng_words)) {
-                    $fail('投稿内容に不適切な表現（' . $token . '）が含まれています。');
+                    $fail('投稿内容に不適切な表現が含まれています。');
                     return;
                 }
             }
@@ -32,7 +32,7 @@ class NoInappropriateWords implements ValidationRule
 
         foreach ($ng_words as $ng) {
             if ($ng !== '' && mb_strpos($value, $ng) !== false) {
-                $fail('投稿内容に不適切な表現（' . $ng . '）が含まれています。');
+                $fail('投稿内容に不適切な表現が含まれています。');
                 return;
             }
         }
