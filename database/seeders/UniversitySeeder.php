@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Region;
 use App\Models\University;
 use Illuminate\Database\Seeder;
-
-
+use SplFileObject;
 
 class UniversitySeeder extends Seeder
 {
@@ -15,34 +13,49 @@ class UniversitySeeder extends Seeder
      */
     public function run(): void
     {
+        $csvPath = database_path('csv/universities.csv');
 
-        $hokkaido = Region::where('name', '北海道')->first()->id;
-        $tohoku   = Region::where('name', '東北')->first()->id;
-        $kanto    = Region::where('name', '関東')->first()->id;
-        $chubu    = Region::where('name', '中部')->first()->id;
-        $kinki    = Region::where('name', '近畿')->first()->id;
-        $chugoku  = Region::where('name', '中国')->first()->id;
-        $shikoku  = Region::where('name', '四国')->first()->id;
-        $kyushu   = Region::where('name', '九州')->first()->id;
-
-        $universities = [
-            // 北海道
-            ['name' => '北海学園大学', 'email_domain' => 'hgu.jp', 'region_id' => $hokkaido],
-            ['name' => '北海道大学', 'email_domain' => 'hokudai.ac.jp', 'region_id' => $hokkaido],
-
-
-            // 東北
-
-
-            // 関東
-
-        ];
-
-        foreach ($universities as $university) {
-            University::firstOrCreate(
-                ['name' => $university['name']],
-                $university
-            );
+        if (!file_exists($csvPath)) {
+            $this->command->error("CSVファイルが見つかりません: $csvPath");
+            $this->command->warn("databaseフォルダの中に csv フォルダを作成し、その中に universities.csv を置いてください。");
+            return;
         }
+
+        $file = new SplFileObject($csvPath);
+        $file->setFlags(
+            SplFileObject::READ_CSV |
+                SplFileObject::READ_AHEAD |
+                SplFileObject::SKIP_EMPTY |
+                SplFileObject::DROP_NEW_LINE
+        );
+
+        $count = 0;
+        $this->command->info("大学データの登録を開始します（板の自動生成を含むため少し時間がかかります）...");
+
+        foreach ($file as $line) {
+            if (count($line) < 3) continue;
+
+            $name = trim($line[0]);
+            $domain = trim($line[1]);
+            $regionId = (int)trim($line[2]);
+
+
+            University::firstOrCreate(
+                ['email_domain' => $domain],
+                [
+                    'name' => $name,
+                    'region_id' => $regionId,
+                ]
+            );
+
+            $count++;
+
+            if ($count % 50 === 0) {
+                $this->command->getOutput()->write('.');
+            }
+        }
+
+        $this->command->newLine();
+        $this->command->info("完了！ {$count} 件の大学データを登録しました。");
     }
 }

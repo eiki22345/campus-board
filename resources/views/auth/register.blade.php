@@ -52,7 +52,7 @@
             </div>
 
             <div class="form-group ps-2 ">
-              <a href="#" class="index-added-university prevent-double-click">
+              <a href="{{ route('universities.index') }}" class="index-added-university prevent-double-click">
                 <p class="mb-0 mt-1">対応大学一覧はこちら</p>
               </a>
             </div>

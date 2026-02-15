@@ -11,11 +11,14 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ThreadSubscriptionController;
+use App\Http\Controllers\UniversityController;
 
 
 Route::controller(WelcomeController::class)->group(function () {
   Route::get('/', 'index')->middleware('throttle:10,1')->name('welcome');
 });
+
+Route::get('/universities', [UniversityController::class, 'index'])->middleware('throttle:15,1')->name('universities.index');
 
 require __DIR__ . '/auth.php';
 
