@@ -66,12 +66,10 @@ class Post extends Model
             ->withTimestamps();
     }
 
-    // 自分がいいねしているか判定するメソッド（Viewで使います）
     public function isLikedBy($user)
     {
         if (!$user) return false;
 
-        // ログインユーザーのIDが、この投稿の「いいねした人リスト」に含まれているか
         return $this->likes()->where('user_id', $user->id)->exists();
     }
 
