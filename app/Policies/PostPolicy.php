@@ -43,12 +43,9 @@ class PostPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function destroy(Post $post)
+    public function delete(User $user, Post $post): bool
     {
-        $this->authorize('delete', $post);
-
-        $post->delete();
-        return back()->with('status', '投稿を削除しました。');
+        return $user->id === $post->user_id || $user->role === User::ROLE_ADMIN;
     }
 
     /**

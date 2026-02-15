@@ -13,6 +13,5 @@ class UniversityRequest extends Model
         'name',
         'email',
         'verification_url',
-        'is_approved',
     ];
 }

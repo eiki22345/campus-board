@@ -10,9 +10,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Rules\NoInappropriateWords;
 use App\Events\PostCreated;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
+
 
 class PostController extends Controller
 {
+    use AuthorizesRequests;
+
     public function store(Request $request, Thread $thread, ?Post $post = null)
     {
 
@@ -84,43 +89,23 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-        $user = Auth::user();
+        // Policyで権限チェック
+        $this->authorize('delete', $post);
+
+        // リダイレクト先のために親スレッド情報を取得
         $thread = $post->thread;
         $board = $thread->board;
 
-
-        $this->authorize('delete', $post);
-
         try {
+            // カスケード設定をしているので、単にdeleteするだけで
+            // 関連するリプライ(post_mentions)もDB側で自動的に削除されます。
+            $post->delete();
 
-            DB::transaction(function () use ($post) {
-                $this->deleteWithReplies($post);
-            });
-
-            return redirect()->route('threads.show', [$board->id, $thread->id])->with('message', '投稿を削除しました。');
+            return redirect()->route('threads.show', [$board->id, $thread->id])
+                ->with('message', '投稿を削除しました。');
         } catch (\Exception $e) {
             Log::error($e);
-
             return back()->with('error', '削除に失敗しました。時間をおいて再度お試しください。');
         }
-    }
-
-    private function deleteWithReplies(Post $post)
-    {
-
-        $reply_ids = DB::table('post_mentions')
-            ->where('parent_post_id', $post->id)
-            ->pluck('post_id');
-
-        // 子投稿を再帰的に削除
-        foreach ($reply_ids as $reply_id) {
-            $reply = Post::find($reply_id);
-            if ($reply) {
-                $this->deleteWithReplies($reply);
-            }
-        }
-
-        // 自分を削除
-        $post->delete();
     }
 }
