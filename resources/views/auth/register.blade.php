@@ -58,7 +58,7 @@
             </div>
 
             <div class="form-group ps-2">
-              <a href="#" class="add-university-request prevent-double-click">
+              <a href="{{ route('university-request.create') }}" class="add-university-request prevent-double-click">
                 <p class="mb-0">リストにない大学の追加リクエストはこちら</p>
               </a>
             </div>
