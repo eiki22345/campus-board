@@ -35,6 +35,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasName, Filament
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'role' => 'integer',
     ];
 
     // --- リレーション設定 ---
@@ -68,9 +69,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasName, Filament
         return (string) $this->nickname;
     }
 
+    const ROLE_ADMIN = 1;
+    const ROLE_USER = 0;
+
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->role === 1;
+        return $this->role === self::ROLE_ADMIN;
     }
 
     public function subscribedThreads()

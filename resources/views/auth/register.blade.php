@@ -93,7 +93,6 @@
                   <h3 class="py-2 text-center register-link-text text-white">新規登録</h3>
                 </span>
 
-                {{-- 送信中の表示（Bootstrapのスピナーを使用） --}}
                 <span x-show="submitting">
                   <div class="d-flex align-items-center justify-content-center py-2">
                     <span class="spinner-border spinner-border-sm me-2 text-white" role="status" aria-hidden="true"></span>
@@ -104,6 +103,7 @@
             </div>
           </form>
         </div>
+        <a href="{{ route('login') }}" class="mt-2 prevent-bouble-click text-secondary text-decoration-underline">&larr; ログイン画面に戻る</a>
       </div>
     </div>
   </main>

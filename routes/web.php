@@ -13,7 +13,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ThreadSubscriptionController;
 use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\UniversityRequestController;
-
+use GuzzleHttp\Middleware;
 
 Route::controller(WelcomeController::class)->group(function () {
   Route::get('/', 'index')->middleware('throttle:10,1')->name('welcome');
@@ -22,9 +22,9 @@ Route::controller(WelcomeController::class)->group(function () {
 Route::get('/universities', [UniversityController::class, 'index'])->middleware('throttle:15,1')->name('universities.index');
 
 Route::get('university-request', [UniversityRequestController::class, 'create'])
-  ->name('university-request.create');
+  ->middleware('throttle:15,1')->name('university-request.create');
 Route::post('university-request', [UniversityRequestController::class, 'store'])
-  ->name('university-request.store');
+  ->middleware('throttle:6,1')->name('university-request.store');
 
 Route::get('/legal', function () {
   return view('legal.index');
