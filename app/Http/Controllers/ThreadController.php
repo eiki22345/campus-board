@@ -100,6 +100,10 @@ class ThreadController extends Controller
 
     public function show(Board $board, Thread $thread, Request $request)
     {
+        if ($thread->board_id !== $board->id) {
+            abort(404);
+        }
+
         $this->authorize('view', $board);
         
         $sort = $request->input('sort', 'new');

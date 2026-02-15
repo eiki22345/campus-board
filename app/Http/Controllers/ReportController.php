@@ -31,6 +31,21 @@ class ReportController extends Controller
             return back()->with('error', '通報対象が不明です。');
         }
 
+        // 通報対象のボードへのアクセス権限をチェック
+        if ($target_type === 'post') {
+            $post = Post::find($request->post_id);
+            if (!$post) {
+                return back()->with('error', '投稿が見つかりません。');
+            }
+            $this->authorize('view', $post->thread->board);
+        } else {
+            $thread = Thread::find($request->thread_id);
+            if (!$thread) {
+                return back()->with('error', 'スレッドが見つかりません。');
+            }
+            $this->authorize('view', $thread->board);
+        }
+
         $exists = Report::where('user_id', Auth::id())
             ->where(function ($query) use ($request) {
                 if ($request->post_id) {
