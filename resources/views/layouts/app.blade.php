@@ -27,9 +27,10 @@
 
      @stack('modals')
 
+     <x-footer.footer />
+
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
      <script>
          document.addEventListener('DOMContentLoaded', function() {
              // --- 1. 連打防止の設定 ---

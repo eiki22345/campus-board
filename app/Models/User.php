@@ -2,16 +2,14 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\SoftDeletes; // ★論理削除用
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Laravel\Sanctum\HasApiTokens; // APIを使う場合に備えて残しておく
+use Laravel\Sanctum\HasApiTokens;
 use Filament\Models\Contracts\HasName;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
@@ -26,7 +24,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasName, Filament
         'email',
         'password',
         'university_id',
-        'role',
         'icon_path',
     ];
 
