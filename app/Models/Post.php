@@ -85,6 +85,6 @@ class Post extends Model
 
         $seed = $this->thread_id . $this->user_id . $salt;
 
-        return substr(strtoupper(md5($seed)), 0, 8);
+        return substr(strtoupper(hash('sha256', $seed)), 0, 8);
     }
 }
