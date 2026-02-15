@@ -71,10 +71,9 @@ class PostController extends Controller
 
     public function toggleLike(Post $post)
     {
+        $this->authorize('view', $post->thread->board);
+        
         $user = Auth::user();
-
-        // 自分の大学の板かなどのチェックが必要ならここに追加
-        // if ($post->thread->board->university_id !== ... ) abort(403);
 
         // ★魔法のメソッド toggle
         // 既にいいねしてれば「解除」、してなければ「登録」を自動判別

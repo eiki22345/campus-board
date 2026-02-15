@@ -100,6 +100,8 @@ class ThreadController extends Controller
 
     public function show(Board $board, Thread $thread, Request $request)
     {
+        $this->authorize('view', $board);
+        
         $sort = $request->input('sort', 'new');
         $keyword = $request->input('keyword');
         $major_categories = MajorCategory::all();
@@ -182,6 +184,8 @@ class ThreadController extends Controller
     // メソッドを追加
     public function toggleLike(Thread $thread)
     {
+        $this->authorize('view', $thread->board);
+        
         $user = Auth::user();
 
         // toggleメソッド：ユーザーIDが中間テーブルにあれば削除、なければ追加する
