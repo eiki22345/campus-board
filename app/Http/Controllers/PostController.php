@@ -77,8 +77,8 @@ class PostController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'liked'  => $post->isLikedBy($user), // 最新の状態 (true/false)
-            'count'  => $post->likes()->count(), // 最新の件数
+            'liked'  => $post->isLikedBy($user),
+            'count'  => $post->likes()->count(),
         ]);
     }
 
@@ -88,10 +88,8 @@ class PostController extends Controller
         $thread = $post->thread;
         $board = $thread->board;
 
-        // 自分の投稿かチェック
-        if ($post->user_id !== $user->id) {
-            abort(403, '他人の投稿は削除できません。');
-        }
+
+        $this->authorize('delete', $post);
 
         try {
 
