@@ -173,7 +173,7 @@ class ThreadController extends Controller
 
         try {
             DB::transaction(function () use ($thread) {
-                $thread->posts()->delete();
+                // モデルのdeletingイベントでカスケード削除が行われるため、ここでは不要
                 $thread->delete();
             });
 
