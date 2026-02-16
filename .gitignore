@@ -12,6 +12,7 @@
 /.vscode
 /.zed
 /auth.json
+/config/ng_words.php
 /node_modules
 /public/build
 /public/hot

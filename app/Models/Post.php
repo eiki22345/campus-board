@@ -16,7 +16,6 @@ class Post extends Model
         'thread_id',
         'post_number',
         'content',
-        'image_path',
     ];
 
     protected static function booted()

@@ -46,7 +46,7 @@
                     <a href="{{ route('threads.show',[$thread->board->id, $thread->id]) }}" class="thread-link prevent-double-click">
                         <div class="d-flex justify-content-between">
                             <div class="post-information">
-                                {{ $thread->user->nickname }}
+                                {{ $thread->user->nickname ?? '退会済みユーザー' }}
 
                                 ・{{ $thread->created_at->diffForHumans() }}
                             </div>

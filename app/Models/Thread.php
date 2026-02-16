@@ -17,7 +17,6 @@ class Thread extends Model
         'board_id',
         'title',
         'content',
-        'image_path',
     ];
 
     protected static function booted()

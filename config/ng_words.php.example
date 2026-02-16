@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * NGワード設定ファイル
+ * 
+ * このファイルをコピーして ng_words.php として保存してください。
+ * cp config/ng_words.php.example config/ng_words.php
+ * 
+ * 注意: ng_words.php は Git 管理されません。
+ * 実際の運用では、データベースの ng_words テーブルで管理することを推奨します。
+ */
+
+return [
+    'list' => [
+        // NGワードをここに追加してください
+        // 例:
+        // '不適切な言葉1',
+        // '不適切な言葉2',
+    ],
+];
