@@ -118,6 +118,8 @@ class ThreadController extends Controller
                 ],
                 [
                     'accessed_at' => now(),
+                    'user_id' => $user->id,
+                    'thread_id' => $thread->id,
                 ]
             );
         }
