@@ -189,7 +189,6 @@
         }
 
       } catch (error) {
-        console.error('Error:', error);
         alert('いいねの処理に失敗しました');
       } finally {
         // ボタンを再度押せるようにする

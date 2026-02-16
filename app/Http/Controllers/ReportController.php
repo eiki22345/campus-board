@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class ReportController extends Controller
 {
@@ -20,8 +21,8 @@ class ReportController extends Controller
         $request->validate([
             'reason' => 'required|string|max:255|in:spam,harassment,inappropriate,other',
             'reason_detail' => 'required_if:reason,other|nullable|string|max:255',
-            'post_id' => 'nullable|exists:posts,id',
-            'thread_id' => 'nullable|exists:threads,id',
+            'post_id' => ['nullable', Rule::exists('posts', 'id')->whereNull('deleted_at')],
+            'thread_id' => ['nullable', Rule::exists('threads', 'id')->whereNull('deleted_at')],
         ], [
             'reason_detail.required_if' => 'その他の場合は、詳細な理由を入力してください。'
         ]);

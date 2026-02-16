@@ -8,9 +8,11 @@ use App\Models\MajorCategory;
 use App\Models\Thread;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class BoardController extends Controller
 {
+    use AuthorizesRequests;
     public function index(Request $request)
     {
         $sort = $request->input('sort', 'new');

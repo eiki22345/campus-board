@@ -7,7 +7,9 @@ use illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ThreadLike extends Model
 {
-    protected $fillable = ['user_id', 'thread_id'];
+    // user_idはMass Assignment攻撃防止のため除外 
+    // toggle()を使用するため通常は不要だが、将来のcreate()使用に備えて除外
+    protected $fillable = ['thread_id'];
 
     public function user(): BelongsTo
     {

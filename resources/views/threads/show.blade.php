@@ -100,7 +100,6 @@
           }
 
         } catch (error) {
-          console.error('Error:', error);
           alert('いいねの処理に失敗しました');
         } finally {
           // ボタンを再度押せるように復活
@@ -111,27 +110,18 @@
   </script>
 
   <script type="module">
-    // ▼▼▼ 修正: HTMLの属性からIDを取得する（これならPHPを書かないのでズレない） ▼▼▼
     const container = document.getElementById('posts-container');
     const thread_id = container.dataset.threadId;
 
-    console.log('Script loaded, thread_id:', thread_id);
-    console.log('window.Echo:', window.Echo);
-
     setTimeout(() => {
-      console.log('setTimeout executed, window.Echo:', window.Echo);
       if (window.Echo) {
-        console.log('Subscribing to channel: thread.' + thread_id);
         window.Echo.private(`thread.${thread_id}`)
           .listen('.post.created', (e) => {
-            console.log('New post received!', e);
             if (container && window.DOMPurify) {
               const cleanHTML = window.DOMPurify.sanitize(e.post_html);
               container.insertAdjacentHTML('beforeend', cleanHTML);
             }
           });
-      } else {
-        console.error('Echo is not defined!');
       }
     }, 1000);
   </script>

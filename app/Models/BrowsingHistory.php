@@ -7,7 +7,9 @@ use illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BrowsingHistory extends Model
 {
-    protected $fillable = ['user_id', 'thread_id', 'accessed_at'];
+    // user_idはMass Assignment攻撃防止のため除外
+    // コントローラー側で指定することで不整な入力の防止
+    protected $fillable = ['thread_id', 'accessed_at'];
 
     protected $casts = [
         'accessed_at' => 'datetime',

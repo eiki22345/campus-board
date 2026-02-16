@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PostLike extends Model
 {
-    protected $fillable = ['user_id', 'post_id'];
+    // user_idはMass Assignment攻撃防止のため除外
+    // toggle()を使用するため通常は不要だが、将来のcreate()使用に備えて除外
+    protected $fillable = ['post_id'];
 
     public function user(): BelongsTo
     {
