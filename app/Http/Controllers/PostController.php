@@ -66,7 +66,7 @@ class PostController extends Controller
 
             return back()->with('message', '投稿を作成しました。');
         } catch (\Exception $e) {
-            Log::error($e); // ログに記録
+            Log::error($e);
             return back()->withInput()->with('error', '投稿に失敗しました。時間をおいて再度お試しください。');
         }
     }
@@ -77,8 +77,7 @@ class PostController extends Controller
 
         $user = Auth::user();
 
-        // ★魔法のメソッド toggle
-        // 既にいいねしてれば「解除」、してなければ「登録」を自動判別
+
         $post->likes()->toggle($user->id);
 
         return response()->json([

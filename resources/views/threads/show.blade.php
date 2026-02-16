@@ -63,12 +63,11 @@
   <script>
     document.querySelectorAll('.post-like-btn').forEach(button => {
       button.addEventListener('click', async function() {
-        // 連打防止
         this.disabled = true;
 
         const url = this.dataset.url;
         const icon = this.querySelector('.post-like-icon');
-        const countSpan = this.nextElementSibling; // 隣にある数字のspan
+        const countSpan = this.nextElementSibling;
 
         try {
           const response = await fetch(url, {
@@ -83,26 +82,19 @@
 
           const data = await response.json();
 
-          // ■ サーバーからの返却値に合わせて数字を更新
-          // Controllerで 'count' として返している場合
           countSpan.textContent = data.count;
 
-          // ■ ハートのデザイン切り替え
-          // Controllerで 'liked' (true/false) として返している場合
           if (data.liked) {
-            // いいね！された時
-            icon.classList.remove('fa-regular', 'text-secondary'); // 枠線を消す
-            icon.classList.add('fa-solid', 'text-danger'); // 塗りつぶし赤を追加
+            icon.classList.remove('fa-regular', 'text-secondary');
+            icon.classList.add('fa-solid', 'text-danger');
           } else {
-            // 解除された時
-            icon.classList.remove('fa-solid', 'text-danger'); // 塗りつぶし赤を消す
-            icon.classList.add('fa-regular', 'text-secondary'); // 枠線に戻す
+            icon.classList.remove('fa-solid', 'text-danger');
+            icon.classList.add('fa-regular', 'text-secondary');
           }
 
         } catch (error) {
           alert('いいねの処理に失敗しました');
         } finally {
-          // ボタンを再度押せるように復活
           this.disabled = false;
         }
       });

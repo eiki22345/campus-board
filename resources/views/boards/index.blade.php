@@ -72,21 +72,13 @@
                         <span class="genre-{{ $thread->board->majorcategory->id }}"> {{ Str::after($thread->board->name, '/') }}</span>
                     </div>
                     <div class="d-flex justify-content-end">
-                        {{-- head内にFontAwesomeがある前提 --}}
 
                         <div class="d-flex align-items-center action-button">
-                            {{-- いいねボタン --}}
-                            {{-- data-thread-id: どのスレッドか --}}
-                            {{-- data-liked: 今自分がいいねしてるか (true/false) --}}
-                            {{-- data-url という名前で、完全なURL（http://.../hokkai-board/...）を埋め込みます --}}
                             <button class="btn p-0 border-0 like-btn"
                                 data-url="{{ route('threads.like', $thread) }}">
-
-                                {{-- 自分がいいねしてたら solid(塗りつぶし)、してなければ regular(枠線) --}}
                                 <i class="fa-heart fa-lg text-danger {{ $thread->isLikedByAuthUser() ? 'fa-solid' : 'fa-regular' }} like-icon"></i>
                             </button>
 
-                            {{-- いいね数 --}}
                             <span class="ms-1 like-count">
                                 {{ $thread->likes()->count() }}
                             </span>
@@ -117,20 +109,17 @@
 <script>
     document.querySelectorAll('.like-btn').forEach(button => {
         button.addEventListener('click', async function() {
-            // 連打防止（処理中は無効化）
             this.disabled = true;
 
             const url = this.dataset.url;
             const icon = this.querySelector('.like-icon');
-            const countSpan = this.nextElementSibling; // 隣にある数字のspan
+            const countSpan = this.nextElementSibling;
 
             try {
-                // サーバーに送信
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        // LaravelでFetchするときのお約束（CSRFトークン）
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                     }
                 });
@@ -139,22 +128,19 @@
 
                 const data = await response.json();
 
-                // サーバーからの結果を使って表示を更新
                 countSpan.textContent = data.likes_count;
 
-                // ハートの切り替え
                 if (data.is_liked) {
                     icon.classList.remove('fa-regular');
-                    icon.classList.add('fa-solid'); // 塗りつぶし
+                    icon.classList.add('fa-solid'); 
                 } else {
                     icon.classList.remove('fa-solid');
-                    icon.classList.add('fa-regular'); // 枠線
+                    icon.classList.add('fa-regular'); 
                 }
 
             } catch (error) {
                 alert('いいねの処理に失敗しました');
             } finally {
-                // ボタンを再度押せるようにする
                 this.disabled = false;
             }
         });

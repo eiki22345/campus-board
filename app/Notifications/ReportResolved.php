@@ -9,7 +9,7 @@ class ReportResolved extends Notification
 {
   use Queueable;
 
-  protected $target_content; // スネークケースで定義
+  protected $target_content;
 
   /**
    * Create a new notification instance.
@@ -24,7 +24,7 @@ class ReportResolved extends Notification
    */
   public function via(object $notifiable): array
   {
-    return ['database']; // データベースに保存
+    return ['database'];
   }
 
   /**

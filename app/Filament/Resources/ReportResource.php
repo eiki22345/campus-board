@@ -116,29 +116,28 @@ class ReportResource extends Resource
                     ->modalHeading('投稿削除と完了通知の送信')
                     ->modalDescription('この投稿を削除し、関連する全ての通報を「対処済み」にします。また、通報者全員にお礼の通知が送信されます。')
                     ->action(function (Report $record) {
-                        // 対象の投稿が存在する場合のみ実行
+
                         if ($record->post) {
                             $post_id = $record->post_id;
 
-                            // 通知用に投稿内容の一部を取得（削除前に確保）
+
                             $post_content_snippet = Str::limit($record->post->content, 20);
 
-                            // 1. 同じ投稿に対する通報を全て取得（スネークケース変数）
+
                             $related_reports = Report::where('post_id', $post_id)->with('user')->get();
 
-                            // 2. 通報者全員に通知を送信し、ステータスを更新
+
                             foreach ($related_reports as $report_item) {
-                                // ユーザーが存在すれば通知を送る
+
                                 if ($report_item->user) {
                                     $report_item->user->notify(new ReportResolved($post_content_snippet));
                                 }
 
-                                // ステータスを「対処済み」に変更（明示的な代入でMass Assignment回避）
+
                                 $report_item->status = 'resolved';
                                 $report_item->save();
                             }
 
-                            // 3. 元の投稿を削除
                             $record->post->delete();
 
                             Notification::make()

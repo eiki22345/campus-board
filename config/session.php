@@ -167,9 +167,12 @@ return [
     | to the server if the browser has a HTTPS connection. This will keep
     | the cookie from being sent to you when it can't be done securely.
     |
+    | セキュリティ強化のためデフォルトでtrueに設定
+    | ローカル開発環境ではSESSION_SECURE_COOKIE=falseを.envで設定
+    |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE', env('APP_ENV') === 'production'),
+    'secure' => env('SESSION_SECURE_COOKIE', true),
 
     /*
     |--------------------------------------------------------------------------

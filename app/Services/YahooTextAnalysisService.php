@@ -7,9 +7,7 @@ use Illuminate\Support\Facades\Log;
 
 class YahooTextAnalysisService
 {
-  /**
-   * Yahoo! APIで形態素解析を行い、単語（表記）のリストを返す
-   */
+
   public function get_tokens(string $text): array
   {
     if (empty($text)) {
@@ -20,7 +18,7 @@ class YahooTextAnalysisService
     $url = 'https://jlp.yahooapis.jp/MAService/V2/parse';
 
     try {
-      // リクエスト送信
+
       $response = Http::timeout(10)->withHeaders([
         'User-Agent' => "Yahoo AppID: {$client_id}",
       ])->post($url, [

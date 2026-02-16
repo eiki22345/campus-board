@@ -22,7 +22,6 @@ class PostCreated implements ShouldBroadcast
     {
         $this->threadId = $post->thread_id;
 
-        // threadもロードして渡す
         $post->load('thread');
         $this->post_html = view('components.posts.post-item', [
             'post' => $post,

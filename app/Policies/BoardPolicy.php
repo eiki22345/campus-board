@@ -68,9 +68,12 @@ class BoardPolicy
         return false;
     }
 
+    /**
+     * 管理者は全アクションを許可
+     */
     public function before(User $user, string $ability): bool|null
     {
-        if ($user->role === 1) {
+        if ($user->role === User::ROLE_ADMIN) {
             return true;
         }
 

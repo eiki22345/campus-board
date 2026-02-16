@@ -115,7 +115,6 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body" id="termsModalBody">
-          {{-- 利用規約の本文 (バランス型・法的リスク対策版) --}}
           <div class="p-2 text-break" style="font-size: 0.9rem; line-height: 1.6;">
             <h6 class="fw-bold mt-3">第1条（適用）</h6>
             <p>本規約は、Campus Board運営事務局（以下「運営者」といいます。）が提供する「Campus Board」（以下「本サービス」といいます。）の利用条件を定めるものです。</p>

@@ -35,14 +35,13 @@
          document.addEventListener('DOMContentLoaded', function() {
              // --- 1. 連打防止の設定 ---
 
-             // フォーム送信時の処理
              document.querySelectorAll('form').forEach(function(form) {
                  form.addEventListener('submit', function(e) {
                      const button = form.querySelector('button[type="submit"]');
-                     if (button && !button.disabled) { // まだ無効化されていない場合のみ
+                     if (button && !button.disabled) {
                          setTimeout(() => {
                              button.disabled = true;
-                             button.dataset.disabledByJs = "true"; // ★復活用の目印をつける
+                             button.dataset.disabledByJs = "true";
                              button.style.opacity = '0.6';
                              button.style.cursor = 'not-allowed';
                          }, 10);
@@ -59,7 +58,7 @@
                      }
                      setTimeout(() => {
                          link.style.pointerEvents = 'none';
-                         link.dataset.disabledByJs = "true"; // ★復活用の目印をつける
+                         link.dataset.disabledByJs = "true";
                          link.style.opacity = '0.6';
                          link.style.cursor = 'not-allowed';
                      }, 10);
@@ -69,45 +68,42 @@
 
          // --- 2. 「戻る」ボタンで戻ってきた時の復活処理 (bfcache対策) ---
          window.addEventListener('pageshow', function(event) {
-             // ページがキャッシュから読み込まれた場合、または通常の読み込みでも念の為実行
 
-             // JavaScriptで無効化したボタンを元に戻す
              const disabledButtons = document.querySelectorAll('button[data-disabled-by-js="true"]');
              disabledButtons.forEach(btn => {
                  btn.disabled = false;
                  btn.style.opacity = '';
                  btn.style.cursor = '';
-                 delete btn.dataset.disabledByJs; // 目印を消す
+                 delete btn.dataset.disabledByJs;
              });
 
-             // JavaScriptで無効化したリンクを元に戻す
+
              const disabledLinks = document.querySelectorAll('a[data-disabled-by-js="true"]');
              disabledLinks.forEach(link => {
                  link.style.pointerEvents = 'auto';
                  link.style.opacity = '';
                  link.style.cursor = '';
-                 delete link.dataset.disabledByJs; // 目印を消す
+                 delete link.dataset.disabledByJs;
              });
          });
      </script>
 
      <script>
          document.addEventListener('DOMContentLoaded', function() {
-             // 隠し要素を取得
+
              const flashData = document.getElementById('flash-message-data');
 
-             // データがなければ何もしない
+
              if (!flashData) return;
 
-             // data-属性からメッセージを取り出す
+
              const msgSuccess = flashData.dataset.success;
              const msgInfo = flashData.dataset.message;
              const msgError = flashData.dataset.error;
 
-             // メッセージが一つもなければ終了
              if (!msgSuccess && !msgInfo && !msgError) return;
 
-             // トースト通知の設定
+
              const Toast = Swal.mixin({
                  toast: true,
                  position: 'top-end',
@@ -120,7 +116,6 @@
                  }
              });
 
-             // メッセージの種類に応じて表示
              if (msgSuccess) {
                  Toast.fire({
                      icon: 'success',

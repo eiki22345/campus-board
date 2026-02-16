@@ -7,13 +7,13 @@ use Illuminate\Http\Request;
 
 class UniversityRequestController extends Controller
 {
-    // リクエストフォームの表示
+
     public function create()
     {
         return view('university_requests.create');
     }
 
-    // リクエストの保存処理
+
     public function store(Request $request)
     {
         $validated = $request->validate([

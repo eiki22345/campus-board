@@ -12,7 +12,7 @@ class Subscription extends Model
         'type',
     ];
 
-    // 日付変換の設定（これも便利機能！）
+
     protected $casts = [
         'trial_ends_at' => 'datetime',
         'ends_at' => 'datetime',

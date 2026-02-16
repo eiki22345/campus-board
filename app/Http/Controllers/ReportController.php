@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\Rule;
 
 class ReportController extends Controller
 {
@@ -21,8 +20,8 @@ class ReportController extends Controller
         $request->validate([
             'reason' => 'required|string|max:255|in:spam,harassment,inappropriate,other',
             'reason_detail' => 'required_if:reason,other|nullable|string|max:255',
-            'post_id' => ['nullable', Rule::exists('posts', 'id')->whereNull('deleted_at')],
-            'thread_id' => ['nullable', Rule::exists('threads', 'id')->whereNull('deleted_at')],
+            'post_id' => 'nullable|exists:posts,id',
+            'thread_id' => 'nullable|exists:threads,id',
         ], [
             'reason_detail.required_if' => 'その他の場合は、詳細な理由を入力してください。'
         ]);
@@ -49,8 +48,7 @@ class ReportController extends Controller
             $this->authorize('view', $thread->board);
         }
 
-        // 2. 保存する理由の決定
-        // 「その他」なら入力された詳細を、それ以外なら選択肢のラベル（またはvalue）を保存
+
         $finalReason = $request->reason;
         if ($request->reason === 'other') {
             $finalReason = 'その他: ' . $request->reason_detail;
@@ -58,7 +56,7 @@ class ReportController extends Controller
 
         try {
             DB::transaction(function () use ($request, $finalReason, $target_type, $target_id) {
-                // トランザクション内で重複チェック（レースコンディション対策）
+
                 $exists = Report::where('user_id', Auth::id())
                     ->where(function ($query) use ($request) {
                         if ($request->post_id) {
@@ -67,7 +65,7 @@ class ReportController extends Controller
                             $query->where('thread_id', $request->thread_id);
                         }
                     })
-                    ->lockForUpdate() // 行ロックで並列アクセスを防ぐ
+                    ->lockForUpdate()
                     ->exists();
 
                 if ($exists) {

@@ -13,9 +13,7 @@ class HeaderComposer
    */
   public function compose(View $view): void
   {
-    // ログインしている場合のみ未読件数を取得
     if (Auth::check()) {
-      // リクエストスコープでキャッシュ（1リクエスト内で1回だけクエリを実行）
       $unread_count = Cache::store('array')->remember(
         'unread_count_user_' . Auth::id(),
         60,

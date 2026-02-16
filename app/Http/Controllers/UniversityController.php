@@ -21,10 +21,10 @@ class UniversityController extends Controller
         });
       }
     }])
-      ->orderBy('id', 'asc') // 北海道(1)から順に並べる
+      ->orderBy('id', 'asc')
       ->get();
 
-    // viewに渡す変数名も keyword に統一
+
     return view('universities.index', compact('regions', 'keyword'));
   }
 }

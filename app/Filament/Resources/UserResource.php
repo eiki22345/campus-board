@@ -87,7 +87,6 @@ class UserResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                // 大学で絞り込み
                 Tables\Filters\SelectFilter::make('university')
                     ->label('大学で絞り込み')
                     ->relationship('university', 'name'),

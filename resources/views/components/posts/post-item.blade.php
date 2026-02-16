@@ -33,7 +33,6 @@
       <div>
         <button type="button" class="btn p-0 border-0 d-flex align-items-center ms-2" @click="replyOpen = !replyOpen">
           <div class="ms-2 action-button">{{ $post->replies_count }} 件の返信を表示</div>
-          {{-- オプション：開閉がわかる矢印アイコン（あれば） --}}
           <i class="fa-solid fa-chevron-down ms-1 text-secondary small"
             :style="replyOpen ? ' transform: rotate(180deg)' : ''"
             style=" transition: 0.3s;"></i>

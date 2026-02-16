@@ -11,31 +11,30 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // ★ 0. 地域マスタ (universitiesより先に必要！)
         Schema::create('regions', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // 北海道、東北、関東...
-            $table->integer('sort_order')->default(0); // 表示順序用（任意）
+            $table->string('name');
+            $table->integer('sort_order')->default(0);
             $table->timestamps();
         });
 
-        // 1. 大学マスタ (usersより先に必要)
+
         Schema::create('universities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->foreignId('region_id')->constrained('regions');
-            $table->string('email_domain')->unique(); // @hokudai.ac.jp
+            $table->string('email_domain')->unique();
             $table->timestamps();
         });
 
-        // 2. 親カテゴリ (boardsより先に必要)
+
         Schema::create('major_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // グルメ、大学、就活
+            $table->string('name');
             $table->timestamps();
         });
 
-        // 3. ユーザー (universitiesに依存)
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('nickname');
@@ -44,22 +43,22 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
 
-            // HOKKAI BOARD 独自カラム
+
             $table->foreignId('university_id')->constrained('universities');
-            $table->integer('role')->default(0); // 0:学生, 1:管理者
+            $table->integer('role')->default(0);
             $table->string('icon_path')->nullable();
 
-            // Stripe Cashier用
+
             $table->string('stripe_id')->nullable()->index();
             $table->string('pm_type')->nullable();
             $table->string('pm_last_four')->nullable();
             $table->timestamp('trial_ends_at')->nullable();
 
             $table->timestamps();
-            $table->softDeletes(); // 論理削除
+            $table->softDeletes();
         });
 
-        // 4. サブスクリプション (Stripe用)
+
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
@@ -73,7 +72,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // 5. 板 (Board)
+
         Schema::create('boards', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -82,47 +81,47 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // 6. スレッド
+
         Schema::create('threads', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('content'); // 本文
+            $table->text('content');
             $table->foreignId('board_id')->constrained('boards');
             $table->foreignId('user_id')->constrained('users');
-            $table->string('image_path')->nullable(); // スレ主画像
-            $table->string('ip_address')->nullable(); // IPアドレス
-
-            $table->timestamps();
-            $table->softDeletes();
-        });
-
-        // 7. レス (Post)
-        Schema::create('posts', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('thread_id')->constrained('threads');
-            $table->foreignId('user_id')->constrained('users');
-            $table->integer('post_number'); // スレ内連番
-            $table->text('content');
             $table->string('image_path')->nullable();
-            $table->integer('likes_count')->default(0); // いいね数キャッシュ
             $table->string('ip_address')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
         });
 
-        // 8. レスへのいいね (Post Like)
+
+        Schema::create('posts', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('thread_id')->constrained('threads');
+            $table->foreignId('user_id')->constrained('users');
+            $table->integer('post_number');
+            $table->text('content');
+            $table->string('image_path')->nullable();
+            $table->integer('likes_count')->default(0);
+            $table->string('ip_address')->nullable();
+
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+
         Schema::create('post_likes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('post_id')->constrained('posts')->onDelete('cascade');
             $table->timestamps();
 
-            // 1人のユーザーは同じレスに1回しかいいねできない
+
             $table->unique(['user_id', 'post_id']);
         });
 
-        // 9. スレッドへのいいね (Thread Like)
+
         Schema::create('thread_likes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
@@ -132,18 +131,18 @@ return new class extends Migration
             $table->unique(['user_id', 'thread_id']);
         });
 
-        // 10. 閲覧履歴
+
         Schema::create('browsing_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('thread_id')->constrained('threads')->onDelete('cascade');
             $table->timestamp('accessed_at');
 
-            // 履歴の重複を防ぐ（Update運用）
+
             $table->unique(['user_id', 'thread_id']);
         });
 
-        // 11. 通報
+
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
@@ -153,7 +152,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // 12. ジョブキュー (非同期処理用・Laravel標準)
+
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
             $table->string('queue')->index();
@@ -170,7 +169,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // 作成と逆順で削除
+
         Schema::dropIfExists('jobs');
         Schema::dropIfExists('reports');
         Schema::dropIfExists('browsing_histories');

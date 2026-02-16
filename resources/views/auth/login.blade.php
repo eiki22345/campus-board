@@ -62,7 +62,7 @@
                                     <h4 class="login-label">ログイン</h4>
                                 </span>
 
-                                {{-- 送信中の表示（Bootstrapのスピナーを使用） --}}
+
                                 <span x-show="submitting">
                                     <div class="d-flex align-items-center justify-content-center">
                                         <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>

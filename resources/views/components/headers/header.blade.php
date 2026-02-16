@@ -34,7 +34,6 @@
              {{-- 未読がある場合のみバッジを表示 --}}
              @if(isset($unread_count) && $unread_count > 0)
              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-               {{-- 99件以上は '99+' と表示 --}}
                {{ $unread_count > 99 ? '99+' : $unread_count }}
                <span class="visually-hidden">未読のお知らせ</span>
              </span>
@@ -74,28 +73,23 @@
              <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse">
                <div class="row accordion-body p-0 mt-2">
                  @php
-                 // 1. 板があるカテゴリだけ抽出
                  $active_cats = $major_categories->filter(function ($cat) use ($university_boards) {
                  return $university_boards->contains('major_category_id', $cat->id);
                  })->values();
 
-                 // 2. 左右の列にデータを振り分け
                  $columns = [
-                 $active_cats->filter(fn($c, $k) => $k % 2 === 0), // 左列
-                 $active_cats->filter(fn($c, $k) => $k % 2 !== 0) // 右列
+                 $active_cats->filter(fn($c, $k) => $k % 2 === 0),
+                 $active_cats->filter(fn($c, $k) => $k % 2 !== 0)
                  ];
                  @endphp
 
-                 {{-- ▼ row で左右の枠を作る --}}
                  <div class="row align-items-start">
 
                    @foreach ($columns as $cats)
-                   {{-- ▼ col-6 の中にアコーディオンを縦積みする (flex-column) --}}
                    <div class="col-6 d-flex flex-column">
 
                      @foreach ($cats as $major_category)
                      @php
-                     // このカテゴリに属する板を取得
                      $my_boards = $university_boards->where('major_category_id', $major_category->id);
                      @endphp
 
@@ -164,7 +158,6 @@
                      @endphp
                      <div class="accordion-item border">
                        <h2 class="accordion-header" id="heading-common-cat-{{ $major_category->id }}">
-                         {{-- ★修正: no-accordion-arrow を削除したので矢印が出るはずです --}}
                          <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-common-cat-{{ $major_category->id }}">
                            <span class="fw-bold list-group-item">{{ $major_category->name }}</span>
                          </button>

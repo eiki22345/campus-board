@@ -103,7 +103,7 @@ class ThreadController extends Controller
         }
 
         $this->authorize('view', $board);
-        
+
         $sort = $request->input('sort', 'new');
         $keyword = $request->input('keyword');
         $major_categories = MajorCategory::all();
@@ -169,7 +169,6 @@ class ThreadController extends Controller
 
         try {
             DB::transaction(function () use ($thread) {
-                // モデルのdeletingイベントでカスケード削除が行われるため、ここでは不要
                 $thread->delete();
             });
 
@@ -181,23 +180,23 @@ class ThreadController extends Controller
         }
     }
 
-    // メソッドを追加
+
     public function toggleLike(Thread $thread)
     {
         $this->authorize('view', $thread->board);
-        
+
         $user = Auth::user();
 
-        // toggleメソッド：ユーザーIDが中間テーブルにあれば削除、なければ追加する
+
         $thread->likes()->toggle($user->id);
 
-        // 最新のいいね数を取得
+
         $likesCount = $thread->likes()->count();
 
-        // 現在の状態（いいねしているかどうか）
+
         $isLiked = $thread->likes()->where('user_id', $user->id)->exists();
 
-        // JSON形式で結果を返す（画面遷移させないため）
+
         return response()->json([
             'likes_count' => $likesCount,
             'is_liked' => $isLiked,

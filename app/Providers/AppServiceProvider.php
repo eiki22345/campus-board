@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
                 ->uncompromised();
         });
 
-        // ヘッダーコンポーネントのみに適用（全ビューではなく）
+
         View::composer('components.headers.*', HeaderComposer::class);
     }
 }

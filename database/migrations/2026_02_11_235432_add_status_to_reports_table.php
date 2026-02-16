@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('reports', function (Blueprint $table) {
-            // statusカラムを追加（デフォルトは 'pending'）
+
             $table->string('status')->default('pending')->after('reason')->comment('pending, resolved, rejected');
         });
     }
