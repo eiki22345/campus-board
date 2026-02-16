@@ -25,9 +25,9 @@
 
               <select name="reason" class="form-select" required x-model="selectedReason">
                 <option value="" disabled selected>選択してください</option>
-                <option value="誹謗中傷">誹謗中傷・迷惑行為</option>
-                <option value="スパム">スパム・宣伝</option>
-                <option value="不適切なコンテンツ">不適切なコンテンツ</option>
+                <option value="harassment">誹謗中傷・迷惑行為</option>
+                <option value="spam">スパム・宣伝</option>
+                <option value="inappropriate">不適切なコンテンツ</option>
                 <option value="other">その他</option>
               </select>
             </div>

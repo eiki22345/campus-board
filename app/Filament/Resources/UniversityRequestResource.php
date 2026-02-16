@@ -69,8 +69,8 @@ class UniversityRequestResource extends Resource
                 Tables\Columns\TextColumn::make('verification_url')
                     ->label('URL')
                     ->limit(30)
-                    ->url(fn($state) => $state, true)
-                    ->color('primary'),
+                    ->copyable()
+                    ->tooltip('クリックでコピー'),
                 Tables\Columns\IconColumn::make('is_approved')
                     ->label('状態')
                     ->boolean()

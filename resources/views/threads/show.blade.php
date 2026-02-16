@@ -122,11 +122,12 @@
       console.log('setTimeout executed, window.Echo:', window.Echo);
       if (window.Echo) {
         console.log('Subscribing to channel: thread.' + thread_id);
-        window.Echo.channel(`thread.${thread_id}`)
+        window.Echo.private(`thread.${thread_id}`)
           .listen('.post.created', (e) => {
             console.log('New post received!', e);
-            if (container) {
-              container.insertAdjacentHTML('beforeend', e.post_html);
+            if (container && window.DOMPurify) {
+              const cleanHTML = window.DOMPurify.sanitize(e.post_html);
+              container.insertAdjacentHTML('beforeend', cleanHTML);
             }
           });
       } else {
