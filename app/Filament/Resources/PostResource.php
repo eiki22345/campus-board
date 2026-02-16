@@ -11,6 +11,9 @@ use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\ForceDeleteAction;
+use Filament\Tables\Actions\RestoreAction;
+use Filament\Tables\Filters\TrashedFilter;
 
 
 class PostResource extends Resource
@@ -36,9 +39,15 @@ class PostResource extends Resource
                 TextColumn::make('user.nickname')->label('投稿者')->searchable(),
                 TextColumn::make('content')->label('内容')->limit(50)->searchable(),
                 TextColumn::make('created_at')->label('日時')->dateTime()->sortable(),
+                TextColumn::make('deleted_at')->label('削除日時')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
+            ])
+            ->filters([
+                TrashedFilter::make(),
             ])
             ->actions([
                 DeleteAction::make(),
+                RestoreAction::make(),
+                ForceDeleteAction::make(),
             ]);
     }
 

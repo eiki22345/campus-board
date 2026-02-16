@@ -75,13 +75,10 @@
       </div>
       <div class="d-flex justify-content-end">
         <div class="d-flex align-items-center me-3">
-          {{-- ボタン --}}
-          {{-- class="post-like-btn" をJSで探します --}}
-          {{-- data-url に通信先のURLを埋め込みます --}}
           <div class="action-button">
             <x-buttons.like-button :type="$reply" />
           </div>
-          @if (Auth::id() === $post->user_id)
+          @if (Auth::id() === $reply->user_id)
           <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#delete-reply-modal-{{ $reply->id }}">
             <img src="{{ asset('img/delete.png') }}" class="delete-img me-3">
           </button>

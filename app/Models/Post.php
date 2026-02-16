@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use illuminate\Database\Eloquent\Relations\BelongsTo;
 use illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,7 +15,6 @@ class Post extends Model
 
     protected $fillable = [
         'thread_id',
-        'post_number',
         'content',
     ];
 
@@ -22,7 +22,9 @@ class Post extends Model
     {
 
         static::deleting(function ($post) {
-            $post->replies()->get()->each->delete();
+            DB::transaction(function () use ($post) {
+                $post->replies()->get()->each->delete();
+            });
         });
     }
 

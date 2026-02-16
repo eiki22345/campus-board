@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -22,7 +23,9 @@ class Thread extends Model
     protected static function booted()
     {
         static::deleting(function ($thread) {
-            $thread->posts()->get()->each->delete();
+            DB::transaction(function () use ($thread) {
+                $thread->posts()->get()->each->delete();
+            });
         });
     }
 

@@ -7,10 +7,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Subscription extends Model
 {
-    protected $fillable = [
-        'user_id',
-        'type',
-    ];
 
 
     protected $casts = [

@@ -35,7 +35,7 @@ class RegisteredUserController extends Controller
             'nickname' => ['required', 'string', 'max:10'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'agree' => ['required'],
+            'agree' => ['accepted'],
         ]);
 
         $university_domain = substr(strrchr($request->email, "@"), 1);

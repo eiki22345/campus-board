@@ -64,7 +64,7 @@
             </div>
 
             <div class="form-group">
-              <label for="password" class="col-form-label ps-2 mt-1">パスワード<small class="text-muted ps-2">※8文字以上、英字と数字を含めてください</small></label>
+              <label for="password" class="col-form-label ps-2 mt-1">パスワード<small class="text-muted ps-2">※8文字以上、英字（大文字・小文字両方）と数字を含めてください</small></label>
 
               <input id="password" type="password" class="form-control @error('password') is-invalid  @enderror hokkai-board-register-input py-2" name="password" required autocomplete="new-password" autofocus placeholder="パスワード">
 
