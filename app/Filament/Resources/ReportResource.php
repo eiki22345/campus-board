@@ -67,10 +67,6 @@ class ReportResource extends Resource
                         default => 'gray',
                     }),
 
-                SelectColumn::make('status')
-                    ->label('クイック更新')
-                    ->options(self::getStatuses()),
-
                 TextColumn::make('post.content')
                     ->label('投稿内容')
                     ->limit(30)
@@ -92,6 +88,26 @@ class ReportResource extends Resource
                     ->options(self::getStatuses()),
             ])
             ->actions([
+                Action::make('updateStatus')
+                    ->label('ステータス変更')
+                    ->icon('heroicon-o-pencil-square')
+                    ->form([
+                        Select::make('status')
+                            ->label('新しいステータス')
+                            ->options(self::getStatuses())
+                            ->required()
+                            ->default(fn(Report $record) => $record->status),
+                    ])
+                    ->action(function (Report $record, array $data) {
+                        $record->status = $data['status'];
+                        $record->save();
+
+                        Notification::make()
+                            ->title('ステータス更新完了')
+                            ->success()
+                            ->send();
+                    }),
+
                 Action::make('deletePost')
                     ->label('投稿を削除して一括完了')
                     ->color('danger')
@@ -117,8 +133,9 @@ class ReportResource extends Resource
                                     $report_item->user->notify(new ReportResolved($post_content_snippet));
                                 }
 
-                                // ステータスを「対処済み」に変更
-                                $report_item->update(['status' => 'resolved']);
+                                // ステータスを「対処済み」に変更（明示的な代入でMass Assignment回避）
+                                $report_item->status = 'resolved';
+                                $report_item->save();
                             }
 
                             // 3. 元の投稿を削除

@@ -36,10 +36,7 @@ class PostController extends Controller
             abort(400, '不正な返信先です。');
         }
 
-
-        if ($board->university_id !== null && $board->university_id !== $user->university_id) {
-            abort(403, '他大学の掲示板に書き込むことはできません。');
-        }
+        $this->authorize('view', $board);
 
         try {
             DB::transaction(function () use ($request, $validated, $thread, $user, $parent_post) {

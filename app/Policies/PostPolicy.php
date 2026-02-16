@@ -9,6 +9,18 @@ use Illuminate\Auth\Access\Response;
 class PostPolicy
 {
     /**
+     * 管理者は全アクションを許可
+     */
+    public function before(User $user, string $ability): bool|null
+    {
+        if ($user->role === User::ROLE_ADMIN) {
+            return true;
+        }
+
+        return null;
+    }
+
+    /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
@@ -45,7 +57,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return $user->id === $post->user_id || $user->role === User::ROLE_ADMIN;
+        return $user->id === $post->user_id;
     }
 
     /**

@@ -70,11 +70,9 @@ class ThreadController extends Controller
             'content' =>  ['required', 'string', 'max:1000', new NoInappropriateWords],
         ]);
 
-        $user = Auth::user();
+        $this->authorize('view', $board);
 
-        if ($board->university_id !== null && $board->university_id !== $user->university_id) {
-            abort(403, '他大学の掲示板に書き込めません。');
-        }
+        $user = Auth::user();
 
         try {
 
@@ -167,9 +165,7 @@ class ThreadController extends Controller
             abort(404);
         }
 
-        if ($thread->user_id !== Auth::id()) {
-            abort(403, '削除権限がありません。');
-        }
+        $this->authorize('delete', $thread);
 
         try {
             DB::transaction(function () use ($thread) {

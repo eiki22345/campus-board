@@ -33,7 +33,7 @@ class ReportController extends Controller
             return back()->with('error', '通報対象が不明です。');
         }
 
-        // 通報対象のボードへのアクセス権限をチェック
+
         if ($target_type === 'post') {
             $post = Post::find($request->post_id);
             if (!$post) {
@@ -48,19 +48,6 @@ class ReportController extends Controller
             $this->authorize('view', $thread->board);
         }
 
-        $exists = Report::where('user_id', Auth::id())
-            ->where(function ($query) use ($request) {
-                if ($request->post_id) {
-                    $query->where('post_id', $request->post_id);
-                } else {
-                    $query->where('thread_id', $request->thread_id);
-                }
-            })->exists();
-
-        if ($exists) {
-            return back()->with('error', 'この投稿は既に通報済みです。');
-        }
-
         // 2. 保存する理由の決定
         // 「その他」なら入力された詳細を、それ以外なら選択肢のラベル（またはvalue）を保存
         $finalReason = $request->reason;
@@ -69,7 +56,23 @@ class ReportController extends Controller
         }
 
         try {
-            DB::transaction(function () use ($request, $finalReason, $target_type, $target_id,) {
+            DB::transaction(function () use ($request, $finalReason, $target_type, $target_id) {
+                // トランザクション内で重複チェック（レースコンディション対策）
+                $exists = Report::where('user_id', Auth::id())
+                    ->where(function ($query) use ($request) {
+                        if ($request->post_id) {
+                            $query->where('post_id', $request->post_id);
+                        } else {
+                            $query->where('thread_id', $request->thread_id);
+                        }
+                    })
+                    ->lockForUpdate() // 行ロックで並列アクセスを防ぐ
+                    ->exists();
+
+                if ($exists) {
+                    throw new \Exception('duplicate_report');
+                }
+
                 $report = new Report();
                 $report->user_id = Auth::id();
                 $report->post_id = $request->post_id;
@@ -77,6 +80,7 @@ class ReportController extends Controller
                 $report->reason = $finalReason;
                 $report->save();
 
+                // 通報が一定数に達したら自動削除
                 $thres_hold = 10;
                 if ($target_type === 'post') {
                     if (Report::where('post_id', $target_id)->count() >= $thres_hold) {
@@ -91,6 +95,9 @@ class ReportController extends Controller
 
             return back()->with('success', '報告を受け付けました。');
         } catch (\Exception $e) {
+            if ($e->getMessage() === 'duplicate_report') {
+                return back()->with('error', 'この投稿は既に通報済みです。');
+            }
             Log::error($e);
             return back()->with('error', '処理に失敗しました。既に削除されているか、システムエラーの可能性があります。');
         }

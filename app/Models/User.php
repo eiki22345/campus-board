@@ -23,8 +23,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasName, Filament
         'nickname',
         'email',
         'password',
-        'university_id',
-        'icon_path',
     ];
 
     protected $hidden = [

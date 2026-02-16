@@ -58,9 +58,10 @@ class RegisteredUserController extends Controller
             'nickname' => $request->nickname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'university_id' => $university->id,
         ]);
 
+        // university_idとroleは明示的に設定（Mass Assignment保護）
+        $user->university_id = $university->id;
         $user->role = 0;
         $user->save();
 
