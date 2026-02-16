@@ -59,7 +59,12 @@ class PostController extends Controller
                 if ($parent_post) {
                     $new_post->parents()->attach($parent_post->id);
                 }
-                \App\Events\PostCreated::dispatch($new_post);
+
+                try {
+                    \App\Events\PostCreated::dispatch($new_post);
+                } catch (\Exception $broadcastException) {
+                    Log::warning('Failed to broadcast PostCreated event: ' . $broadcastException->getMessage());
+                }
             });
 
             return back()->with('message', '投稿を作成しました。');
@@ -72,7 +77,7 @@ class PostController extends Controller
     public function toggleLike(Post $post)
     {
         $this->authorize('view', $post->thread->board);
-        
+
         $user = Auth::user();
 
         // ★魔法のメソッド toggle

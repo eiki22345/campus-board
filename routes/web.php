@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\BoardController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;

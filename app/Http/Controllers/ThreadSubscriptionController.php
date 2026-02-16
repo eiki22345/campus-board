@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Thread;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ThreadSubscriptionController extends Controller
 {
+    use AuthorizesRequests;
 
     public function toggle(Thread $thread)
     {

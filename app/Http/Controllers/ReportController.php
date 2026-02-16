@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Report;
 use App\Models\Thread;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -12,11 +13,12 @@ use Illuminate\Support\Facades\Log;
 
 class ReportController extends Controller
 {
+    use AuthorizesRequests;
 
     public function store(Request $request)
     {
         $request->validate([
-            'reason' => 'required|string',
+            'reason' => 'required|string|max:255|in:spam,harassment,inappropriate,other',
             'reason_detail' => 'required_if:reason,other|nullable|string|max:255',
             'post_id' => 'nullable|exists:posts,id',
             'thread_id' => 'nullable|exists:threads,id',
