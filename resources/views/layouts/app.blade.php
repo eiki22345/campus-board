@@ -30,7 +30,57 @@
      <x-footer.footer />
 
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+     <script>
+         document.addEventListener('DOMContentLoaded', function() {
+
+             const flashData = document.getElementById('flash-message-data');
+
+
+             if (!flashData) return;
+
+
+             const msgSuccess = flashData.dataset.success;
+             const msgInfo = flashData.dataset.message;
+             const msgError = flashData.dataset.error;
+
+             if (!msgSuccess && !msgInfo && !msgError) return;
+
+
+             const Toast = Swal.mixin({
+                 toast: true,
+                 position: 'top-end',
+                 showConfirmButton: false,
+                 timer: 3000,
+                 timerProgressBar: true,
+                 didOpen: (toast) => {
+                     toast.addEventListener('mouseenter', Swal.stopTimer)
+                     toast.addEventListener('mouseleave', Swal.resumeTimer)
+                 }
+             });
+
+             if (msgSuccess) {
+                 Toast.fire({
+                     icon: 'success',
+                     title: msgSuccess
+                 });
+             }
+             if (msgInfo) {
+                 Toast.fire({
+                     icon: 'info',
+                     title: msgInfo
+                 });
+             }
+             if (msgError) {
+                 Toast.fire({
+                     icon: 'error',
+                     title: msgError
+                 });
+             }
+         });
+     </script>
+
      <script>
          document.addEventListener('DOMContentLoaded', function() {
              // --- 1. 連打防止の設定 ---
@@ -88,54 +138,7 @@
          });
      </script>
 
-     <script>
-         document.addEventListener('DOMContentLoaded', function() {
 
-             const flashData = document.getElementById('flash-message-data');
-
-
-             if (!flashData) return;
-
-
-             const msgSuccess = flashData.dataset.success;
-             const msgInfo = flashData.dataset.message;
-             const msgError = flashData.dataset.error;
-
-             if (!msgSuccess && !msgInfo && !msgError) return;
-
-
-             const Toast = Swal.mixin({
-                 toast: true,
-                 position: 'top-end',
-                 showConfirmButton: false,
-                 timer: 3000,
-                 timerProgressBar: true,
-                 didOpen: (toast) => {
-                     toast.addEventListener('mouseenter', Swal.stopTimer)
-                     toast.addEventListener('mouseleave', Swal.resumeTimer)
-                 }
-             });
-
-             if (msgSuccess) {
-                 Toast.fire({
-                     icon: 'success',
-                     title: msgSuccess
-                 });
-             }
-             if (msgInfo) {
-                 Toast.fire({
-                     icon: 'info',
-                     title: msgInfo
-                 });
-             }
-             if (msgError) {
-                 Toast.fire({
-                     icon: 'error',
-                     title: msgError
-                 });
-             }
-         });
-     </script>
 
      @if ($errors->has('title') || $errors->has('content'))
      <script>

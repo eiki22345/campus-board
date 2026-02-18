@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\View;
 use App\Http\View\Composers\HeaderComposer;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,7 +30,6 @@ class AppServiceProvider extends ServiceProvider
                 ->numbers()
                 ->uncompromised();
         });
-
 
         View::composer('components.headers.*', HeaderComposer::class);
     }

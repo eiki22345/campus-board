@@ -24,7 +24,7 @@
         >コメント
       </div>
       <div>
-        <p class="post-information mb-0">作成者:{{ $post->user->nickname ?? '退会済みユーザー' }}・{{ $thread->created_at->diffForHumans() }}</p>
+        <p class="post-information mb-0">作成者:{{ $thread->user->nickname ?? '退会済みユーザー' }}・{{ $thread->created_at->diffForHumans() }}</p>
         <span class="fs-6 fw-bold">{{ $thread->title }}</span>
         <p class="text-content mt-2">>>{{ $thread->content }}</p>
         <hr>

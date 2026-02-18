@@ -54,13 +54,10 @@ class RegisteredUserController extends Controller
             return back()->with('error_message', '入力された大学のメールアドレスは、現在対応していません。')->withInput();
         }
 
-        $user = User::create([
-            'nickname' => $request->nickname,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        // university_idとroleは明示的に設定（Mass Assignment保護）
+        $user = new User();
+        $user->nickname = $request->nickname;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
         $user->university_id = $university->id;
         $user->role = 0;
         $user->save();
