@@ -12,3 +12,5 @@ window.Echo = new Echo({
     forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') === 'https',
     enabledTransports: ['ws', 'wss'],
 });
+
+// bootstrapで初期化するのが推奨だが管理しやすいためimportする形にしている。

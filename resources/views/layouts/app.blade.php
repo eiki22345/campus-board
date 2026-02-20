@@ -13,10 +13,7 @@
          crossorigin="anonymous">
      <!-- Font Awesome: Kit-based loading doesn't support SRI. Consider self-hosting for production. -->
      <script src="https://kit.fontawesome.com/a251afe25c.js" crossorigin="anonymous"></script>
-     <script defer
-         src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"
-         integrity="sha384-1W3L+8YbGR2dykMqvho9h6aT7HJ0IF7TqhtFKh+lkQKTSqmQ1RRjGT9D2c8i9D3p"
-         crossorigin="anonymous"></script>
+     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.8/dist/cdn.min.js"></script>
      <link rel="manifest" href="{{ asset('manifest.json') }}">
      <link href="{{ asset('css/style.css')}}" rel="stylesheet">
      @vite(['resources/js/app.js'])

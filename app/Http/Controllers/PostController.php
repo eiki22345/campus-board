@@ -32,8 +32,18 @@ class PostController extends Controller
 
         $board = $thread->board;
 
-        if ($parent_post != null && $parent_post->thread_id !== $thread->id) {
-            abort(400, '不正な返信先です。');
+        if ($parent_post != null) {
+            if ($parent_post->thread_id !== $thread->id) {
+                abort(400, '不正な返信先です。');
+            }
+
+            if ($parent_post->trashed()) {
+                abort(400, '削除された投稿には返信できません。');
+            }
+
+            if ($parent_post->parents()->exists()) {
+                abort(400, '返信投稿にはさらに返信できません。');
+            }
         }
 
         $this->authorize('view', $board);
@@ -58,7 +68,7 @@ class PostController extends Controller
                 }
 
                 try {
-                    \App\Events\PostCreated::dispatch($new_post);
+                    PostCreated::dispatch($new_post);
                 } catch (\Exception $broadcastException) {
                     Log::warning('Failed to broadcast PostCreated event: ' . $broadcastException->getMessage());
                 }
