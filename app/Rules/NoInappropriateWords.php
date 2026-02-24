@@ -30,11 +30,9 @@ class NoInappropriateWords implements ValidationRule
             }
         }
 
-        foreach ($ng_words as $ng) {
-            if ($ng !== '' && mb_strpos($value, $ng) !== false) {
-                $fail('投稿内容に不適切な表現が含まれています。');
-                return;
-            }
+        if (in_array($value, $ng_words)) {
+            $fail('投稿内容に不適切な表現が含まれています。');
+            return;
         }
     }
 }

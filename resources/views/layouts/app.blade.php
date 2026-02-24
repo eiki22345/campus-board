@@ -7,11 +7,7 @@
      <meta name="csrf-token" content="{{ csrf_token() }}">
 
      <title>@yield('title')</title>
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-         rel="stylesheet"
-         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
-         crossorigin="anonymous">
-     <!-- Font Awesome: Kit-based loading doesn't support SRI. Consider self-hosting for production. -->
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
      <script src="https://kit.fontawesome.com/a251afe25c.js" crossorigin="anonymous"></script>
      <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.8/dist/cdn.min.js"></script>
      <link rel="manifest" href="{{ asset('manifest.json') }}">
@@ -33,13 +29,10 @@
 
      <x-footer.footer />
 
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-         crossorigin="anonymous"></script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 
-     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"
-         integrity="sha384-dW6V7h/IthF5FSyrlxs3bLwFHgRKNEQq7xqLLBM3RIzqIBwE8iVyKX2pZLqvTJBz"
-         crossorigin="anonymous"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
      <script>
          document.addEventListener('DOMContentLoaded', function() {
 
@@ -94,7 +87,7 @@
              // --- 1. 連打防止の設定 ---
 
              document.querySelectorAll('form').forEach(function(form) {
-                 form.addEventListener('submit', function(e) {
+                 form.addEventListener('submit', function() {
                      const button = form.querySelector('button[type="submit"]');
                      if (button && !button.disabled) {
                          setTimeout(() => {
@@ -125,7 +118,7 @@
          });
 
          // --- 2. 「戻る」ボタンで戻ってきた時の復活処理 (bfcache対策) ---
-         window.addEventListener('pageshow', function(event) {
+         window.addEventListener('pageshow', function() {
 
              const disabledButtons = document.querySelectorAll('button[data-disabled-by-js="true"]');
              disabledButtons.forEach(btn => {
