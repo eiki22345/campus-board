@@ -3,12 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ReportResource\Pages;
+use App\Models\Post;
 use App\Models\Report;
-use App\Notifications\ReportResolved; // ★追加: 通知クラスを読み込み
+use App\Models\Thread;
+use App\Notifications\ReportResolved;
 use Filament\Forms\Form;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\Section;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
@@ -17,7 +17,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Notifications\Notification;
-use Illuminate\Support\Str; // ★追加: 文字列操作用
+use Illuminate\Support\Str;
 
 class ReportResource extends Resource
 {
@@ -37,16 +37,7 @@ class ReportResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form->schema([
-            Section::make('管理アクション')
-                ->schema([
-                    Select::make('status')
-                        ->label('現在のステータス')
-                        ->options(self::getStatuses())
-                        ->required()
-                        ->native(false),
-                ]),
-        ]);
+        return $form->schema([]);
     }
 
     public static function table(Table $table): Table
@@ -67,15 +58,21 @@ class ReportResource extends Resource
                         default => 'gray',
                     }),
 
-                TextColumn::make('post.content')
+                TextColumn::make('content')
                     ->label('投稿内容')
-                    ->limit(30)
-                    ->searchable(),
+                    ->getStateUsing(function (Report $record): string {
+                        $post = Post::withTrashed()->find($record->post_id);
+                        $thread = Thread::withTrashed()->find($record->thread_id);
+                        $text = $post?->content ?? $thread?->title ?? '（不明）';
+                        $deleted = ($post?->trashed() || $thread?->trashed()) ? ' 🗑️' : '';
+                        return $text . $deleted;
+                    })
+                    ->limit(40),
 
                 TextColumn::make('reason')
                     ->label('理由')
-                    ->limit(20)
-                    ->tooltip(fn(Report $record): string => $record->reason ?? ''), // 長い理由はツールチップで表示
+                    ->limit(40)
+                    ->tooltip(fn(Report $record): string => $record->reason ?? ''),
 
                 TextColumn::make('created_at')
                     ->label('通報日時')
@@ -108,50 +105,49 @@ class ReportResource extends Resource
                             ->send();
                     }),
 
-                Action::make('deletePost')
-                    ->label('投稿を削除して一括完了')
+                Action::make('deleteTarget')
+                    ->label('対象を削除して一括完了')
                     ->color('danger')
                     ->icon('heroicon-o-trash')
                     ->requiresConfirmation()
-                    ->modalHeading('投稿削除と完了通知の送信')
-                    ->modalDescription('この投稿を削除し、関連する全ての通報を「対処済み」にします。また、通報者全員にお礼の通知が送信されます。')
+                    ->modalHeading('削除と完了通知の送信')
+                    ->modalDescription('この投稿またはスレッドを削除し、関連する全ての通報を「対処済み」にします。また、通報者全員にお礼の通知が送信されます。')
                     ->action(function (Report $record) {
-
                         if ($record->post) {
-                            $post_id = $record->post_id;
-
-
-                            $post_content_snippet = Str::limit($record->post->content, 20);
-
-
-                            $related_reports = Report::where('post_id', $post_id)->with('user')->get();
-
-
+                            $snippet = Str::limit($record->post->content, 20);
+                            $related_reports = Report::where('post_id', $record->post_id)->with('user')->get();
                             foreach ($related_reports as $report_item) {
-
                                 if ($report_item->user) {
-                                    $report_item->user->notify(new ReportResolved($post_content_snippet));
+                                    $report_item->user->notify(new ReportResolved($snippet));
                                 }
-
-
                                 $report_item->status = 'resolved';
                                 $report_item->save();
                             }
-
                             $record->post->delete();
-
-                            Notification::make()
-                                ->title('処理完了')
-                                ->body('投稿を削除し、通報者へ通知を送信しました。')
-                                ->success()
-                                ->send();
+                        } elseif ($record->thread) {
+                            $snippet = Str::limit($record->thread->title, 20);
+                            $related_reports = Report::where('thread_id', $record->thread_id)->with('user')->get();
+                            foreach ($related_reports as $report_item) {
+                                if ($report_item->user) {
+                                    $report_item->user->notify(new ReportResolved($snippet));
+                                }
+                                $report_item->status = 'resolved';
+                                $report_item->save();
+                            }
+                            $record->thread->delete();
                         }
+
+                        Notification::make()
+                            ->title('処理完了')
+                            ->body('対象を削除し、通報者へ通知を送信しました。')
+                            ->success()
+                            ->send();
                     })
-                    ->visible(fn(Report $record) => $record->post !== null && $record->status !== 'resolved'),
+                    ->visible(fn(Report $record) => ($record->post !== null || $record->thread !== null) && $record->status !== 'resolved'),
 
                 DeleteAction::make()->label('通報を削除'),
             ])
-            ->defaultSort('status', 'desc');
+            ->defaultSort('status', 'asc');
     }
 
     public static function getPages(): array
