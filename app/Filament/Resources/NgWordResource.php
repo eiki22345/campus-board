@@ -16,7 +16,6 @@ class NgWordResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-no-symbol';
     protected static ?string $navigationLabel = 'NGワード管理';
-    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {

@@ -18,7 +18,6 @@ class BoardResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-folder';
     protected static ?string $navigationLabel = '掲示板管理';
-    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {

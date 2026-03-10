@@ -18,7 +18,6 @@ class ThreadResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
     protected static ?string $navigationLabel = 'スレッド管理';
-    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
