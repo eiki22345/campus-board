@@ -20,36 +20,11 @@ class UniversityRequestResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-inbox-arrow-down';
     protected static ?string $navigationLabel = '大学追加リクエスト';
-    protected static ?string $modelLabel = '追加リクエスト';
+
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make('申請内容')
-                    ->schema([
-                        Forms\Components\TextInput::make('name')
-                            ->label('大学名')
-                            ->required()
-                            ->readOnly(),
-                        Forms\Components\TextInput::make('email')
-                            ->label('メールアドレス')
-                            ->email()
-                            ->required()
-                            ->readOnly(),
-                        Forms\Components\TextInput::make('verification_url')
-                            ->label('確認用URL')
-                            ->url()
-                            ->readOnly()
-                            ->columnSpanFull(),
-                    ])->columns(2),
-
-                Forms\Components\Toggle::make('is_approved')
-                    ->label('承認済み')
-                    ->disabled()
-                    ->onColor('success')
-                    ->offColor('danger'),
-            ]);
+        return $form->schema([]);
     }
 
     public static function table(Table $table): Table
@@ -137,8 +112,6 @@ class UniversityRequestResource extends Resource
     {
         return [
             'index' => Pages\ListUniversityRequests::route('/'),
-            'create' => Pages\CreateUniversityRequest::route('/create'),
-
         ];
     }
 }

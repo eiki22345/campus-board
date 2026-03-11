@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class BoardResource extends Resource
 {
     protected static ?string $model = Board::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-folder';
     protected static ?string $navigationLabel = '掲示板管理';
 
