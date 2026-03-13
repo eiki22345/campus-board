@@ -58,7 +58,7 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                // ID
+
                 Tables\Columns\TextColumn::make('id')
                     ->sortable(),
 

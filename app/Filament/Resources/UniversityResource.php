@@ -4,23 +4,22 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UniversityResource\Pages;
 use App\Models\University;
-use Filament\Forms\Form; // ★ v3 ではこれが必須
+use Filament\Forms\Form;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Resources\Resource;
-use Filament\Tables\Table; // ★ v3 ではこれが必須
+use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 
 class UniversityResource extends Resource
 {
     protected static ?string $model = University::class;
 
-    // ★ v3 のルール: 型は ?string でなければなりません
-    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
+    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
     protected static ?string $navigationLabel = '大学管理';
 
-    // ★ 引数と戻り値の型を「Form」に統一します
+
     public static function form(Form $form): Form
     {
         return $form
@@ -39,7 +38,7 @@ class UniversityResource extends Resource
             ]);
     }
 
-    // ★ 引数と戻り値の型を「Table」に統一します
+
     public static function table(Table $table): Table
     {
         return $table

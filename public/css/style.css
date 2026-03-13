@@ -296,23 +296,18 @@
 .thread-card {
   background-color: #ffffff;
   padding: 15px;
-  /* 内側の余白 */
   transition: transform 0.2s;
-  /* ホバー時の動き用 */
   border-top: 2px solid #eff3f4;
   border-bottom: 2px solid #eff3f4;
-  /* X（旧Twitter）風の非常に薄い線 */
 }
 
 .content-preview {
   display: -webkit-box;
   -webkit-line-clamp: 2;
-  /* ★表示したい行数を指定（例：2行） */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   color: rgb(59, 58, 58);
-  /* 少し薄い色にするとモダン */
   font-size: 13px;
   line-height: 1.5;
 }

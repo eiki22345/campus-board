@@ -10,7 +10,7 @@
 </header>
 <main>
     <div class="col-md-8 mx-auto">
-        <div class="board-thread-bg img-fluid">
+        <div class="board-thread-bg">
             <x-link-button.support-link-button :sort='$sort' />
 
             @if($threads->isEmpty())
@@ -132,10 +132,10 @@
 
                 if (data.is_liked) {
                     icon.classList.remove('fa-regular');
-                    icon.classList.add('fa-solid'); 
+                    icon.classList.add('fa-solid');
                 } else {
                     icon.classList.remove('fa-solid');
-                    icon.classList.add('fa-regular'); 
+                    icon.classList.add('fa-regular');
                 }
 
             } catch (error) {
