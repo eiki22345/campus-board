@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use App\Rules\NoInappropriateWords;
+use App\Models\BrowsingHistory;
 
 class ThreadController extends Controller
 {
@@ -111,7 +112,7 @@ class ThreadController extends Controller
         $user = auth()->user();
 
         if ($user) {
-            \App\Models\BrowsingHistory::updateOrCreate(
+            BrowsingHistory::updateOrCreate(
                 [
                     'user_id' => $user->id,
                     'thread_id' => $thread->id,
