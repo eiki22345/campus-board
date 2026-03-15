@@ -242,24 +242,17 @@
 
 .board-index-icon {
   padding: 0px 3px 1px 3px
-    /* col同士の余白を作成 */
 }
 
 .board-index-icon>a {
   display: block;
   background: linear-gradient(180deg, #cae8f8 0%, #fdf8e2 100%);
   border-radius: 12px;
-  /* 角丸 */
   padding: 15px 5px;
-  /* ボタン内の余白 */
   text-decoration: none;
-  /* リンクの下線を消す */
   color: #333;
-  /* 文字色 */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  /* ふんわりした影 */
   transition: transform 0.2s, box-shadow 0.2s;
-  /* ホバー時の動き */
 }
 
 .board-index-icon-img {
@@ -301,6 +294,11 @@
   border-bottom: 2px solid #eff3f4;
 }
 
+.thread-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
 .content-preview {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -312,7 +310,7 @@
   line-height: 1.5;
 }
 
-/* 共通設定（既存のコードを活かしています） */
+
 [class^="genre-"] {
   font-size: 10px;
   color: white;
@@ -322,7 +320,7 @@
   border: 1px solid transparent;
 }
 
-/* 個別カラー設定：モダンで少し彩度を抑えた配色 */
+
 .genre-1 {
   background-color: #ff4500;
 }
@@ -409,7 +407,7 @@
 
 /* 雑談・その他（中立的） */
 
-/* オプション：マウスを乗せた時に少し明るくする（モダンな演出） */
+
 [class^="genre-"]:hover {
   filter: brightness(1.1);
   cursor: default;
@@ -417,31 +415,18 @@
 
 .action-button {
   background-color: #f6f7f8;
-  /* Redditっぽい薄いグレーの背景 */
   border-radius: 999px;
-  /* 完全に丸い角（カプセル型）にする */
   padding: 4px 6px;
-  /* ボタンの内側の余白（上下 左右） */
-
-  /* テキストとアイコンのスタイル */
   font-size: 13px;
-}
-
-/* マウスを乗せた時にちょっと浮く演出 */
-.thread-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 .like-btn:active {
   transform: scale(1.2);
-  /* 押した瞬間にちょっと大きくする */
   transition: 0.1s;
 }
 
 .like-icon {
   transition: all 0.2s;
-  /* 色の切り替わりをふわっとさせる */
   cursor: pointer;
 }
 
@@ -460,13 +445,11 @@
   padding: 8px;
 }
 
-/* メタデータ情報（投稿者、No.、日時）をグレーアウト */
 .post-card>div:first-child {
   color: #666666;
   font-size: 14px;
 }
 
-/* 投稿内容のテキストを読みやすく */
 .post-card p {
   font-size: 16px;
   line-height: 1.7;
@@ -494,18 +477,14 @@ body {
 
 .col-md-8 {
   border-left: 3px solid #eff3f4;
-  /* X（旧Twitter）風の非常に薄い線 */
   border-right: 3px solid #eff3f4;
-  /* X（旧Twitter）風の非常に薄い線 */
 }
 
-/* ページ全体の設定 */
 .legal-page-body {
   background-color: #f8f9fa;
   color: #333;
 }
 
-/* サイドバーのデザイン */
 .legal-sidebar {
   position: sticky;
   top: 2rem;
@@ -547,7 +526,6 @@ body {
   text-decoration: underline;
 }
 
-/* コンテンツエリアのデザイン */
 .legal-content-card {
   background-color: #fff;
   border-radius: 12px;

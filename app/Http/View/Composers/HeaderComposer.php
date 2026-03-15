@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\Cache;
 
 class HeaderComposer
 {
-  /**
-   * データをビューにバインドする
-   */
   public function compose(View $view): void
   {
     if (Auth::check()) {

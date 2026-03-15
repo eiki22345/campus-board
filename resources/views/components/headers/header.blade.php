@@ -26,12 +26,9 @@
          </div>
 
          <a href="{{ route('mypage') }}" class="d-flex align-items-center board-index-offcanvas-a prevent-double-click">
-
-           {{-- 文字を基準にバッジを配置するためのラッパー --}}
            <div class="position-relative">
              <span>お知らせ</span>
 
-             {{-- 未読がある場合のみバッジを表示 --}}
              @if(isset($unread_count) && $unread_count > 0)
              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                {{ $unread_count > 99 ? '99+' : $unread_count }}
@@ -49,12 +46,9 @@
            @csrf
          </form>
 
-
-         <a href="#" class="board-index-offcanvas-a prevent-double-click">
+         <a href="{{ route('users.edit') }}" class="board-index-offcanvas-a prevent-double-click">
            <div>ユーザー設定</div>
          </a>
-
-
 
          <hr>
 

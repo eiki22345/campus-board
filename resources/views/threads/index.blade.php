@@ -43,21 +43,17 @@
         <div class="d-flex justify-content-between">
           <div class="post-information">
             {{ $thread->user->nickname ?? '退会済みユーザー'  }}
-
             ・{{ $thread->created_at->diffForHumans() }}
           </div>
           @if ( $thread->board->university_id === $user_university->id )
           <div class="d-flex justify-content-end post-information">
             {{ $user_university->name }}専用
-
-
           </div>
           @endif
         </div>
         <div class="d-flex justify-content-end">
           <form action="{{ route('threads.subscribe', $thread) }}" method="POST">
             @csrf
-
             @if(Auth::user()->subscribedThreads->contains($thread))
             <button type="submit" class="btn btn-outline-secondary btn-sm d-flex align-items-center gap-2 p-0 ms-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">

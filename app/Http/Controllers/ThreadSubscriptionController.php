@@ -24,6 +24,6 @@ class ThreadSubscriptionController extends Controller
             $message = 'スレッドを購読しました！マイページから確認できます。';
         }
 
-        return back()->with('status', $message);
+        return back()->with('success', $message);
     }
 }

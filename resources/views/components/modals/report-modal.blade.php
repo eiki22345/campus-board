@@ -8,7 +8,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">
-          {{ $type === 'post' ? 'コメント' : 'トピック' }}を通報する
+          {{ $type === 'post' ? 'コメント' : 'スレッド' }}を通報する
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
@@ -32,20 +32,16 @@
               </select>
             </div>
 
-            <div class="mb-3"
-              x-show="selectedReason === 'other'"
-              x-transition
-              style="display: none;">
+            <div class="mb-3" x-show="selectedReason === 'other'" x-transition style="display: none;">
               <label class="form-label small text-muted">
                 詳細な理由を入力してください <span class="text-danger">*</span>
               </label>
               <textarea name="reason_detail" class="form-control" rows="3" placeholder="例: 個人情報が含まれている等"></textarea>
             </div>
-
           </div>
 
           <div class="alert alert-light border mt-3 small text-muted">
-            <i class="bi bi-info-circle"></i> 通報が一定数を超えると、自動的に非表示になります。
+            <i class="fa-solid fa-circle-info"></i> 通報が一定数を超えると、自動的に非表示になります。
           </div>
         </div>
 
