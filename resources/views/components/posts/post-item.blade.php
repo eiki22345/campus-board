@@ -33,9 +33,8 @@
       <div>
         <button type="button" class="btn p-0 border-0 d-flex align-items-center ms-2" @click="replyOpen = !replyOpen">
           <div class="ms-2 action-button">{{ $post->replies_count }} 件の返信を表示</div>
-          <i class="fa-solid fa-chevron-down ms-1 text-secondary small"
-            :style="replyOpen ? ' transform: rotate(180deg)' : ''"
-            style=" transition: 0.3s;"></i>
+          <i class="fa-solid fa-chevron-down ms-1 text-secondary small reply-toggle-icon"
+            :class="{ 'reply-toggle-icon-open': replyOpen }"></i>
         </button>
       </div>
 
@@ -50,8 +49,7 @@
     </div>
 
   </div>
-  <div x-show="replyOpen" x-transition class="mt-3 ps-3 border-start" style="display: none; border-color: #ddd;">
-
+  <div x-show="replyOpen" x-transition x-cloak class="mt-3 ps-3 border-start reply-thread-container">
     @if($post->replies->isNotEmpty())
     @foreach ($post->replies as $reply)
     <div class="bg-light p-2 mb-2 rounded">
@@ -91,8 +89,5 @@
     @else
     <div class="text-muted small p-2">返信はまだありません</div>
     @endif
-
-    {{-- ここに「この投稿に返信するボタン」を置くのも一般的です --}}
-
   </div>
 </div>

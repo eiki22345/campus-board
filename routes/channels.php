@@ -12,6 +12,5 @@ Broadcast::channel('thread.{threadId}', function ($user, $threadId) {
     if (!$thread) {
         return false;
     }
-    // 共通掲示板（university_id が null）または自分の大学の掲示板のみアクセス可能
     return is_null($thread->board->university_id) || $thread->board->university_id === $user->university_id;
 });

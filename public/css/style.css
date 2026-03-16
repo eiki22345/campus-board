@@ -420,6 +420,18 @@
   font-size: 13px;
 }
 
+.reply-toggle-icon {
+  transition: transform 0.3s;
+}
+
+.reply-toggle-icon-open {
+  transform: rotate(180deg);
+}
+
+.reply-thread-container {
+  border-color: #ddd;
+}
+
 .like-btn:active {
   transform: scale(1.2);
   transition: 0.1s;
@@ -432,6 +444,10 @@
 
 .fa-heart {
   font-size: 16px;
+}
+
+.post-content-small {
+  font-size: 0.95rem;
 }
 
 .comment-img {

@@ -13,7 +13,6 @@
         </div>
         @endif
 
-        {{-- プロフィール（ニックネーム）編集フォーム --}}
         <div class="card mb-4 shadow-sm">
           <div class="card-header bg-white py-3">
             <h5 class="mb-0 fw-bold">👤 プロフィール編集</h5>
@@ -30,13 +29,6 @@
                 <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
               </div>
-
-              <div class="mb-3">
-                <label class="form-label text-muted">メールアドレス</label>
-                <input type="text" class="form-control bg-light" value="{{ $user->email }}" disabled readonly>
-                <div class="form-text">大学のメールアドレスは変更できません。</div>
-              </div>
-
               <div class="d-flex justify-content-end">
                 <button type="submit" class="btn btn-primary">保存する</button>
               </div>
@@ -44,17 +36,14 @@
           </div>
         </div>
 
-        {{-- パスワード変更フォーム（別のルートへ送信） --}}
         <div class="card mb-4 shadow-sm">
           <div class="card-header bg-white py-3">
             <h5 class="mb-0 fw-bold">🔒 パスワード変更</h5>
           </div>
           <div class="card-body">
-            {{-- 既存のパスワード更新ルートを使用 --}}
             <form method="post" action="{{ route('password.update') }}">
               @csrf
               @method('put')
-
               <div class="mb-3">
                 <label for="update_password_current_password" class="form-label">現在のパスワード</label>
                 <input type="password" name="current_password" id="update_password_current_password" class="form-control @error('current_password', 'updatePassword') is-invalid @enderror" autocomplete="current-password">
@@ -103,7 +92,6 @@
     </div>
   </div>
 
-  {{-- 削除確認モーダル --}}
   <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <form method="post" action="{{ route('users.destroy') }}" class="modal-content">
@@ -114,6 +102,9 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
+          <div class="alert alert-warning py-2">
+            アカウントを削除するとしばらくの間再生成できなくなります。
+          </div>
           <p>確認のためパスワードを入力してください。</p>
           <input type="password" name="password" class="form-control @error('password', 'userDeletion') is-invalid @enderror" placeholder="パスワード" required>
         </div>

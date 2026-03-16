@@ -129,7 +129,7 @@
                 </small>
                 <small class="text-muted">{{ $post->created_at->diffForHumans() }}</small>
               </div>
-              <p class="mb-0 text-dark" style="font-size: 0.95rem;">
+              <p class="mb-0 text-dark post-content-small">
                 {{ Str::limit($post->content, 60) }}
               </p>
             </a>
