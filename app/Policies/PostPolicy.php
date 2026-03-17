@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Board;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -31,15 +32,25 @@ class PostPolicy
      */
     public function view(User $user, Post $post): bool
     {
-        return false;
+        $board = $post->thread->board;
+
+        if (is_null($board->university_id)) {
+            return true;
+        }
+
+        return $user->university_id === $board->university_id;
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, Board $board): bool
     {
-        return false;
+        if (is_null($board->university_id)) {
+            return true;
+        }
+
+        return $user->university_id === $board->university_id;
     }
 
     /**

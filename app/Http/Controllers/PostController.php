@@ -46,7 +46,7 @@ class PostController extends Controller
             }
         }
 
-        $this->authorize('view', $board);
+        $this->authorize('create', [Post::class, $board]);
 
         try {
             DB::transaction(function () use ($request, $validated, $thread, $user, $parent_post) {
@@ -83,7 +83,7 @@ class PostController extends Controller
 
     public function toggleLike(Post $post)
     {
-        $this->authorize('view', $post->thread->board);
+        $this->authorize('view', $post);
 
         $user = Auth::user();
 

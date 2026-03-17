@@ -103,7 +103,7 @@ class ThreadController extends Controller
             abort(404);
         }
 
-        $this->authorize('view', $board);
+        $this->authorize('view', $thread);
 
         $sort = $request->input('sort', 'new');
         $keyword = $request->input('keyword');
@@ -186,7 +186,7 @@ class ThreadController extends Controller
 
     public function toggleLike(Thread $thread)
     {
-        $this->authorize('view', $thread->board);
+        $this->authorize('view', $thread);
 
         $user = Auth::user();
 
