@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Board;
 use App\Models\Thread;
 use App\Models\User;
 
@@ -30,9 +31,13 @@ class ThreadPolicy
   }
 
 
-  public function create(User $user): bool
+  public function create(User $user, Board $board): bool
   {
-    return true;
+    if (is_null($board->university_id)) {
+      return true;
+    }
+
+    return $user->university_id === $board->university_id;
   }
 
 

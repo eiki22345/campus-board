@@ -71,7 +71,7 @@ class ThreadController extends Controller
             'content' =>  ['required', 'string', 'max:1000', new NoInappropriateWords],
         ]);
 
-        $this->authorize('view', $board);
+        $this->authorize('create', [Thread::class, $board]);
 
         $user = Auth::user();
 
