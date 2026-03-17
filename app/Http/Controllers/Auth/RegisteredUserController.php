@@ -3,16 +3,18 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\NgWord;
 use App\Models\University;
+use App\Models\User;
+use Closure;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use Illuminate\View\View;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
@@ -32,9 +34,19 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'nickname' => ['required', 'string', 'max:10'],
+            'nickname' => [
+                'required',
+                'string',
+                'max:8',
+                function (string $attribute, mixed $value, Closure $fail) {
+                    $ngWords = NgWord::pluck('word')->toArray();
+                    if (in_array($value, $ngWords)) {
+                        $fail('不適切なニックネームは使用できません。');
+                    }
+                },
+            ],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed', Password::defaults()],
             'agree' => ['accepted'],
         ]);
 
