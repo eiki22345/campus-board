@@ -69,7 +69,7 @@
         </div>
       </div>
       <div class="mt-1">
-        <span class="text-content">{!! nl2br(e($reply->content)) !!}</span>
+        <span class="text-content">{{ $reply->content }}</span>
       </div>
       <div class="d-flex justify-content-end">
         <div class="d-flex align-items-center me-3">
