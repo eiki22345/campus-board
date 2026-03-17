@@ -43,7 +43,6 @@ class UniversityRequestController extends Controller
                     }
                 },
             ],
-            'verification_url' => ['required', 'url', 'max:255'],
         ]);
 
         UniversityRequest::create($validated);

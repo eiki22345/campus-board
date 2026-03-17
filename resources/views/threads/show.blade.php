@@ -101,7 +101,7 @@
     });
   </script>
 
-  <script type="module">
+  <script>
     const container = document.getElementById('posts-container');
     const thread_id = container.dataset.threadId;
 

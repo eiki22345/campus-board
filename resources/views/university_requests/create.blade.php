@@ -51,20 +51,7 @@
               </div>
               @enderror
             </div>
-            <div class="mb-5">
-              <label for="verification_url" class="form-label fw-bold text-secondary small">
-                {{ __('大学の実在確認用URL') }} <span class="text-danger">*</span>
-              </label>
-              <input id="verification_url" type="url"
-                class="form-control form-control-lg bg-light border-0 {{ $errors->has('verification_url') ? 'is-invalid' : '' }}"
-                name="verification_url" value="{{ old('verification_url') }}" required
-                placeholder="例: https://www.hgu.jp/" />
-              @error('verification_url')
-              <div class="invalid-feedback fw-bold">
-                {{ $message }}
-              </div>
-              @enderror
-            </div>
+
             <div class="d-flex justify-content-between align-items-center pt-2">
               <a class="text-decoration-none text-secondary fw-bold small" href="{{ route('register') }}">
                 &larr; {{ __('登録画面に戻る') }}

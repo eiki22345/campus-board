@@ -41,11 +41,6 @@ class UniversityRequestResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->label('メールアドレス')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('verification_url')
-                    ->label('URL')
-                    ->limit(30)
-                    ->copyable()
-                    ->tooltip('クリックでコピー'),
                 Tables\Columns\IconColumn::make('is_approved')
                     ->label('状態')
                     ->boolean()

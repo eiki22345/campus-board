@@ -12,6 +12,5 @@ class UniversityRequest extends Model
     protected $fillable = [
         'name',
         'email',
-        'verification_url',
     ];
 }
