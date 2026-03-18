@@ -108,10 +108,23 @@
     setTimeout(() => {
       if (window.Echo) {
         window.Echo.private(`thread.${thread_id}`)
-          .listen('.post.created', (e) => {
-            if (container && window.DOMPurify) {
-              const cleanHTML = window.DOMPurify.sanitize(e.post_html);
-              container.insertAdjacentHTML('beforeend', cleanHTML);
+          .listen('.post.created', async (e) => {
+            if (!container) return;
+            try {
+              const res = await fetch(`/posts/${e.postId}`, {
+                headers: {
+                  'X-Requested-With': 'XMLHttpRequest',
+                  'Accept': 'application/json',
+                },
+                credentials: 'same-origin',
+              });
+              if (!res.ok) return;
+              const data = await res.json();
+              const template = document.createElement('template');
+              template.innerHTML = data.html;
+              container.appendChild(template.content);
+            } catch (err) {
+              console.error('投稿の取得に失敗しました', err);
             }
           });
       }

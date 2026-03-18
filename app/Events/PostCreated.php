@@ -15,18 +15,13 @@ class PostCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets;
 
-    public $post_html;
-    public $threadId;
+    public int $postId;
+    public int $threadId;
 
     public function __construct(Post $post)
     {
+        $this->postId = $post->id;
         $this->threadId = $post->thread_id;
-
-        $post->load('thread');
-        $this->post_html = view('components.posts.post-item', [
-            'post' => $post,
-            'thread' => $post->thread
-        ])->render();
     }
 
 

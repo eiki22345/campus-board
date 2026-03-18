@@ -81,6 +81,20 @@ class PostController extends Controller
         }
     }
 
+    public function show(Post $post)
+    {
+        $this->authorize('view', $post);
+
+        $post->load('thread');
+
+        $html = view('components.posts.post-item', [
+            'post' => $post,
+            'thread' => $post->thread,
+        ])->render();
+
+        return response()->json(['html' => $html]);
+    }
+
     public function toggleLike(Post $post)
     {
         $this->authorize('view', $post);
