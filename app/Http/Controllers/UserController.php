@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
+use App\Notifications\AccountDeletionRequested;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Http\Request;
 use App\Models\MajorCategory;
 use App\Models\Board;
@@ -65,14 +67,37 @@ class UserController extends Controller
         ]);
 
         $user = $request->user();
+        $user->deletion_requested_at = now();
+        $user->save();
+
+        $cancelUrl = URL::temporarySignedRoute(
+            'account-deletion.cancel',
+            now()->addDays(7),
+            ['user' => $user->id]
+        );
+
+        $user->notify(new AccountDeletionRequested($cancelUrl));
 
         Auth::logout();
-
-        $user->delete();
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/')->with('status', 'deletion-scheduled');
+    }
+
+    public function cancelDeletion(Request $request, User $user)
+    {
+        if (! $request->hasValidSignature()) {
+            abort(403, 'このリンクは無効または期限切れです。');
+        }
+
+        if (is_null($user->deletion_requested_at)) {
+            return redirect('/')->with('status', 'deletion-already-cancelled');
+        }
+
+        $user->deletion_requested_at = null;
+        $user->save();
+
+        return redirect('/login')->with('status', 'deletion-cancelled');
     }
 }

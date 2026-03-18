@@ -103,14 +103,15 @@
         </div>
         <div class="modal-body">
           <div class="alert alert-warning py-2">
-            アカウントを削除するとしばらくの間再生成できなくなります。
+            削除申請後、<strong>7日後</strong>にアカウントが完全に削除されます。<br>
+            申請後に登録メールアドレスへキャンセルリンクをお送りします。7日以内であればキャンセル可能です。
           </div>
           <p>確認のためパスワードを入力してください。</p>
           <input type="password" name="password" class="form-control @error('password', 'userDeletion') is-invalid @enderror" placeholder="パスワード" required>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="submit" class="btn btn-danger">削除実行</button>
+          <button type="submit" class="btn btn-danger">削除を申請する</button>
         </div>
       </form>
     </div>

@@ -9,3 +9,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('purge:old-ips')->daily();
+Schedule::command('purge:deleted-accounts')->daily();

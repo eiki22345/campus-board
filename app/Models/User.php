@@ -34,6 +34,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasName, Filament
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'role' => 'integer',
+        'deletion_requested_at' => 'datetime',
     ];
 
     public function university(): BelongsTo
