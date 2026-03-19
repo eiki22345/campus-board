@@ -86,10 +86,9 @@ class Post extends Model
             return 'Guest';
         }
 
-        $salt = config('app.key');
+        $secret = config('app.hash_id_secret');
+        $hmac = hash_hmac('sha256', (string) $this->user_id, $secret . $this->thread_id);
 
-        $seed = $this->thread_id . $this->user_id . $salt;
-
-        return substr(strtoupper(hash('sha256', $seed)), 0, 8);
+        return substr(strtoupper($hmac), 0, 8);
     }
 }
