@@ -2,15 +2,16 @@
 
 @section('content')
 
-<header>
-    <x-headers.header :major_categories='$major_categories' :user_university=' $user_university' :university_boards='$university_boards' :common_boards='$common_boards' :common_boards='$common_boards' />
+<div class="container-fluid px-0">
+    <div class="row g-0 two-col-layout">
+        <div class="col-12 col-md-9 mx-auto posts-col">
 
-    <x-headers.header-search :action="route('dashboard')" placeholder="🔍️気になる話題を検索しよう！" :keyword='$keyword' />
+            <header>
+                <x-headers.header :major_categories='$major_categories' :user_university=' $user_university' :university_boards='$university_boards' :common_boards='$common_boards' :common_boards='$common_boards' />
 
-</header>
-<main>
-    <div class="col-md-8 mx-auto">
-        <div class="board-thread-bg">
+                <x-headers.header-search :action="route('dashboard')" placeholder="🔍️気になる話題を検索しよう！" :keyword='$keyword' />
+            </header>
+
             <x-link-button.support-link-button :sort='$sort' />
 
             @if($threads->isEmpty())
@@ -39,7 +40,7 @@
             </div>
             @endif
 
-            <div class="mt-3">
+            <div>
                 @foreach ($threads as $thread)
 
                 <div class="mx-auto thread-card">
@@ -50,27 +51,28 @@
 
                                 ・{{ $thread->created_at->diffForHumans() }}
                             </div>
-                            @if ( $thread->board->university_id === $user_university->id )
-                            <div class="d-flex justify-content-end post-information">
-                                {{ $user_university->name }}専用
+                            <div class="d-flex flex-column align-items-end gap-1">
+                                @if ( $thread->board->university_id === $user_university->id )
+                                <div class="post-information">
+                                    {{ $user_university->name }}専用
+                                </div>
+                                @endif
+                                <div>
+                                    <span class="genre-{{ $thread->board->majorcategory->id }}"> {{ Str::after($thread->board->name, '/') }}</span>
+                                </div>
                             </div>
-                            @endif
                         </div>
 
 
-
-                        <div>
-                            <span class="fw-bold fs-6">{{ $thread->title }}</span>
+                        <div class="mb-2 pt-2">
+                            <span class="fw-bold fs-5">{{ $thread->title }}</span>
                         </div>
 
-                        <div class="content-preview">
-                            {{ $thread->posts->first()->content ?? '' }}
+                        <div class="content-preview fs-6 mb-2">
+                            {{ $thread->content}}
                         </div>
                     </a>
 
-                    <div>
-                        <span class="genre-{{ $thread->board->majorcategory->id }}"> {{ Str::after($thread->board->name, '/') }}</span>
-                    </div>
                     <div class="d-flex justify-content-end">
 
                         <div class="d-flex align-items-center action-button">
@@ -102,9 +104,10 @@
                 @endforeach
 
             </div>
+
         </div>
     </div>
-</main>
+</div>
 
 <script>
     document.querySelectorAll('.like-btn').forEach(button => {

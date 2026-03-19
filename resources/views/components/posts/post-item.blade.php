@@ -16,7 +16,7 @@
     </div>
   </div>
 
-  <div class="pt-1">
+  <div class="pt-2 mb-4">
     <span class="text-content">{{ $post->content }}</span>
   </div>
   <div class="d-flex justify-content-between mt-2">
