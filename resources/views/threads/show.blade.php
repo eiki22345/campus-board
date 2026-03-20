@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container-fluid px-0">
+<div>
   <div class="row g-0 two-col-layout">
     <div class="col-12 col-md-9 mx-auto posts-col">
 

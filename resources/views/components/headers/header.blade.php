@@ -23,14 +23,12 @@
    <div class="offcanvas-body pt-0 px-3">
      <div>
        <div class="d-flex justify-content-end">
-
          <button type="button" class="btn-close mt-3" data-bs-dismiss="offcanvas" aria-label="Close"></button>
        </div>
 
-       <a href="{{ route('mypage') }}" class="d-flex align-items-center board-index-offcanvas-a prevent-double-click">
+       <a href="{{ route('mypage') }}" class="board-index-offcanvas-a prevent-double-click">
          <div class="position-relative">
            <span>お知らせ</span>
-
            @if(isset($unread_count) && $unread_count > 0)
            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
              {{ $unread_count > 99 ? '99+' : $unread_count }}
@@ -79,10 +77,10 @@
                ];
                @endphp
 
-               <div class="row align-items-start">
+               <div class="row">
 
                  @foreach ($columns as $cats)
-                 <div class="col-6 d-flex flex-column">
+                 <div class="col-6">
 
                    @foreach ($cats as $major_category)
                    @php
@@ -144,9 +142,9 @@
                  ];
                  @endphp
 
-                 <div class="row align-items-start">
+                 <div class="row">
                    @foreach ($common_columns as $cats)
-                   <div class="col-6 d-flex flex-column">
+                   <div class="col-6">
                      @foreach ($cats as $major_category)
                      @php
                      $my_common_boards = $common_boards->where('major_category_id', $major_category->id);

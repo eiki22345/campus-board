@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container-fluid px-0">
+<div>
   <div class="row g-0 two-col-layout">
     <div class="col-12 col-md-9 mx-auto posts-col">
 
@@ -46,7 +46,7 @@
               {{ $thread->user->nickname ?? '退会済みユーザー'  }}
               ・{{ $thread->created_at->diffForHumans() }}
             </div>
-            <div class="d-flex flex-column align-items-end gap-1">
+            <div class="d-flex align-items-end gap-1">
               @if ( $thread->board->university_id === $user_university->id )
               <div class="post-information">
                 {{ $user_university->name }}専用
@@ -121,9 +121,9 @@
             <x-modals.delete-modal name="トピック" :action="route('threads.destroy',[$board->id,$thread->id,])" :post="$thread" type="thread" />
             @endpush
             @endif
-          </div><!-- /right buttons -->
-        </div><!-- /action-bar -->
-      </div><!-- /thread-card -->
+          </div>
+        </div>
+      </div>
       @endforeach
 
       <div class="thread-col">
@@ -135,9 +135,9 @@
         <x-modals.create-thread :board='$board' />
       </div>
 
-    </div><!-- /posts-col -->
-  </div><!-- /row -->
-</div><!-- /container-fluid -->
+    </div>
+  </div>
+</div>
 
 <script>
   document.querySelectorAll('.like-btn').forEach(button => {
