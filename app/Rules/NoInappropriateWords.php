@@ -28,11 +28,13 @@ class NoInappropriateWords implements ValidationRule
                     return;
                 }
             }
-        }
-
-        if (in_array($value, $ng_words)) {
-            $fail('投稿内容に不適切な表現が含まれています。');
-            return;
+        } else {
+            foreach ($ng_words as $ng_word) {
+                if (mb_stripos($value, $ng_word) !== false) {
+                    $fail('投稿内容に不適切な表現が含まれています。');
+                    return;
+                }
+            }
         }
     }
 }
