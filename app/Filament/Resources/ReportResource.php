@@ -17,7 +17,6 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Notifications\Notification;
-use Illuminate\Support\Str;
 
 class ReportResource extends Resource
 {
@@ -114,22 +113,20 @@ class ReportResource extends Resource
                     ->modalDescription('この投稿またはスレッドを削除し、関連する全ての通報を「対処済み」にします。また、通報者全員にお礼の通知が送信されます。')
                     ->action(function (Report $record) {
                         if ($record->post) {
-                            $snippet = Str::limit($record->post->content, 20);
                             $related_reports = Report::where('post_id', $record->post_id)->with('user')->get();
                             foreach ($related_reports as $report_item) {
                                 if ($report_item->user) {
-                                    $report_item->user->notify(new ReportResolved($snippet));
+                                    $report_item->user->notify(new ReportResolved());
                                 }
                                 $report_item->status = 'resolved';
                                 $report_item->save();
                             }
                             $record->post->delete();
                         } elseif ($record->thread) {
-                            $snippet = Str::limit($record->thread->title, 20);
                             $related_reports = Report::where('thread_id', $record->thread_id)->with('user')->get();
                             foreach ($related_reports as $report_item) {
                                 if ($report_item->user) {
-                                    $report_item->user->notify(new ReportResolved($snippet));
+                                    $report_item->user->notify(new ReportResolved());
                                 }
                                 $report_item->status = 'resolved';
                                 $report_item->save();
