@@ -5,7 +5,7 @@
       <a href="{{ route('legal.index') }}" class="mx-2 text-secondary small prevent-double-click">利用規約</a>
       <a href="{{ route('legal.index') }}#privacy" class="mx-2 text-secondary small prevent-double-click">プライバシーポリシー</a>
       <a href="{{ route('legal.index') }}#community" class="mx-2 text-secondary small prevent-double-click">ガイドライン</a>
-      <a href="https://forms.gle/xxxxxxx" target="_blank" rel="noopener" class="mx-2 text-secondary small prevent-double-click">お問い合わせ</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdVjKKKUibZcJck0EbwEPvo3cxJpd-4jUEpWnODGxsgHRIryw/viewform?usp=publish-editor" target="_blank" rel="noopener" class="mx-2 text-secondary small prevent-double-click">お問い合わせ</a>
     </div>
     <div class="text-muted small">
       &copy; {{ date('Y') }} Campus Board / STUDENT BBS. All rights reserved.<br>
