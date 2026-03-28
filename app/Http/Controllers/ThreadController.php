@@ -190,15 +190,12 @@ class ThreadController extends Controller
 
         $user = Auth::user();
 
-
-        $thread->likes()->toggle($user->id);
-
-
-        $likesCount = $thread->likes()->count();
-
-
-        $isLiked = $thread->likes()->where('user_id', $user->id)->exists();
-
+        [$likesCount, $isLiked] = DB::transaction(function () use ($thread, $user) {
+            $thread->likes()->toggle($user->id);
+            $likesCount = $thread->likes()->count();
+            $isLiked = $thread->likes()->where('user_id', $user->id)->exists();
+            return [$likesCount, $isLiked];
+        });
 
         return response()->json([
             'likes_count' => $likesCount,

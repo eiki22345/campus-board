@@ -101,13 +101,18 @@ class PostController extends Controller
 
         $user = Auth::user();
 
-
-        $post->likes()->toggle($user->id);
+        [$liked, $count] = DB::transaction(function () use ($post, $user) {
+            $post->likes()->toggle($user->id);
+            return [
+                $post->isLikedBy($user),
+                $post->likes()->count(),
+            ];
+        });
 
         return response()->json([
             'status' => 'success',
-            'liked'  => $post->isLikedBy($user),
-            'count'  => $post->likes()->count(),
+            'liked'  => $liked,
+            'count'  => $count,
         ]);
     }
 

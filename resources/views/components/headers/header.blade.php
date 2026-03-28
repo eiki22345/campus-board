@@ -7,7 +7,10 @@
 
 
  <div class="header-img-container">
-   <img src="{{ asset('img/header.png') }}" class="w-100">
+   <picture>
+     <source media="(min-width: 769px)" srcset="{{ asset('img/header-pc.png') }}">
+     <img src="{{ asset('img/header.png') }}" class="header-img-responsive">
+   </picture>
    <div class="header-text-overlay">
      <a href="{{ route('dashboard') }}" class="header-text-link prevent-double-click">
        <h1 class="header-text" data-text="STUDENT BBS">STUDENT BBS</h1>

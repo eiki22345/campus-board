@@ -105,6 +105,20 @@
   clip-path: inset(0 -10px 0 -10px);
 }
 
+.header-img-responsive {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (min-width: 769px) {
+  .header-img-responsive {
+    max-height: 350px;
+    object-fit: contain;
+    object-position: center center;
+  }
+}
+
 .header-text-overlay {
   position: absolute;
   bottom: 1%;
