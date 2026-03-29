@@ -1,3 +1,2 @@
-@tailwind base;
-@tailwind components;
+fix: Font Awesome アイコンが表示されない問題を修正 - app.blade.php の重複 CDN リンクを削除 （FA は npm でバンドル済み。integrity ハッシュ誤りでブラウザがブロックしていた） - Vite のフォントアセットを相対パスで出力するよう設定 （絶対パスだとサブディレクトリ配置時に woff2 が 404 になっていた）@tailwind components;
 @tailwind utilities;

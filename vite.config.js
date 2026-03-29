@@ -8,4 +8,11 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    experimental: {
+        renderBuiltUrl(filename, { hostType }) {
+            if (hostType === 'css') {
+                return './' + filename.split('/').pop();
+            }
+        },
+    },
 });
