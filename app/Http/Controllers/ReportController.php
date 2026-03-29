@@ -84,11 +84,11 @@ class ReportController extends Controller
                 $thres_hold = 10;
                 if ($target_type === 'post') {
                     if (Report::where('post_id', $target_id)->count() >= $thres_hold) {
-                        Post::find($target_id)->delete();
+                        Post::find($target_id)?->delete();
                     }
                 } else {
                     if (Report::where('thread_id', $target_id)->count() >= $thres_hold) {
-                        Thread::find($target_id)->delete();
+                        Thread::find($target_id)?->delete();
                     }
                 }
             });
