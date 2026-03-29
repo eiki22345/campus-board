@@ -5,6 +5,7 @@ namespace App\Http\Requests\Auth;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -59,7 +60,15 @@ class LoginRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 8)) {
+            $emailKey = 'login_email:' . Str::transliterate(Str::lower($this->string('email')));
+            if (RateLimiter::tooManyAttempts($emailKey, 15)) {
+                Log::warning('Possible brute-force attack: multiple IPs targeting the same email.', [
+                    'email' => $this->string('email'),
+                    'ip'    => $this->ip(),
+                ]);
+            }
+            RateLimiter::hit($emailKey, 60);
             return;
         }
 
@@ -80,6 +89,6 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->string('email')) . '|' . $this->ip());
     }
 }

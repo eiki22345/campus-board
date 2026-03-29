@@ -80,7 +80,7 @@ class ReportController extends Controller
                 $report->reason = $finalReason;
                 $report->save();
 
-                // 通報が一定数に達したら自動削除
+
                 $thres_hold = 10;
                 if ($target_type === 'post') {
                     if (Report::where('post_id', $target_id)->count() >= $thres_hold) {
