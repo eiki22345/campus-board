@@ -45,7 +45,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
   });
 
   Route::controller(PostController::class)->group(function () {
-    Route::get('/posts/{post}', 'show')->name('posts.show');
+    Route::get('/posts/{post}', 'show')->middleware('throttle:60,1')->name('posts.show');
     Route::post('/threads/{thread}/posts', 'store')->middleware('throttle:20,1')->name('posts.store');
     Route::post('/posts/{post}/like', 'toggleLike')->middleware('throttle:40,1')->name('posts.like');
     Route::post('/threads/{thread}/posts/{post}', 'store')->middleware('throttle:20,1')->name('posts.mention');
