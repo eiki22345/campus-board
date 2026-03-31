@@ -12,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
@@ -79,6 +80,7 @@ class RegisteredUserController extends Controller
         try {
             event(new Registered($user));
         } catch (\Exception $e) {
+            Log::error('メール送信失敗: ' . $e->getMessage());
             return redirect(route('verification.notice', absolute: false))
                 ->with('status', 'network-error');
         }
