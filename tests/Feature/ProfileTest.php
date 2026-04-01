@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\NgWord;
 use App\Models\User;
 
 test('profile page is displayed', function () {
@@ -62,4 +63,36 @@ test('correct password must be provided to delete account', function () {
         ->assertRedirect('/users/edit');
 
     $this->assertNull($user->fresh()->deletion_requested_at);
+});
+
+test('ニックネームは必須', function () {
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)->patch(route('users.update'), [
+        'nickname' => '',
+    ]);
+
+    $response->assertSessionHasErrors('nickname');
+});
+
+test('ニックネームは8文字以内', function () {
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)->patch(route('users.update'), [
+        'nickname' => str_repeat('a', 9),
+    ]);
+
+    $response->assertSessionHasErrors('nickname');
+});
+
+test('NGワードはニックネームに使用できない', function () {
+    $user = User::factory()->create();
+    NgWord::create(['word' => 'badword']);
+
+    $response = $this->actingAs($user)->patch(route('users.update'), [
+        'nickname' => 'badword',
+    ]);
+
+    $response->assertSessionHasErrors('nickname');
+    $this->assertNotSame('badword', $user->fresh()->nickname);
 });
