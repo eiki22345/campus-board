@@ -8,6 +8,15 @@ use Illuminate\Auth\Access\Response;
 
 class BoardPolicy
 {
+    public function before(User $user, string $ability): bool|null
+    {
+        if ($user->role === User::ROLE_ADMIN) {
+            return true;
+        }
+
+        return null;
+    }
+
     /**
      * Determine whether the user can view any models.
      */
@@ -66,14 +75,5 @@ class BoardPolicy
     public function forceDelete(User $user, Board $board): bool
     {
         return false;
-    }
-
-    public function before(User $user, string $ability): bool|null
-    {
-        if ($user->role === User::ROLE_ADMIN) {
-            return true;
-        }
-
-        return null;
     }
 }

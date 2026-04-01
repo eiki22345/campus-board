@@ -9,7 +9,7 @@
      <title>@yield('title')</title>
 
      <link rel="manifest" href="{{ asset('manifest.json') }}">
-     @vite(['resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
      <link href="{{ asset('css/style.css')}}" rel="stylesheet">
  </head>
 
