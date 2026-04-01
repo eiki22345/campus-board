@@ -130,3 +130,16 @@ test('いいね済みの投稿を再度押すといいねが外れる', function
     $response->assertOk()->assertJsonFragment(['liked' => false]);
     $this->assertDatabaseMissing('post_likes', ['user_id' => $user->id, 'post_id' => $post->id]);
 });
+
+test('他大学の投稿にはいいねできない', function () {
+    $user = User::factory()->create();
+    $otherUniversity = University::factory()->create();
+    $board = Board::factory()->forUniversity($otherUniversity)->create();
+    $thread = Thread::factory()->create(['board_id' => $board->id]);
+    $post = Post::factory()->create(['thread_id' => $thread->id, 'post_number' => 1]);
+
+    $response = $this->actingAs($user)->postJson(route('posts.like', $post));
+
+    $response->assertForbidden();
+    $this->assertDatabaseMissing('post_likes', ['user_id' => $user->id, 'post_id' => $post->id]);
+});
