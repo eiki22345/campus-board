@@ -177,6 +177,57 @@ test('削除済み投稿への返信は拒否される', function () {
 });
 
 // ============================================================
+// メンション投稿 (返信)
+// ============================================================
+
+test('投稿に返信できる', function () {
+    $user = User::factory()->create();
+    $board = Board::factory()->forUniversity($user->university)->create();
+    $thread = Thread::factory()->create(['board_id' => $board->id]);
+    $parent = Post::factory()->create(['thread_id' => $thread->id, 'post_number' => 1]);
+
+    $response = $this->actingAs($user)->post(route('posts.mention', [$thread, $parent]), [
+        'content' => '返信投稿です。',
+    ]);
+
+    $response->assertRedirect();
+    $reply = \App\Models\Post::where('content', '返信投稿です。')->first();
+    expect($reply)->not->toBeNull();
+    expect($reply->parents()->where('post_mentions.parent_post_id', $parent->id)->exists())->toBeTrue();
+});
+
+test('返信投稿へのさらなる返信は拒否される', function () {
+    $user = User::factory()->create();
+    $board = Board::factory()->forUniversity($user->university)->create();
+    $thread = Thread::factory()->create(['board_id' => $board->id]);
+    $parent = Post::factory()->create(['thread_id' => $thread->id, 'post_number' => 1]);
+    $reply = Post::factory()->create(['thread_id' => $thread->id, 'post_number' => 2]);
+    $reply->parents()->attach($parent->id);
+
+    $response = $this->actingAs($user)->post(route('posts.mention', [$thread, $reply]), [
+        'content' => '返信への返信',
+    ]);
+
+    $response->assertBadRequest();
+    $this->assertDatabaseMissing('posts', ['content' => '返信への返信']);
+});
+
+test('別スレッドの投稿へのメンションは拒否される', function () {
+    $user = User::factory()->create();
+    $board = Board::factory()->forUniversity($user->university)->create();
+    $thread = Thread::factory()->create(['board_id' => $board->id]);
+    $otherThread = Thread::factory()->create(['board_id' => $board->id]);
+    $postInOtherThread = Post::factory()->create(['thread_id' => $otherThread->id, 'post_number' => 1]);
+
+    $response = $this->actingAs($user)->post(route('posts.mention', [$thread, $postInOtherThread]), [
+        'content' => '不正なメンション',
+    ]);
+
+    $response->assertBadRequest();
+    $this->assertDatabaseMissing('posts', ['content' => '不正なメンション']);
+});
+
+// ============================================================
 // 投稿詳細 (show) - JSON取得
 // ============================================================
 
