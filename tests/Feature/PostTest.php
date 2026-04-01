@@ -175,3 +175,53 @@ test('削除済み投稿への返信は拒否される', function () {
     $response->assertNotFound();
     $this->assertDatabaseMissing('posts', ['content' => '削除済みへの返信']);
 });
+
+// ============================================================
+// 投稿詳細 (show) - JSON取得
+// ============================================================
+
+test('投稿をJSON形式で取得できる', function () {
+    $user = User::factory()->create();
+    $board = Board::factory()->forUniversity($user->university)->create();
+    $thread = Thread::factory()->create(['board_id' => $board->id]);
+    $post = Post::factory()->create(['thread_id' => $thread->id, 'post_number' => 1]);
+
+    $response = $this->actingAs($user)->getJson(route('posts.show', $post));
+
+    $response->assertOk();
+    $response->assertJsonStructure(['html']);
+});
+
+test('他大学のボードの投稿は取得できない', function () {
+    $user = User::factory()->create();
+    $otherUniversity = University::factory()->create();
+    $board = Board::factory()->forUniversity($otherUniversity)->create();
+    $thread = Thread::factory()->create(['board_id' => $board->id]);
+    $post = Post::factory()->create(['thread_id' => $thread->id, 'post_number' => 1]);
+
+    $response = $this->actingAs($user)->getJson(route('posts.show', $post));
+
+    $response->assertForbidden();
+});
+
+test('共通ボードの投稿は他大学ユーザーでも取得できる', function () {
+    $user = User::factory()->create();
+    $board = Board::factory()->create(['university_id' => null]);
+    $thread = Thread::factory()->create(['board_id' => $board->id]);
+    $post = Post::factory()->create(['thread_id' => $thread->id, 'post_number' => 1]);
+
+    $response = $this->actingAs($user)->getJson(route('posts.show', $post));
+
+    $response->assertOk();
+    $response->assertJsonStructure(['html']);
+});
+
+test('未ログインユーザーは投稿を取得できない', function () {
+    $board = Board::factory()->create(['university_id' => null]);
+    $thread = Thread::factory()->create(['board_id' => $board->id]);
+    $post = Post::factory()->create(['thread_id' => $thread->id, 'post_number' => 1]);
+
+    $response = $this->getJson(route('posts.show', $post));
+
+    $response->assertUnauthorized();
+});
