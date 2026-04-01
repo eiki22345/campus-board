@@ -113,3 +113,48 @@ test('管理者は他大学のスレッドに投稿できる', function () {
         'user_id' => $admin->id,
     ]);
 });
+
+// ============================================================
+// 未ログインアクセス制御
+// ============================================================
+
+test('未ログインユーザーはスレッド詳細にアクセスできない', function () {
+    $board = Board::factory()->create(['university_id' => null]);
+    $thread = Thread::factory()->create(['board_id' => $board->id]);
+
+    $response = $this->get(route('threads.show', [$board, $thread]));
+
+    $response->assertRedirect(route('login'));
+});
+
+test('未ログインユーザーは投稿できない', function () {
+    $board = Board::factory()->create(['university_id' => null]);
+    $thread = Thread::factory()->create(['board_id' => $board->id]);
+
+    $response = $this->post(route('posts.store', $thread), [
+        'content' => '未ログイン投稿',
+    ]);
+
+    $response->assertRedirect(route('login'));
+});
+
+test('未ログインユーザーは通報できない', function () {
+    $board = Board::factory()->create(['university_id' => null]);
+    $thread = Thread::factory()->create(['board_id' => $board->id]);
+
+    $response = $this->post(route('reports.store'), [
+        'thread_id' => $thread->id,
+        'reason' => 'spam',
+    ]);
+
+    $response->assertRedirect(route('login'));
+});
+
+test('未ログインユーザーはスレッドを購読できない', function () {
+    $board = Board::factory()->create(['university_id' => null]);
+    $thread = Thread::factory()->create(['board_id' => $board->id]);
+
+    $response = $this->post(route('threads.subscribe', $thread));
+
+    $response->assertRedirect(route('login'));
+});
