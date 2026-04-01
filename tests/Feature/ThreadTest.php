@@ -122,3 +122,34 @@ test('他人のスレッドは削除できない', function () {
     $response->assertForbidden();
     $this->assertNotSoftDeleted('threads', ['id' => $thread->id]);
 });
+
+test('自大学のスレッド詳細ページを閲覧できる', function () {
+    $user = User::factory()->create();
+    $board = Board::factory()->forUniversity($user->university)->create();
+    $thread = Thread::factory()->create(['board_id' => $board->id, 'user_id' => $user->id]);
+
+    $response = $this->actingAs($user)->get(route('threads.show', [$board, $thread]));
+
+    $response->assertOk();
+});
+
+test('他大学のスレッド詳細ページは403になる', function () {
+    $user = User::factory()->create();
+    $otherUniversity = University::factory()->create();
+    $board = Board::factory()->forUniversity($otherUniversity)->create();
+    $thread = Thread::factory()->create(['board_id' => $board->id]);
+
+    $response = $this->actingAs($user)->get(route('threads.show', [$board, $thread]));
+
+    $response->assertForbidden();
+});
+
+test('共通ボードのスレッド詳細は誰でも閲覧できる', function () {
+    $user = User::factory()->create();
+    $board = Board::factory()->create(['university_id' => null]);
+    $thread = Thread::factory()->create(['board_id' => $board->id]);
+
+    $response = $this->actingAs($user)->get(route('threads.show', [$board, $thread]));
+
+    $response->assertOk();
+});
