@@ -31,6 +31,10 @@ Route::get('/legal', function () {
 
 require __DIR__ . '/auth.php';
 
+Route::get('/account-deletion/cancel/{user}', [UserController::class, 'cancelDeletion'])
+  ->middleware('throttle:10,1')
+  ->name('account-deletion.cancel');
+
 Route::middleware(['auth', 'verified'])->group(function () {
   Route::controller(BoardController::class)->group(function () {
     Route::get('/board/index', 'index')->middleware('throttle:60,1')->name('dashboard');
@@ -62,12 +66,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/users/edit', 'update')->middleware('throttle:10,1')->name('users.update');
     Route::delete('/users/edit', 'destroy')->middleware('throttle:2,1')->name('users.destroy');
   });
-
-Route::get('/account-deletion/cancel/{user}', [UserController::class, 'cancelDeletion'])
-  ->middleware('throttle:10,1')
-  ->name('account-deletion.cancel');
-
-
 
   Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])
     ->middleware('throttle:60,1')
