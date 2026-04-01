@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Board;
+use App\Models\BrowsingHistory;
 use App\Models\Thread;
 use App\Models\University;
 use App\Models\User;
@@ -151,4 +152,39 @@ test('共通ボードのスレッド詳細は誰でも閲覧できる', function
     $response = $this->actingAs($user)->get(route('threads.show', [$board, $thread]));
 
     $response->assertOk();
+});
+
+// ============================================================
+// 閲覧履歴 (BrowsingHistory)
+// ============================================================
+
+test('スレッド詳細を表示すると閲覧履歴が作成される', function () {
+    $user = User::factory()->create();
+    $board = Board::factory()->forUniversity($user->university)->create();
+    $thread = Thread::factory()->create(['board_id' => $board->id]);
+
+    $this->actingAs($user)->get(route('threads.show', [$board, $thread]));
+
+    $this->assertDatabaseHas('browsing_histories', [
+        'user_id' => $user->id,
+        'thread_id' => $thread->id,
+    ]);
+});
+
+test('同じスレッドを再度表示すると閲覧履歴が更新される', function () {
+    $user = User::factory()->create();
+    $board = Board::factory()->forUniversity($user->university)->create();
+    $thread = Thread::factory()->create(['board_id' => $board->id]);
+
+    $this->actingAs($user)->get(route('threads.show', [$board, $thread]));
+    $firstAccessedAt = BrowsingHistory::where(['user_id' => $user->id, 'thread_id' => $thread->id])->value('accessed_at');
+
+    $this->travel(1)->minutes();
+
+    $this->actingAs($user)->get(route('threads.show', [$board, $thread]));
+    $secondAccessedAt = BrowsingHistory::where(['user_id' => $user->id, 'thread_id' => $thread->id])->value('accessed_at');
+
+    // レコードが1件のままであること（重複作成されない）
+    $this->assertDatabaseCount('browsing_histories', 1);
+    expect($secondAccessedAt)->toBeGreaterThan($firstAccessedAt);
 });
