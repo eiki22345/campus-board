@@ -143,3 +143,35 @@ test('他大学の投稿にはいいねできない', function () {
     $response->assertForbidden();
     $this->assertDatabaseMissing('post_likes', ['user_id' => $user->id, 'post_id' => $post->id]);
 });
+
+test('共通ボードに投稿できる', function () {
+    $user = User::factory()->create();
+    $board = Board::factory()->create(['university_id' => null]);
+    $thread = Thread::factory()->create(['board_id' => $board->id]);
+
+    $response = $this->actingAs($user)->post(route('posts.store', $thread), [
+        'content' => '共通ボードへの投稿です。',
+    ]);
+
+    $response->assertRedirect();
+    $this->assertDatabaseHas('posts', [
+        'content' => '共通ボードへの投稿です。',
+        'thread_id' => $thread->id,
+        'user_id' => $user->id,
+    ]);
+});
+
+test('削除済み投稿への返信は拒否される', function () {
+    $user = User::factory()->create();
+    $board = Board::factory()->forUniversity($user->university)->create();
+    $thread = Thread::factory()->create(['board_id' => $board->id]);
+    $post = Post::factory()->create(['thread_id' => $thread->id, 'post_number' => 1]);
+    $post->delete();
+
+    $response = $this->actingAs($user)->post(route('posts.mention', [$thread, $post]), [
+        'content' => '削除済みへの返信',
+    ]);
+
+    $response->assertNotFound();
+    $this->assertDatabaseMissing('posts', ['content' => '削除済みへの返信']);
+});

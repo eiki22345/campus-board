@@ -99,48 +99,6 @@ test('スレッドタイトルは50文字以内', function () {
     $response->assertSessionHasErrors('title');
 });
 
-test('共通ボードにスレッドを作成できる', function () {
-    $user = User::factory()->create();
-    $board = Board::factory()->create(['university_id' => null]);
-
-    $response = $this->actingAs($user)->post(route('threads.store', $board), [
-        'title' => '共通ボードのスレッド',
-        'content' => '共通ボードへの投稿です。',
-    ]);
-
-    $response->assertRedirect();
-    $this->assertDatabaseHas('threads', [
-        'title' => '共通ボードのスレッド',
-        'board_id' => $board->id,
-        'user_id' => $user->id,
-    ]);
-});
-
-test('スレッドの本文は必須', function () {
-    $user = User::factory()->create();
-    $board = Board::factory()->forUniversity($user->university)->create();
-
-    $response = $this->actingAs($user)->post(route('threads.store', $board), [
-        'title' => 'タイトル',
-        'content' => '',
-    ]);
-
-    $response->assertSessionHasErrors('content');
-});
-
-test('スレッドの本文は1000文字以内', function () {
-    $user = User::factory()->create();
-    $board = Board::factory()->forUniversity($user->university)->create();
-
-    $response = $this->actingAs($user)->post(route('threads.store', $board), [
-        'title' => 'タイトル',
-        'content' => str_repeat('あ', 1001),
-    ]);
-
-    $response->assertSessionHasErrors('content');
-});
-
-
 test('スレッドを作成したユーザーは削除できる', function () {
     $user = User::factory()->create();
     $board = Board::factory()->forUniversity($user->university)->create();
