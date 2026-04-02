@@ -58,7 +58,7 @@
       <div class="thread-col">
         <div class="create-thread">
           <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#createPostModal">
-            <img src="{{ asset('img/create.png') }}" class="create-img">
+            <img src="{{ asset('img/create.png') }}" class="create-img" alt="新規投稿を作成">
           </button>
         </div>
         <x-modals.create-post :thread='$thread' />

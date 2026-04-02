@@ -1,6 +1,6 @@
 {
-  "name": "My Local Site",
-  "short_name": "MySite",
+  "name": "Campus Board - 北海道の大学生限定匿名掲示板",
+  "short_name": "Campus Board",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",

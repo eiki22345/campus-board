@@ -42,7 +42,7 @@
 
       @if (Auth::id() === $post->user_id)
       <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#delete-post-modal-{{ $post->id }}">
-        <img src="{{ asset('img/delete.png') }}" class="delete-img">
+        <img src="{{ asset('img/delete.png') }}" class="delete-img" alt="投稿を削除">
       </button>
       <x-modals.delete-modal name="投稿" :action="route('posts.destroy',$post->id)" :post="$post" type="post" />
       @endif
@@ -78,7 +78,7 @@
           </div>
           @if (Auth::id() === $reply->user_id)
           <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#delete-reply-modal-{{ $reply->id }}">
-            <img src="{{ asset('img/delete.png') }}" class="delete-img me-3">
+            <img src="{{ asset('img/delete.png') }}" class="delete-img me-3" alt="返信を削除">
           </button>
           <x-modals.delete-modal name="投稿" :action="route('posts.destroy',$reply->id)" :post="$reply" type="reply" />
           @endif

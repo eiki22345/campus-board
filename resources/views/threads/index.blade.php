@@ -99,7 +99,7 @@
               </span>
             </div>
             <div class="d-flex align-items-center action-button ms-2">
-              <img src="{{ asset('img/comment.png') }}" class="comment-img">
+              <img src="{{ asset('img/comment.png') }}" class="comment-img" alt="コメント数">
               <div class="ms-1"> {{ $thread->posts_count }} </div>
             </div>
 
@@ -115,7 +115,7 @@
 
             @if (Auth::id() === $thread->user_id)
             <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#delete-thread-modal-{{ $thread->id }}">
-              <img src="{{ asset('img/delete.png') }}" class="delete-img me-3">
+              <img src="{{ asset('img/delete.png') }}" class="delete-img me-3" alt="トピックを削除">
             </button>
             @push('modals')
             <x-modals.delete-modal name="トピック" :action="route('threads.destroy',[$board->id,$thread->id,])" :post="$thread" type="thread" />
@@ -129,7 +129,7 @@
       <div class="thread-col">
         <div class="create-thread">
           <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#createThreadModal">
-            <img src="{{ asset('img/create.png') }}" class="create-img">
+            <img src="{{ asset('img/create.png') }}" class="create-img" alt="新規トピックを作成">
           </button>
         </div>
         <x-modals.create-thread :board='$board' />

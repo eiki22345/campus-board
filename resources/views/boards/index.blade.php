@@ -86,7 +86,7 @@
                             </span>
                         </div>
                         <div class="d-flex align-items-center action-button ms-2">
-                            <img src="{{ asset('img/comment.png') }}" class="comment-img">
+                            <img src="{{ asset('img/comment.png') }}" class="comment-img" alt="コメント数">
                             <div class="ms-1"> {{ $thread->posts_count }} </div>
                         </div>
 

@@ -10,7 +10,7 @@
         <h1>CAMPUS BOARD</h1>
       </div>
       <div>
-        <img src="{{ asset('img/mascot.png') }}" class="header-img mt-4 me-3">
+        <img src="{{ asset('img/mascot.png') }}" class="header-img mt-4 me-3" alt="Campus Board マスコットキャラクター">
       </div>
 
   </header>

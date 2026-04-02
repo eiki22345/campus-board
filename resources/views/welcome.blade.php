@@ -18,7 +18,7 @@
         <div class="hero-img-agree d-flex justify-content-center">
             <img class="img-fluid hero-agree" src="{{ asset('img/hero5.png') }}" alt="同じ空の下で本音で語り合おう。北海道の大学生限定匿名SNS">
             <a href="{{route('login')}}" class="agree-link prevent-double-click">
-                <img src="{{ asset('img/agree.png') }}">
+                <img src="{{ asset('img/agree.png') }}" alt="利用規約に同意してCampus Boardにログインする">
             </a>
         </div>
     </div>

@@ -6,10 +6,28 @@
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <meta name="csrf-token" content="{{ csrf_token() }}">
 
-     <title>@yield('title')</title>
+     <title>@yield('title', 'Campus Board - 北海道の大学生限定匿名掲示板')</title>
+     <meta name="description" content="@yield('meta_description', 'Campus Board（キャンパスボード）は北海道の大学生限定の匿名掲示板SNSです。同じ空の下で本音で語り合おう。大学生活・講義・サークル・就活の情報交換に。')">
 
+     {{-- Open Graph --}}
+     <meta property="og:title" content="@yield('title', 'Campus Board - 北海道の大学生限定匿名掲示板')">
+     <meta property="og:description" content="@yield('meta_description', 'Campus Board（キャンパスボード）は北海道の大学生限定の匿名掲示板SNSです。同じ空の下で本音で語り合おう。')">
+     <meta property="og:type" content="website">
+     <meta property="og:url" content="{{ url()->current() }}">
+     <meta property="og:image" content="@yield('og_image', asset('img/hero-1.png'))">
+     <meta property="og:site_name" content="Campus Board">
+     <meta property="og:locale" content="ja_JP">
+
+     {{-- Twitter Card --}}
+     <meta name="twitter:card" content="summary_large_image">
+     <meta name="twitter:title" content="@yield('title', 'Campus Board - 北海道の大学生限定匿名掲示板')">
+     <meta name="twitter:description" content="@yield('meta_description', 'Campus Board（キャンパスボード）は北海道の大学生限定の匿名掲示板SNSです。同じ空の下で本音で語り合おう。')">
+     <meta name="twitter:image" content="@yield('og_image', asset('img/hero-1.png'))">
+
+     <link rel="canonical" href="{{ url()->current() }}">
+     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
      <link rel="manifest" href="{{ asset('manifest.json') }}">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+     @vite(['resources/css/app.css', 'resources/js/app.js'])
      <link href="{{ asset('css/style.css')}}" rel="stylesheet">
  </head>
 

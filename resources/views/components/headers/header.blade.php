@@ -9,7 +9,7 @@
  <div class="header-img-container">
    <picture>
      <source media="(min-width: 769px)" srcset="{{ asset('img/header-pc.png') }}">
-     <img src="{{ asset('img/header.png') }}" class="header-img-responsive">
+     <img src="{{ asset('img/header.png') }}" class="header-img-responsive" alt="Campus Board - 北海道の大学生限定匿名掲示板">
    </picture>
    <div class="header-text-overlay">
      <a href="{{ route('dashboard') }}" class="header-text-link prevent-double-click">
@@ -18,7 +18,7 @@
      </a>
    </div>
    <a class="board-index-offcanvas-link" data-bs-toggle="offcanvas" href="#offcanvasTop" role="button" aria-controls="offcanvasTop">
-     <img class="offcanvas-img" src="{{ asset('img/offcanvas.png') }}">
+     <img class="offcanvas-img" src="{{ asset('img/offcanvas.png') }}" alt="ナビゲーションメニューを開く">
    </a>
  </div>
 
