@@ -58,16 +58,16 @@
      </div>
      <div class="mt-2">
        <div class="accordion" id="accordionPanelsStayOpenExample">
-         <div class="accordion-item">
+         <div class="accordion-item" x-data="{ open: false }">
            <div class="accordion-header">
-             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+             <button class="accordion-button" :class="{ 'collapsed': !open }" type="button" @click="open = !open">
                <div>
                  <span class="board-index-offcanvas-span fw-bold">(your campus)</span>
                  <div class="fw-bold">{{ $user_university->name }}専用</div>
                </div>
              </button>
            </div>
-           <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse">
+           <div x-show="open" x-transition.duration.200ms>
              <div class="row accordion-body p-0 mt-2">
                @php
                $active_cats = $major_categories->filter(function ($cat) use ($university_boards) {
@@ -90,14 +90,14 @@
                    $my_boards = $university_boards->where('major_category_id', $major_category->id);
                    @endphp
 
-                   <div class="accordion-item border">
-                     <h2 class="accordion-header" id="heading-cat-{{ $major_category->id }}">
-                       <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-cat-{{ $major_category->id }}" aria-expanded="false" aria-controls="collapse-cat-{{ $major_category->id }}">
+                   <div class="accordion-item border" x-data="{ open: false }">
+                     <h2 class="accordion-header">
+                       <button class="accordion-button collapsed py-2" :class="{ 'collapsed': !open }" type="button" @click="open = !open">
                          <span class="fw-bold list-group-item">{{ $major_category->name }}</span>
                        </button>
                      </h2>
 
-                     <div id="collapse-cat-{{ $major_category->id }}" class="accordion-collapse collapse" aria-labelledby="heading-cat-{{ $major_category->id }}">
+                     <div x-show="open" x-transition.duration.200ms>
                        <div class="accordion-body p-0">
                          <div class="d-flex flex-column">
                            @foreach ($my_boards as $board)
@@ -124,15 +124,15 @@
 
        <div class="mt-2">
          <div class="accordion" id="accordionCommon">
-           <div class="accordion-item">
+           <div class="accordion-item" x-data="{ open: false }">
              <div class="accordion-header">
-               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+               <button class="accordion-button collapsed" :class="{ 'collapsed': !open }" type="button" @click="open = !open">
                  <div>
                    <div class="fw-bold">全国の大学生と交流しよう!</div>
                  </div>
                </button>
              </div>
-             <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+             <div x-show="open" x-transition.duration.200ms>
                <div class="row accordion-body p-0 mt-2">
                  @php
                  $active_common_cats = $major_categories->filter(function ($cat) use ($common_boards) {
@@ -152,13 +152,13 @@
                      @php
                      $my_common_boards = $common_boards->where('major_category_id', $major_category->id);
                      @endphp
-                     <div class="accordion-item border">
-                       <h2 class="accordion-header" id="heading-common-cat-{{ $major_category->id }}">
-                         <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-common-cat-{{ $major_category->id }}">
+                     <div class="accordion-item border" x-data="{ open: false }">
+                       <h2 class="accordion-header">
+                         <button class="accordion-button collapsed py-2" :class="{ 'collapsed': !open }" type="button" @click="open = !open">
                            <span class="fw-bold list-group-item">{{ $major_category->name }}</span>
                          </button>
                        </h2>
-                       <div id="collapse-common-cat-{{ $major_category->id }}" class="accordion-collapse collapse">
+                       <div x-show="open" x-transition.duration.200ms>
                          <div class="accordion-body p-0 mt-3">
                            <div class="d-flex flex-column">
                              @foreach ($my_common_boards as $board)

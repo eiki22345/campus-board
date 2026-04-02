@@ -153,6 +153,11 @@
   background-color: #2C3E50;
   font-family: "MS PGothic", "ＭＳ Ｐゴシック", sans-serif !important;
   width: 72%;
+  --bs-offcanvas-height: 100vh;
+}
+
+.board-index-offcanvas .offcanvas-body {
+  overflow-y: auto;
 }
 
 @media (max-width: 767.98px) {
