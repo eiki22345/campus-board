@@ -13,6 +13,8 @@ use Laravel\Sanctum\HasApiTokens;
 use Filament\Models\Contracts\HasName;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use App\Notifications\ResetPasswordNotification;
+use App\Notifications\VerifyEmailNotification;
 
 
 class User extends Authenticatable implements MustVerifyEmail, HasName, FilamentUser
@@ -82,5 +84,15 @@ class User extends Authenticatable implements MustVerifyEmail, HasName, Filament
         return $this->belongsToMany(Thread::class, 'browsing_histories', 'user_id', 'thread_id')
             ->withPivot('accessed_at')
             ->orderByPivot('accessed_at', 'desc');
+    }
+
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
+
+    public function sendEmailVerificationNotification(): void
+    {
+        $this->notify(new VerifyEmailNotification());
     }
 }

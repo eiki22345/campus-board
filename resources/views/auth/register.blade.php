@@ -21,7 +21,7 @@
           <h1 class="text-center auth-form-heading mt-5">
             アカウントを作成
           </h1>
-          <form action="{{ route('register') }}" method="POST" x-data="{ submitting: false }" @submit="submitting = true">
+          <form action="{{ route('register') }}" method="POST" x-data="{ submitting: false, agreed: {{ old('agree') ? 'true' : 'false' }} }" @submit="submitting = true">
             @csrf
 
             <div class="form-group mt-4">
@@ -81,14 +81,14 @@
             </div>
 
             <div class="form-group mt-1 ps-2 mb-2">
-              <input type="checkbox" name="agree" id="agreeCheck" class="ms-2" {{ old('agree') ? 'checked' : '' }} disabled>
+              <input type="checkbox" name="agree" id="agreeCheck" class="ms-2" {{ old('agree') ? 'checked' : '' }} {{ old('agree') ? '' : 'disabled' }} @change="agreed = $event.target.checked">
               <label for="agreeCheck" class="col-form-label">
                 <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal" class="text-decoration-underline text-primary">利用規約</a>
                 に同意する
               </label>
             </div>
             <div class="d-flex justify-content-center">
-              <button type="submit" class="register-link d-flex justify-content-center mb-5 px-5 w-100" :disabled="submitting">
+              <button type="submit" class="register-link d-flex justify-content-center mb-5 px-5 w-100" :disabled="!agreed || submitting" :class="{ 'register-btn-disabled': !agreed }">
                 <span x-show="!submitting">
                   <h3 class="py-2 text-center register-link-text text-white">新規登録</h3>
                 </span>
@@ -115,7 +115,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body" id="termsModalBody">
-          <div class="p-2 text-break" style="font-size: 0.9rem; line-height: 1.6;">
+          <div class="p-2 text-break terms-modal-body">
             <h6 class="fw-bold mt-3">第1条（適用）</h6>
             <p>本規約は、Campus Board運営事務局（以下「運営者」といいます。）が提供する「Campus Board」（以下「本サービス」といいます。）の利用条件を定めるものです。</p>
             <p>利用者（第2条で定義します。）は、本規約に同意の上、本規約に従って本サービスを利用します。</p>
