@@ -24,7 +24,9 @@
       <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#replyModal-{{ $post->id }}">
         <span class="action-button">返信</span>
       </button>
+      @push('modals')
       <x-modals.create-mentions :thread="$thread" :post="$post" />
+      @endpush
     </div>
     <div class="d-flex align-items-center me-3">
       <div class="action-button">
@@ -44,7 +46,9 @@
       <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#delete-post-modal-{{ $post->id }}">
         <img src="{{ asset('img/delete.png') }}" class="delete-img" alt="投稿を削除">
       </button>
+      @push('modals')
       <x-modals.delete-modal name="投稿" :action="route('posts.destroy',$post->id)" :post="$post" type="post" />
+      @endpush
       @endif
     </div>
 
@@ -80,7 +84,9 @@
           <button type="button" class="create-thread-btn" data-bs-toggle="modal" data-bs-target="#delete-reply-modal-{{ $reply->id }}">
             <img src="{{ asset('img/delete.png') }}" class="delete-img me-3" alt="返信を削除">
           </button>
+          @push('modals')
           <x-modals.delete-modal name="投稿" :action="route('posts.destroy',$reply->id)" :post="$reply" type="reply" />
+          @endpush
           @endif
         </div>
       </div>

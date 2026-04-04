@@ -5,7 +5,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">No.{{ $post->post_number }}への返信を作成</h1>
-        <button type="button" class="btn-close ms-0" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form action='{{ route('posts.mention', [$thread , $post]) }}' method="POST" x-data="{ submitting: false }" @submit="submitting = true">
         @csrf

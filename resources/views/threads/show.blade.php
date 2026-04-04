@@ -61,7 +61,9 @@
             <img src="{{ asset('img/create.png') }}" class="create-img" alt="新規投稿を作成">
           </button>
         </div>
+        @push('modals')
         <x-modals.create-post :thread='$thread' />
+        @endpush
       </div>
 
       <script>

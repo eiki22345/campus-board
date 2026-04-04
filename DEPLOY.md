@@ -61,7 +61,7 @@ cp config/ng_words.php.example config/ng_words.php
 ### 1-1. VPS契約
 
 - **プラン**: メモリ2GB（月830円〜）
-- **OS**: Ubuntu 22.04 LTS または 24.04 LTS
+- **OS**: Ubuntu 24.04 LTS
 - 契約後に固定IPアドレスが付与される
 
 ### 1-2. SSH初期設定

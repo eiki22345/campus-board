@@ -132,7 +132,9 @@
             <img src="{{ asset('img/create.png') }}" class="create-img" alt="新規トピックを作成">
           </button>
         </div>
+        @push('modals')
         <x-modals.create-thread :board='$board' />
+        @endpush
       </div>
 
     </div>
