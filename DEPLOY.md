@@ -95,7 +95,7 @@ sudo systemctl restart sshd
 sudo ufw allow 22/tcp    # SSH
 sudo ufw allow 80/tcp    # HTTP
 sudo ufw allow 443/tcp   # HTTPS
-sudo ufw allow 8080/tcp  # Reverb WebSocket
+# 8080 は Nginx がリバースプロキシするため外部公開不要
 sudo ufw enable
 sudo ufw status
 ```
@@ -740,7 +740,7 @@ cd /var/www/hokkai-board && bash deploy.sh
 ### サーバーセットアップ
 
 - [ ] SSH鍵認証 & rootログイン無効化
-- [ ] ファイアウォール設定（22, 80, 443, 8080）
+- [ ] ファイアウォール設定（22, 80, 443）
 - [ ] Nginx インストール & 設定
 - [ ] PHP 8.2 + 拡張モジュール
 - [ ] MySQL 8.0 + DB作成
