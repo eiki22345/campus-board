@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BoardController;
+use App\Http\Controllers\LpController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\WelcomeController;
@@ -17,6 +18,8 @@ use GuzzleHttp\Middleware;
 Route::controller(WelcomeController::class)->group(function () {
   Route::get('/', 'index')->middleware('throttle:30,1')->name('welcome');
 });
+
+Route::get('/lp', [LpController::class, 'index'])->middleware('throttle:30,1')->name('lp');
 
 Route::get('/universities', [UniversityController::class, 'index'])->middleware('throttle:30,1')->name('universities.index');
 
