@@ -28,7 +28,7 @@
      <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
      <link rel="manifest" href="{{ asset('manifest.json') }}">
      @vite(['resources/css/app.css', 'resources/js/app.js'])
-     <link href="{{ asset('css/style.css')}}" rel="stylesheet">
+     <link href="{{ asset('css/style.css') }}?v={{ file_exists(public_path('css/style.css')) ? filemtime(public_path('css/style.css')) : time() }}" rel="stylesheet">
  </head>
 
  <body>
