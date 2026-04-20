@@ -6,12 +6,12 @@
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <meta name="csrf-token" content="{{ csrf_token() }}">
 
-     <title>@yield('title', 'Campus Board - 北海道の大学生限定匿名掲示板')</title>
-     <meta name="description" content="@yield('meta_description', 'Campus Board（キャンパスボード）は北海道の大学生限定の匿名掲示板SNSです。同じ空の下で本音で語り合おう。大学生活・講義・サークル・就活の情報交換に。')">
+     <title>@yield('title', 'Campus Board｜大学生限定の匿名掲示板SNS')</title>
+     <meta name="description" content="@yield('meta_description', 'Campus Board（キャンパスボード）は大学メール認証で守られた大学生限定の匿名掲示板SNS。楽単・就活・学食・恋愛まで、キャンパスライフのリアルな声が集まっています。全国約800校対応・完全無料。')">
 
      {{-- Open Graph --}}
-     <meta property="og:title" content="@yield('title', 'Campus Board - 北海道の大学生限定匿名掲示板')">
-     <meta property="og:description" content="@yield('meta_description', 'Campus Board（キャンパスボード）は北海道の大学生限定の匿名掲示板SNSです。同じ空の下で本音で語り合おう。')">
+     <meta property="og:title" content="@yield('title', 'Campus Board｜大学生限定の匿名掲示板SNS')">
+     <meta property="og:description" content="@yield('meta_description', '大学メール認証で守られた、大学生だけの匿名掲示板SNS。同じ大学の仲間と本音で語り合おう。楽単・就活・恋愛相談まで、全国約800校対応・完全無料。')">
      <meta property="og:type" content="website">
      <meta property="og:url" content="{{ url()->current() }}">
      <meta property="og:image" content="@yield('og_image', asset('img/hero-1.png'))">
@@ -20,8 +20,8 @@
 
      {{-- Twitter Card --}}
      <meta name="twitter:card" content="summary_large_image">
-     <meta name="twitter:title" content="@yield('title', 'Campus Board - 北海道の大学生限定匿名掲示板')">
-     <meta name="twitter:description" content="@yield('meta_description', 'Campus Board（キャンパスボード）は北海道の大学生限定の匿名掲示板SNSです。同じ空の下で本音で語り合おう。')">
+     <meta name="twitter:title" content="@yield('title', 'Campus Board｜大学生限定の匿名掲示板SNS')">
+     <meta name="twitter:description" content="@yield('meta_description', '大学メール認証で守られた、大学生だけの匿名掲示板SNS。同じ大学の仲間と本音で語り合おう。楽単・就活・恋愛相談まで、全国約800校対応・完全無料。')">
      <meta name="twitter:image" content="@yield('og_image', asset('img/hero-1.png'))">
 
      <link rel="canonical" href="{{ url()->current() }}">
